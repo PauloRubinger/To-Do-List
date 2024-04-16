@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import com.labdessoft.enums.TaskType;
+import com.labdessoft.enums.TaskPriority;
 
 @Table(name = "task")
 public class Task {
@@ -19,6 +22,15 @@ public class Task {
 
     @Column(name = "completed")
     private boolean completed;
+
+    @Column(name = "type")
+    private TaskType type;
+
+    @Column(name = "priority")
+    private TaskPriority priority;
+
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn(name = "task_id")
@@ -58,6 +70,30 @@ public class Task {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public TaskType getType() {
+        return type;
+    }
+
+    public void setType(TaskType type) {
+        this.type = type;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
 }
