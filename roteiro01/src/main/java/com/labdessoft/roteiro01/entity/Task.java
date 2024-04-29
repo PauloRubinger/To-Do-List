@@ -35,10 +35,6 @@ public class Task {
     private LocalDate dueDate;
 
     @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task task;
-
-    @ManyToOne
     @JoinColumn(name = "task_list_id")
     private TaskList taskList;
 
@@ -64,14 +60,6 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 
     public TaskType getType() {
