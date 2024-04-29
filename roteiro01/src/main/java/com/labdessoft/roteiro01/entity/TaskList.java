@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+@Entity
 @Table(name = "task_list")
 public class TaskList {
     @Id
@@ -22,7 +24,7 @@ public class TaskList {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL)
     private ArrayList<Task> tasks = new ArrayList<>();
 
     public Long getId() {

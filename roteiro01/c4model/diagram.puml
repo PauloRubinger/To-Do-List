@@ -1,0 +1,38 @@
+@startuml TODO_List
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+ComponentDb(database,"Database")
+
+System_Boundary(APISystem,"API System"){
+Component(TaskController,"TaskController")
+Component(TaskListController,"TaskListController")
+
+Component(TaskService,"TaskService")
+Component(TaskListService,"TaskListService")
+
+Component(TaskRepository,"TaskRepository")
+Component(TaskListRepository,"TaskListRepository")
+
+Component(TaskEntity,"TaskEntity")
+Component(TaskListEntity,"TaskListEntity")
+
+Component(TaskInterface,"TaskInterface")
+Component(TaskListInterface,"TaskListInterface")
+
+Rel(TaskEntity,TaskInterface,"Implements")
+Rel(TaskListEntity,TaskListInterface,"Implements")
+
+Rel(TaskRepository,database,"TCP/IP")
+Rel(TaskListRepository,database,"TCP/IP")
+
+Rel(TaskRepository,TaskEntity,"Uses")
+Rel(TaskListRepository,TaskListEntity,"Uses")
+
+Rel(TaskService,TaskRepository,"Uses")
+Rel(TaskListService,TaskListRepository,"Uses")
+
+Rel(TaskController,TaskService,"Uses")
+Rel(TaskListController,TaskListService,"Uses")
+}
+
+@enduml
