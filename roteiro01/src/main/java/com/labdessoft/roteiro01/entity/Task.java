@@ -38,6 +38,11 @@ public class Task {
     @JoinColumn(name = "task_list_id")
     private TaskList taskList;
 
+    public Task(String name, boolean completed) {
+        this.name = name;
+        this.completed = completed;
+    }
+
     public Long getId() {
         return id;
     }
