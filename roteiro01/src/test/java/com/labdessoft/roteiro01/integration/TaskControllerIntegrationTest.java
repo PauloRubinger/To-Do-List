@@ -1,4 +1,4 @@
-package com.labdessoft.integration;
+package com.labdessoft.roteiro01.integration;
 
 import com.labdessoft.roteiro01.Roteiro01Application;
 import org.junit.jupiter.api.extension.ExtendWith;
