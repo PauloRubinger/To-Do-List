@@ -1,0 +1,9 @@
+@startuml deleteTaskList
+title Diagrama de Sequencia referente ao endpoint de deletar lista de tarefas
+actor Usuário
+Usuário -> TaskListController : deleteTaskList(id)
+TaskListController -> TaskListService : deleteTaskList(id)
+TaskListService -> TaskRepository : deleteById(id)
+TaskListService -> TaskListController : HttpStatus.NO_CONTENT
+TaskListController -> Usuário : ResponseEntity<HttpStatus>
+@enduml
