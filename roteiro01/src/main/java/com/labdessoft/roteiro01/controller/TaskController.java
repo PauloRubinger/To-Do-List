@@ -26,7 +26,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Lista todas as tarefas da lista")
-    @GetMapping("/task")
+    @GetMapping("/listAll")
     public ResponseEntity<List<Task>> listAllTasks() {
         try {
             List<Task> taskList = taskService.listAllTasks();
@@ -40,7 +40,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Adiciona a tarefa na lista")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
         try {
             Task newTask = taskService.addTask(task);
