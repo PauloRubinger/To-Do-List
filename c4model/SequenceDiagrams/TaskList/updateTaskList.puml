@@ -1,0 +1,12 @@
+@startuml updateTaskList
+title Diagrama de Sequencia referente ao endpoint de atualizar lista de tarefas
+actor Usuário
+Usuário -> TaskListController : updateTaskList(id, taskList)
+TaskListController -> TaskListService : updateTaskList(id, taskList)
+TaskListService -> TaskRepository : findById(id)
+TaskRepository -> TaskListService : Optional<TaskList>
+TaskListService -> TaskRepository : save(taskList)
+TaskRepository -> TaskListService : TaskList
+TaskListService -> TaskListController : TaskList
+TaskListController -> Usuário : ResponseEntity<TaskList>
+@enduml

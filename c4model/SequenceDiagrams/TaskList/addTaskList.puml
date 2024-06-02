@@ -1,0 +1,10 @@
+@startuml addTaskList
+title Diagrama de Sequncia referente ao endpoint de adicionar lista de tarefas
+actor Usuário
+Usuário -> TaskListController : addTaskList(taskList)
+TaskListController -> TaskListService : addTaskList(taskList)
+TaskListService -> TaskRepository : save(taskList)
+TaskRepository -> TaskListService : TaskList
+TaskListService -> TaskListController : TaskList
+TaskListController -> Usuário : ResponseEntity<TaskList>
+@enduml

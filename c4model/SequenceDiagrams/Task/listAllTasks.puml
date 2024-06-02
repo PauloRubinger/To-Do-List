@@ -1,0 +1,10 @@
+@startuml listAllTasks
+title Diagrama de Sequencia referente ao endpoint de listar todas as tarefas da lista
+actor Usuário
+Usuário -> TaskController : listAllTasks()
+TaskController -> TaskService : listAllTasks()
+TaskService -> TaskRepository : findAll()
+TaskRepository -> TaskService : List<Task>
+TaskService -> TaskController : List<Task>
+TaskController -> Usuário : ResponseEntity<List<Task>>
+@enduml
