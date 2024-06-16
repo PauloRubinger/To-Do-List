@@ -8,5 +8,9 @@
   color: white;
   border-width: 0;
   font-family: Inter;
+  cursor: pointer;
 }
 
+.add-button:hover {
+  opacity: 0.78;
+}
