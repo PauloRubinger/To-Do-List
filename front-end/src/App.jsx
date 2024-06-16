@@ -1,8 +1,9 @@
-import AddButton from "./components/AddButton";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
-    <h1>Listas de tarefas</h1>
+    <HomePage>
+    </HomePage>
   );
 }
 

@@ -1,0 +1,12 @@
+.add-button {
+  display: flex;
+  padding-left: 0;
+  height: 41px;
+  align-items: center;
+  border-radius: 10px;
+  background-color: var(--buton-color);
+  color: white;
+  border-width: 0;
+  font-family: Inter;
+}
+
