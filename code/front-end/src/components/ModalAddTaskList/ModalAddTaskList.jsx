@@ -33,8 +33,7 @@ const ModalAddTaskList = (props) => {
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
-    setModalOpen(false);
+    props.onClose();
   };
 
   return (
@@ -43,7 +42,9 @@ const ModalAddTaskList = (props) => {
         title="Adicionar lista de tarefas"
         open={modalOpen}
         onOk={form.submit}
+        okText="Adicionar"
         confirmLoading={confirmLoading}
+        cancelText="Cancelar"
         onCancel={handleCancel}
       >
         <Form
