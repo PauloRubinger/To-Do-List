@@ -40,7 +40,9 @@ public class TaskController {
         }
     }
 
-    public ResponseEntity<Task> get(Long id) {
+    @Operation(summary = "Obtém a tarefa pelo id")
+    @GetMapping("/get")
+    public ResponseEntity<Task> get(@PathVariable Long id) {
         try {
             Task task = taskService.get(id);
             return new ResponseEntity<>(task, HttpStatus.OK);
