@@ -2,13 +2,19 @@ package com.labdessoft.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
+
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.labdessoft.enums.TaskType;
 import com.labdessoft.enums.TaskPriority;
 
@@ -26,17 +32,24 @@ public class Task {
     private boolean completed;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private TaskType type;
 
     @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
     @Column(name = "due_date")
-    private LocalDate dueDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dueDate;
 
     @ManyToOne
     @JoinColumn(name = "task_list_id")
     private TaskList taskList;
+
+    public Task() {
+
+    }
 
     public Task(String name, boolean completed) {
         this.name = name;
@@ -83,12 +96,20 @@ public class Task {
         this.priority = priority;
     }
 
-    public LocalDate getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public TaskList getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
     }
 
 }
