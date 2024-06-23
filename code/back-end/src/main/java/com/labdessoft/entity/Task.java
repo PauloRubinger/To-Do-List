@@ -17,6 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.labdessoft.enums.TaskType;
 import com.labdessoft.enums.TaskPriority;
+import com.labdessoft.enums.TaskStatus;
 
 @Entity
 @Table(name = "task")
@@ -38,6 +39,10 @@ public class Task {
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
     @Column(name = "due_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -94,6 +99,14 @@ public class Task {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
     public Date getDueDate() {

@@ -67,7 +67,7 @@ public class TaskController {
             Task newTask = taskService.addTask(task);
             return new ResponseEntity<>(newTask, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
