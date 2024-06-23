@@ -36,7 +36,7 @@ public class TaskListController {
 
     @Operation(summary = "Obtém a lista de tarefas pelo id")
     @GetMapping("/get")
-    public ResponseEntity<TaskList> get(@RequestBody Long id) {
+    public ResponseEntity<TaskList> get(@PathVariable Long id) {
         try {
             TaskList tasklist = taskListService.get(id);
             return new ResponseEntity<>(tasklist, HttpStatus.OK);
