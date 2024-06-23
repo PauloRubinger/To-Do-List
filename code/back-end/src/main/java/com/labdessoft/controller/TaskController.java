@@ -1,7 +1,9 @@
 package com.labdessoft.controller;
 
 import com.labdessoft.entity.Task;
+import com.labdessoft.entity.TaskList;
 import com.labdessoft.repository.TaskRepository;
+import com.labdessoft.service.TaskListService;
 import com.labdessoft.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -18,12 +20,14 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskListService taskListService;
 
     @Autowired
     TaskRepository taskRepository;
-
-    public TaskController(TaskService taskService) {
+    
+    public TaskController(TaskService taskService, TaskListService taskListService) {
         this.taskService = taskService;
+        this.taskListService = taskListService;
     }
 
     @Operation(summary = "Lista todas as tarefas da lista")
@@ -53,12 +57,17 @@ public class TaskController {
 
     @Operation(summary = "Adiciona a tarefa na lista")
     @PostMapping("/add")
-    public ResponseEntity<Task> addTask(@RequestBody Task task) {
+    public ResponseEntity<Task> addTask(@RequestParam Long taskListId, @RequestBody Task task) {
         try {
+            TaskList taskList = taskListService.get(taskListId);
+            if (taskList == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            task.setTaskList(taskList);
             Task newTask = taskService.addTask(task);
             return new ResponseEntity<>(newTask, HttpStatus.CREATED);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

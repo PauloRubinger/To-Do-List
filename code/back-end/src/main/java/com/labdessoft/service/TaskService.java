@@ -30,16 +30,16 @@ public class TaskService {
     }
 
     public Task updateTask(Long id, Task task) {
-        Task existingTask = taskRepository.findById(id)
+        Task existentTask = taskRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada"));
+        System.out.println("Date service " + task.getDueDate());
+        existentTask.setName(task.getName());
+        existentTask.setCompleted(task.getCompleted());
+        existentTask.setType(task.getType());
+        existentTask.setPriority(task.getPriority());
+        existentTask.setDueDate(task.getDueDate());
 
-        existingTask.setName(task.getName());
-        existingTask.setCompleted(task.getCompleted());
-        existingTask.setType(task.getType());
-        existingTask.setPriority(task.getPriority());
-        existingTask.setDueDate(task.getDueDate());
-
-        return taskRepository.save(existingTask);
+        return taskRepository.save(existentTask);
     }
 
     public void deleteTask(Long id) {
