@@ -1,14 +1,10 @@
 package com.labdessoft.entity;
 
-import java.util.ArrayList;
-
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,8 +20,9 @@ public class TaskList {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL)
-    private ArrayList<Task> tasks = new ArrayList<>();
+    public TaskList() {
+        
+    }
 
     public TaskList(String name, String description) {
         this.name = name;
@@ -54,14 +51,6 @@ public class TaskList {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(ArrayList<Task> task) {
-        this.tasks = task;
     }
 
 }
