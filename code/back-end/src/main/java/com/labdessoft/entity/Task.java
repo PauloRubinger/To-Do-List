@@ -1,4 +1,4 @@
-package com.labdessoft.roteiro01.entity;
+package com.labdessoft.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

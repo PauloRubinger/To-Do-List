@@ -1,6 +1,6 @@
-package com.labdessoft.roteiro01.service;
+package com.labdessoft.service;
 
-import com.labdessoft.roteiro01.repository.TaskListRepository;
+import com.labdessoft.repository.TaskListRepository;
 import org.springframework.stereotype.Service;
 
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import com.labdessoft.roteiro01.entity.*;;
+import com.labdessoft.entity.*;;
 
 @Service
 public class TaskListService {

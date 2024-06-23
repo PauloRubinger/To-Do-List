@@ -29,6 +29,7 @@ const ModalAddTaskList = (props) => {
     setTimeout(() => {
       setModalOpen(false);
       setConfirmLoading(false);
+      props.onClose();
     }, 2000);
   };
 

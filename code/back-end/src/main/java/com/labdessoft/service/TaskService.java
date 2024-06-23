@@ -1,7 +1,7 @@
-package com.labdessoft.roteiro01.service;
+package com.labdessoft.service;
 
-import com.labdessoft.roteiro01.entity.Task;
-import com.labdessoft.roteiro01.repository.TaskRepository;
+import com.labdessoft.entity.Task;
+import com.labdessoft.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;

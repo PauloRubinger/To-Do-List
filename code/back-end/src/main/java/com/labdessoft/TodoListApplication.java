@@ -1,13 +1,13 @@
-package com.labdessoft.roteiro01;
+package com.labdessoft;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Roteiro01Application {
+public class TodoListApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Roteiro01Application.class, args);
+		SpringApplication.run(TodoListApplication.class, args);
 	}
 
 }

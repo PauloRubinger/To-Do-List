@@ -1,16 +1,17 @@
-package com.labdessoft.roteiro01.integration;
+package com.labdessoft.integration;
 
-import com.labdessoft.roteiro01.Roteiro01Application;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.labdessoft.TodoListApplication;
+
 import org.aspectj.lang.annotation.Before;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
-@SpringBootTest(classes = {Roteiro01Application.class}, webEnvironment
+@SpringBootTest(classes = {TodoListApplication.class}, webEnvironment
 = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 
