@@ -1,6 +1,40 @@
 const BASE_URL = "http://localhost:8080/api";
 
 // TaskList requests
+export const listAllTaskLists = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/taskList/listAll`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response;
+    } catch (error) {
+        console.error("Erro ao obter as listas de tarefas: ", error);
+    }
+};
+
+export const getTaskListById = async (id) => {
+    try {
+        const response = await fetch(`${BASE_URL}/taskList/get/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response;
+    } catch (error) {
+        console.error("Erro ao obter a lista de tarefas: ", error);
+    }
+};
+
 export const addTaskList = async (taskList) => {
     try {
         const response = await fetch(`${BASE_URL}/taskList/add`, {
@@ -19,10 +53,28 @@ export const addTaskList = async (taskList) => {
     }
 };
 
-export const listAllTaskLists = async () => {
+export const editTaskList = async (taskList) => {
     try {
-        const response = await fetch(`${BASE_URL}/taskList/listAll`, {
-            method: 'GET',
+        const response = await fetch(`${BASE_URL}/taskList/edit/${taskList.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(taskList)
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Erro ao editar a lista de tarefas: ", error);
+    }
+};
+
+export const deleteTaskList = async (taskList) => {
+    try {
+        const response = await fetch(`${BASE_URL}/taskList/delete/${taskList.id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -30,9 +82,9 @@ export const listAllTaskLists = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response;
+        return await response.json();
     } catch (error) {
-        console.error("Erro ao obter as listas de tarefas: ", error);
+        console.error("Erro ao excluir a lista de tarefas: ", error);
     }
 };
 
@@ -101,7 +153,7 @@ export const editTask = async (task) => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
     } catch (error) {
-        console.error("Erro ao adicionar tarefa: ", error);
+        console.error("Erro ao editar tarefa: ", error);
     }
 };
 
@@ -117,6 +169,6 @@ export const deleteTask = async (task) => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
     } catch (error) {
-        console.error("Erro ao adicionar tarefa: ", error);
+        console.error("Erro ao excluir tarefa: ", error);
     }
 };
