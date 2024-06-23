@@ -40,6 +40,15 @@ public class TaskController {
         }
     }
 
+    public ResponseEntity<Task> get(Long id) {
+        try {
+            Task task = taskService.get(id);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch(Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @Operation(summary = "Adiciona a tarefa na lista")
     @PostMapping("/create")
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
