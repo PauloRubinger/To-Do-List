@@ -41,7 +41,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Obtém a tarefa pelo id")
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Task> get(@PathVariable Long id) {
         try {
             Task task = taskService.get(id);
@@ -52,7 +52,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Adiciona a tarefa na lista")
-    @PostMapping("/create")
+    @PostMapping("/add")
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
         try {
             Task newTask = taskService.addTask(task);
@@ -63,7 +63,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Atualiza a tarefa na lista")
-    @PutMapping("/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         try {
             Task updatedTask = taskService.updateTask(id, task);
@@ -74,7 +74,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Deleta a tarefa da lista")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
         try {
             taskService.deleteTask(id);
