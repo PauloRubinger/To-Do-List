@@ -22,6 +22,10 @@ public class TaskListService {
         return taskListRepository.findAll();
     }
 
+    public TaskList get(Long id) {
+        return taskListRepository.findById(id).get();
+    }
+
     public TaskList addTaskList(TaskList task) {
         return taskListRepository.save(task);
     }

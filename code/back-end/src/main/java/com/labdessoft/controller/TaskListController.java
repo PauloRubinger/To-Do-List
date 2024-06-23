@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/taskList")
+@RequestMapping("taskList")
 public class TaskListController {
 
     private final TaskListService taskListService;
@@ -30,6 +30,17 @@ public class TaskListController {
             }
             return new ResponseEntity<>(taskLists, HttpStatus.OK);
         } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Obtém a lista de tarefas pelo id")
+    @GetMapping("/get")
+    public ResponseEntity<TaskList> get(@RequestBody Long id) {
+        try {
+            TaskList tasklist = taskListService.get(id);
+            return new ResponseEntity<>(tasklist, HttpStatus.OK);
+        } catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
