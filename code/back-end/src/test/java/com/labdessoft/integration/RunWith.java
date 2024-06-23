@@ -1,4 +1,4 @@
-package com.labdessoft.roteiro01.integration;
+package com.labdessoft.integration;
 
 public @interface RunWith {
 

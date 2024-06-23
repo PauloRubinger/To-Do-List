@@ -1,7 +1,7 @@
-package com.labdessoft.roteiro01.controller;
+package com.labdessoft.controller;
 
-import com.labdessoft.roteiro01.entity.TaskList;
-import com.labdessoft.roteiro01.service.TaskListService;
+import com.labdessoft.entity.TaskList;
+import com.labdessoft.service.TaskListService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

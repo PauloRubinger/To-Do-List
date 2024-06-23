@@ -1,8 +1,8 @@
-package com.labdessoft.roteiro01.unit.controller;
+package com.labdessoft.unit.controller;
 
-import com.labdessoft.roteiro01.controller.TaskController;
-import com.labdessoft.roteiro01.entity.Task;
-import com.labdessoft.roteiro01.service.TaskService;
+import com.labdessoft.controller.TaskController;
+import com.labdessoft.entity.Task;
+import com.labdessoft.service.TaskService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

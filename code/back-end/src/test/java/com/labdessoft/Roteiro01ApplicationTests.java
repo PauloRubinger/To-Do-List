@@ -1,4 +1,4 @@
-package com.labdessoft.roteiro01;
+package com.labdessoft;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

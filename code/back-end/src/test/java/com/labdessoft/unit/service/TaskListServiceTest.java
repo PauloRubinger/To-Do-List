@@ -1,8 +1,8 @@
-package com.labdessoft.roteiro01.unit.service;
+package com.labdessoft.unit.service;
 
-import com.labdessoft.roteiro01.entity.TaskList;
-import com.labdessoft.roteiro01.repository.TaskListRepository;
-import com.labdessoft.roteiro01.service.TaskListService;
+import com.labdessoft.entity.TaskList;
+import com.labdessoft.repository.TaskListRepository;
+import com.labdessoft.service.TaskListService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
