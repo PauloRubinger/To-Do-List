@@ -12,7 +12,7 @@ export const listAllTaskLists = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response;
+        return response.json();
     } catch (error) {
         console.error("Erro ao obter as listas de tarefas: ", error);
     }
@@ -29,7 +29,7 @@ export const getTaskListById = async (id) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response;
+        return response.json();
     } catch (error) {
         console.error("Erro ao obter a lista de tarefas: ", error);
     }
@@ -47,7 +47,7 @@ export const addTaskList = async (taskList) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        return response.json();
     } catch (error) {
         console.error("Erro ao adicionar a lista de tarefas: ", error);
     }
@@ -65,7 +65,7 @@ export const editTaskList = async (taskList) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        return response.json();
     } catch (error) {
         console.error("Erro ao editar a lista de tarefas: ", error);
     }
@@ -82,7 +82,7 @@ export const deleteTaskList = async (taskList) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        return response.json();
     } catch (error) {
         console.error("Erro ao excluir a lista de tarefas: ", error);
     }
@@ -100,7 +100,7 @@ export const listAllTasks = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response;
+        return response.json();
     } catch (error) {
         console.error("Erro ao obter tarefas: ", error);
     }
@@ -117,7 +117,7 @@ export const getTaskById = async (taskId) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response;
+        return response.json();
     } catch (error) {
         console.error("Erro ao obter a tarefa pelo id: ", error);
     }
@@ -135,6 +135,7 @@ export const addTask = async (taskListId, task) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        return response.json();
     } catch (error) {
         console.error("Erro ao adicionar tarefa: ", error);
     }
@@ -152,6 +153,7 @@ export const editTask = async (task) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        return response.json();
     } catch (error) {
         console.error("Erro ao editar tarefa: ", error);
     }
@@ -168,6 +170,7 @@ export const deleteTask = async (task) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        return response.json();
     } catch (error) {
         console.error("Erro ao excluir tarefa: ", error);
     }
