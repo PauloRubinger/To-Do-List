@@ -34,11 +34,25 @@ public class TaskController {
     @GetMapping("/listAll")
     public ResponseEntity<List<Task>> listAllTasks() {
         try {
-            List<Task> taskList = taskService.listAllTasks();
-            if (taskList.isEmpty()) {
+            List<Task> tasks = taskService.listAllTasks();
+            if (tasks.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(taskList, HttpStatus.OK);
+            return new ResponseEntity<>(tasks, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Retorna todas as tarefas por lista de tarefas")
+    @GetMapping("/listAllByTaskList")
+    public ResponseEntity<List<Task>> getAllTasksByTaskListId(@RequestParam Long taskListId) {
+        try {
+            List<Task> tasks = taskService.getAllTasksByTaskListId(taskListId);
+            if (tasks.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(tasks, HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
