@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input } from "antd";
+import { addTaskList } from "../../services/api";
 
 /* 
   props = {
@@ -24,13 +25,16 @@ const ModalAddTaskList = (props) => {
 
   const [form] = Form.useForm();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (values) => {
     setConfirmLoading(true);
-    setTimeout(() => {
-      setModalOpen(false);
-      setConfirmLoading(false);
-      props.onClose();
-    }, 2000);
+    setTimeout(async () => {
+      const response = await addTaskList(values);
+      if (response) {
+        setModalOpen(false);
+        setConfirmLoading(false);
+        props.onClose();
+      }
+    }, 1000);
   };
 
   const handleCancel = () => {
@@ -56,14 +60,14 @@ const ModalAddTaskList = (props) => {
           <Form.Item
             name="name"
             label="Nome da lista de tarefas"
-            rules={[{required: true, message: "Por favor, insira o nome da lista de tarefas"}]}
+            rules={[{ required: true, message: "Por favor, insira o nome da lista de tarefas" }]}
           >
             <Input placeholder="Ex.: Afazeres domésticos"></Input>
           </Form.Item>
           <Form.Item
             name="description"
             label="Descrição"
-            rules={[{required: true, message: "Por favor, insira uma descrição para a lista de tarefas"}]}
+            rules={[{ required: true, message: "Por favor, insira uma descrição para a lista de tarefas" }]}
           >
             <Input placeholder="Ex.: Tarefas para essa semana"></Input>
           </Form.Item>
