@@ -106,6 +106,23 @@ export const listAllTasks = async () => {
     }
 };
 
+export const listAllByTaskList = async (taskListId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/task/listAllByTaskList?taskListId=${taskListId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erro ao obter as tarefas dessa lista de tarefas: ", error);
+    }
+};
+
 export const getTaskById = async (taskId) => {
     try {
         const response = await fetch(`${BASE_URL}/task/get/${taskId}`, {
