@@ -82,7 +82,7 @@ export const deleteTaskList = async (taskList) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        return response;
     } catch (error) {
         console.error("Erro ao excluir a lista de tarefas: ", error);
     }
@@ -176,9 +176,9 @@ export const editTask = async (taskId, task) => {
     }
 };
 
-export const deleteTask = async (task) => {
+export const deleteTask = async (taskId) => {
     try {
-        const response = await fetch(`${BASE_URL}/task/delete/${task.id}`, {
+        const response = await fetch(`${BASE_URL}/task/delete/${taskId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -187,7 +187,7 @@ export const deleteTask = async (task) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        return response;
     } catch (error) {
         console.error("Erro ao excluir tarefa: ", error);
     }
