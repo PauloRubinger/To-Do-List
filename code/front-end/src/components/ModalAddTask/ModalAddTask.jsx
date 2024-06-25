@@ -59,12 +59,8 @@ export const ModalAddTask = (props) => {
   const calculateDateByDays = (days) => {
     const today = new Date();
     const targetDate = new Date(today);
-    console.log("Current Date:", today);
-    console.log("Days to Add:", days);
     targetDate.setDate(today.getDate() + days);
-    console.log("Target Date:", targetDate);
     return targetDate;
-  
   };
 
   const handleCancel = () => {

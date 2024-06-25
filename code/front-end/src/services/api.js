@@ -158,9 +158,9 @@ export const addTask = async (taskListId, task) => {
     }
 };
 
-export const editTask = async (task) => {
+export const editTask = async (taskId, task) => {
     try {
-        const response = await fetch(`${BASE_URL}/task/edit/${task.id}`, {
+        const response = await fetch(`${BASE_URL}/task/edit/${taskId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
