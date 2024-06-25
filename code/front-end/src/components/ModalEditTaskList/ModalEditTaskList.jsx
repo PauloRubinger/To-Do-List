@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Modal, notification } from 'antd';
+import { Modal, Form, Input } from "antd";
 import { editTaskList } from '../../services/api';
 
 /* 
   props = {
+    taskList: object
     modalOpen: boolean,
     onClose(): () => void
   }
@@ -18,27 +19,7 @@ export const ModalEditTaskList = (props) => {
     setModalOpen(props.modalOpen);
   };
 
-  // const [api, contextHolder] = notification.useNotification();
-  // const openNotificationWithIcon = (type) => {
-  //   api[type]({
-  //     message: 'Notification Title',
-  //     description:
-  //       'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-  //   });
-  // };
-
-
-  const openNotification = (type) => {
-    if (type === "success") {
-      notification.success({
-        message: "Tarefa alterada com sucesso!"
-      })
-    } else {
-      notification.error({
-        message: "Ocorreu um problema ao alterar a tarefa.",
-      })
-    }
-  };
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (props.modalOpen === true) {
@@ -49,11 +30,12 @@ export const ModalEditTaskList = (props) => {
   const handleSubmit = async (values) => {
     setConfirmLoading(true);
     setTimeout(async () => {
-      const response = await editTaskList(values);
+      const response = await editTaskList(props.taskList.id, values);
       if (response) {
         setModalOpen(false);
         setConfirmLoading(false);
         props.onClose();
+        window.location.reload();
       }
     }, 2000);
   };
@@ -77,6 +59,10 @@ export const ModalEditTaskList = (props) => {
           layout="vertical"
           form={form}
           onFinish={handleSubmit}
+          initialValues={{
+            name: props.taskList.name,
+            description: props.taskList.description
+          }}
         >
           <Form.Item
             name="name"

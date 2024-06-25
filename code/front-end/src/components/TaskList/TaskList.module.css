@@ -1,11 +1,16 @@
 .taskListContainer {
-    width: 1000px;
+  width: 1000px;
 }
 
 .cardContainer {
-    width: 80%;
+  width: 80%;
 }
 
 .addTaskButton {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.taskActions img {
+  cursor: pointer;
+  margin-left: 10px;
 }

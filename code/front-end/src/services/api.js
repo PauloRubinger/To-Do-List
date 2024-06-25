@@ -53,9 +53,9 @@ export const addTaskList = async (taskList) => {
     }
 };
 
-export const editTaskList = async (taskList) => {
+export const editTaskList = async (taskListId, taskList) => {
     try {
-        const response = await fetch(`${BASE_URL}/taskList/edit/${taskList.id}`, {
+        const response = await fetch(`${BASE_URL}/taskList/edit/${taskListId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
