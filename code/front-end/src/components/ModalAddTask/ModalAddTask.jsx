@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Modal, Form, Input, Select } from "antd";
+import { Modal, Form, Input, Select, DatePicker } from "antd";
 import { addTask } from "../../services/api";
 
 /* 
@@ -9,10 +9,12 @@ import { addTask } from "../../services/api";
   }
 */
 
-const ModalAddTaskList = (props) => {
+export const ModalAddTask = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(undefined);
+  const [isTaskTypePRAZO, setIsTaskTypePRAZO] = useState(false);
+  const [isTaskTypeDATA, setIsTaskTypeDATA] = useState(false);
   const [selectedPiority, setSelectedPriority] = useState(undefined);
 
   const showModal = (props) => {
@@ -35,6 +37,7 @@ const ModalAddTaskList = (props) => {
         setModalOpen(false);
         setConfirmLoading(false);
         props.onClose();
+        window.location.reload();
       }
     }, 1000);
   };
@@ -45,6 +48,16 @@ const ModalAddTaskList = (props) => {
 
   const handleTypeChange = (value) => {
     setSelectedType(value);
+    if (value === "PRAZO") {
+      setIsTaskTypePRAZO(true);
+      setIsTaskTypeDATA(false);
+    } else if (value === "DATA") {
+      setIsTaskTypeDATA(true);
+      setIsTaskTypePRAZO(false);
+    } else {
+      setIsTaskTypePRAZO(false);
+      setIsTaskTypeDATA(false);
+    }
   };
 
   const handlePriorityChange = (value) => {
@@ -100,6 +113,24 @@ const ModalAddTaskList = (props) => {
               ]}
             />
           </Form.Item>
+          {isTaskTypePRAZO && 
+            <Form.Item
+              name="deadlineInDays"
+              label="Dias previstos para a conclusão"
+              rules={[{ required: true, message: "Por favor, informe o prazo em dias" }]}
+            >
+              <Input type="number"></Input>
+            </Form.Item>
+          }
+          {isTaskTypeDATA && 
+            <Form.Item
+              name="deadlineDate"
+              label="Data prevista para a conclusão"
+              rules={[{ required: true, message: "Por favor, informe a data prevista para conclusão" }]}
+            >
+              <DatePicker format={"DD/MM/YYYY"}></DatePicker>
+            </Form.Item>
+          }
           <Form.Item
             name="priority"
             label="Prioridade"
@@ -131,5 +162,3 @@ const ModalAddTaskList = (props) => {
     </>
   );
 };
-
-export default ModalAddTaskList;

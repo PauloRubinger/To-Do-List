@@ -33,6 +33,7 @@ const ModalAddTaskList = (props) => {
         setModalOpen(false);
         setConfirmLoading(false);
         props.onClose();
+        window.location.reload();
       }
     }, 1000);
   };

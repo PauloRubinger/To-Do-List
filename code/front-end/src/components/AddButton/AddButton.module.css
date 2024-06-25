@@ -1,7 +1,7 @@
-.add-button {
+.addButton {
   display: flex;
   padding-left: 0;
-  height: 41px;
+  height: 40px;
   align-items: center;
   border-radius: 10px;
   background-color: var(--buton-color);
@@ -11,6 +11,6 @@
   cursor: pointer;
 }
 
-.add-button:hover {
+.addButton:hover {
   opacity: 0.78;
 }
