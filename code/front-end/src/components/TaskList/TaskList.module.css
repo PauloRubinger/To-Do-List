@@ -1,9 +1,14 @@
 .taskListContainer {
-  width: 1000px;
+  width: 70rem;
+  margin-bottom: 50px;
 }
 
 .cardContainer {
   width: 80%;
+}
+
+.description {
+  margin-bottom: 30px;
 }
 
 .addTaskButton {

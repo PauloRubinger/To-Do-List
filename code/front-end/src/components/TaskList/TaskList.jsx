@@ -67,7 +67,7 @@ export const TaskList = ({ taskListId, title, description }) => {
         className={styles.cardContainer}
         title={
           <div>
-            <Title level={2}>{title}</Title>
+            <Title level={2} >{title}</Title>
             <Text>{description}</Text>
           </div>
         } extra={
