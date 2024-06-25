@@ -1,21 +1,40 @@
 .taskListContainer {
-  width: 70rem;
-  margin-bottom: 50px;
+  margin-bottom: 16px;
 }
 
 .cardContainer {
-  width: 80%;
+  border-radius: 8px;
 }
 
-.description {
-  margin-bottom: 30px;
+.cardHeader {
+  display: flex;
+  align-items: center;
+}
+
+.cardText {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardDescription {
+  font-size: 14px;
+  color: #888;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editIcon, .deleteIcon {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 
 .addTaskButton {
-  cursor: pointer;
-}
-
-.taskActions img {
-  cursor: pointer;
-  margin-left: 10px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
 }

@@ -1,6 +1,5 @@
-// src/components/TaskList/TaskList.jsx
 import { useState, useEffect } from 'react';
-import { Card, List, Typography } from 'antd';
+import { Card, List, Typography, Row, Col } from 'antd';
 import { Task } from '../Task/Task';
 import styles from './TaskList.module.css';
 import { listAllByTaskList } from '../../services/api';
@@ -29,11 +28,9 @@ export const TaskList = ({ taskListId, title, description }) => {
     const getAllTasksByTaskList = async (taskListId) => {
       const response = await listAllByTaskList(taskListId);
       if (response) {
-        console.log(response);
         setTasks(response);
       }
     };
-    console.log(taskListId);
     getAllTasksByTaskList(taskListId);
   }, [taskListId]);
 
@@ -66,16 +63,19 @@ export const TaskList = ({ taskListId, title, description }) => {
       <Card
         className={styles.cardContainer}
         title={
-          <div>
-            <Title level={2} >{title}</Title>
-            <Text>{description}</Text>
-          </div>
-        } extra={
-          <div>
-            <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList}/>
-            {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} />}
-            <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} />
-            {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
+          <div className={styles.cardHeader}>
+            <Row align="middle" className={styles.cardText}>
+              <Col>
+                <Title level={2} className={styles.cardTitle}>{title}</Title>
+                <Text className={styles.cardDescription}>{description}</Text>
+              </Col>
+              <Col className={styles.cardActions}>
+                <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
+                {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} />}
+                <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} className={styles.deleteIcon} />
+                {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
+              </Col>
+            </Row>
           </div>
         }>
         <List
