@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Typography, Row, Col } from 'antd';
 import styles from './Task.module.css';
 import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import { ModalEditTask } from '../ModalEditTask/ModalEditTask';
 import { ModalDeleteTask } from '../ModalDeleteTask/ModalDeleteTask';
+import { editTask } from '../../services/api';
 
 const { Text } = Typography;
 
@@ -31,7 +32,6 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
 
   console.log(task);
 
-
   const handleEditTask = () => {
     setIsModalEditTaskOpen(true);
   };
@@ -42,7 +42,18 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
 
   const toggleCheckbox = () => {
     setCompleted(!completed);
+    updateCompleted();
   };
+
+  const updateCompleted = async () => {
+    const updatedTask = { ...task, completed: !completed };
+    try {
+      const response = await editTask(id, updatedTask);
+      console.log('Tarefa atualizada:', response);
+    } catch (error) {
+      console.error('Erro ao atualizar tarefa:', error);
+    }
+  }
 
   const handleCloseEditTaskModal = () => {
     setIsModalEditTaskOpen(false);
