@@ -71,10 +71,10 @@ export const editTaskList = async (taskListId, taskList) => {
     }
 };
 
-export const deleteTaskList = async (taskList) => {
+export const deleteTaskList = async (taskListId) => {
     try {
-        const response = await fetch(`${BASE_URL}/taskList/delete/${taskList.id}`, {
-            method: 'PUT',
+        const response = await fetch(`${BASE_URL}/taskList/delete/${taskListId}`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
