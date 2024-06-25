@@ -9,6 +9,7 @@ import { ModalAddTask } from '../../components/ModalAddTask/ModalAddTask';
 import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import { ModalEditTaskList } from '../ModalEditTaskList/ModalEditTaskList';
+import { ModalDeleteTaskList } from '../ModalDeleteTaskList/ModalDeleteTaskList';
 
 const { Title, Text } = Typography;
 
@@ -50,7 +51,15 @@ export const TaskList = ({ taskListId, title, description }) => {
 
   const handleCloseEditTaskListModal = () => {
     setIsModalEditTaskListOpen(false);
-  }
+  };
+
+  const handleDeleteTaskList = () => {
+    setIsModalDeleteTaskListOpen(true);
+  };
+
+  const handleCloseDeleteTaskListModal = () => {
+    setIsModalDeleteTaskListOpen(false);
+  };
 
   return (
     <div className={styles.taskListContainer}>
@@ -65,7 +74,8 @@ export const TaskList = ({ taskListId, title, description }) => {
           <div>
             <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList}/>
             {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} />}
-            <img src={deleteIcon} alt="Excluir lista de tarefas" />
+            <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} />
+            {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
           </div>
         }>
         <List

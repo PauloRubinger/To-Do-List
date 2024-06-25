@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Modal, notification } from 'antd';
+import { Modal } from 'antd';
 import { deleteTaskList } from '../../services/api';
 
 /* 
   props = {
+    taskList: object
     modalOpen: boolean,
     onClose(): () => void
   }
@@ -27,11 +28,12 @@ export const ModalDeleteTaskList = (props) => {
   const handleOk = async () => {
     setConfirmLoading(true);
     setTimeout(async () => {
-      const response = await deleteTaskList();
+      const response = await deleteTaskList(props.taskList.id);
       if (response) {
         setModalOpen(false);
         setConfirmLoading(false);
         props.onClose();
+        window.location.reload();
       }
     }, 1000);
   };
@@ -51,7 +53,6 @@ export const ModalDeleteTaskList = (props) => {
         onCancel={handleCancel}
         confirmLoading={confirmLoading}
       >
-
       </Modal>
     </>
   )
