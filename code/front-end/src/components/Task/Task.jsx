@@ -30,8 +30,6 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     dueDate: dueDate
   }
 
-  console.log(task);
-
   const handleEditTask = () => {
     setIsModalEditTaskOpen(true);
   };
@@ -40,20 +38,17 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     setIsModalDeleteTaskOpen(true);
   };
 
-  const toggleCheckbox = () => {
-    setCompleted(!completed);
-    updateCompleted();
-  };
-
-  const updateCompleted = async () => {
-    const updatedTask = { ...task, completed: !completed };
+  const toggleCheckbox = async () => {
+    const updatedCompleted = !completed;
+    setCompleted(updatedCompleted);
+    const updatedTask = { ...task, completed: updatedCompleted };
     try {
       const response = await editTask(id, updatedTask);
       console.log('Tarefa atualizada:', response);
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
     }
-  }
+  };
 
   const handleCloseEditTaskModal = () => {
     setIsModalEditTaskOpen(false);
@@ -65,8 +60,8 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
 
   return (
     <Card className={styles.taskContainer}>
-      <Row>
-        <Col span={2}>
+      <Row align="middle" className={styles.cardRow}>
+        <Col span={2} className={styles.checkboxCol}>
           <label>
             <input
               type='checkbox'
@@ -76,17 +71,19 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
             />
           </label>
         </Col>
-        <Col span={18}>
+        <Col span={16}>
           <div className={styles.taskDetails}>
-            <Text strong>{name}</Text>
-            {dueDate ? <Text>Concluir até: {new Date(dueDate).toLocaleDateString()}</Text> : null}
-            <Text>Prioridade: {taskPriorityMap[priority]}</Text>
+            <Text className={styles.taskName} strong>{name}</Text>
+            <div className={styles.taskMeta}>
+              {dueDate ? <Text className={styles.taskDate}>Concluir até: {new Date(dueDate).toLocaleDateString()}</Text> : <Text className={styles.taskDate}> Sem prazo </Text>}
+              <Text className={styles.taskPriority}>Prioridade: {taskPriorityMap[priority]}</Text>
+            </div>
           </div>
         </Col>
-        <Col span={4} className={styles.taskActions}>
-          <img src={editIcon} alt="Ícone de editar" onClick={handleEditTask} />
+        <Col span={6} className={styles.taskActions}>
+          <img src={editIcon} className={styles.editIcon} alt="Ícone de editar" onClick={handleEditTask} />
           {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal}/>}
-          <img src={deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
+          <img src={deleteIcon} className={styles.deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
           {isModalDeleteTaskOpen && <ModalDeleteTask task={task} modalOpen={isModalDeleteTaskOpen} onClose={handleCloseDeleteTaskModal}/>}
         </Col>
       </Row>

@@ -1,18 +1,61 @@
 .taskContainer {
+  margin-bottom: 16px;
+}
+
+.cardRow {
   display: flex;
-  width: 1000px;
+  width: 50rem;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  margin-bottom: 10px;
+}
+
+.checkboxCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.taskDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskName {
+  font-size: 16px;
+}
+
+.taskMeta {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.taskDate {
+  font-size: 14px;
+  color: #888;
+}
+
+.taskPriority {
+  font-size: 14px;
+  color: #888;
+}
+
+.taskActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.editIcon, .deleteIcon {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 
 .checkbox {
   appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   margin-right: 10px;
   background-size: contain;
   background-repeat: no-repeat;
@@ -26,13 +69,4 @@
 
 .checkbox.unchecked {
   background-image: url('../../assets/images/circle.svg');
-}
-
-.taskActions {
-  display: flex;
-}
-
-.taskActions img {
-  cursor: pointer;
-  margin-left: 10px;
 }
