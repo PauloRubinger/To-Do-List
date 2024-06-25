@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Typography, Row, Col } from 'antd';
 import styles from './Task.module.css';
 import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
+import { ModalEditTask } from '../ModalEditTask/ModalEditTask';
 
 const { Text } = Typography;
 
@@ -12,11 +13,26 @@ const taskPriorityMap = {
   BAIXA: "Baixa"
 };
 
-export const Task = ({ id, name, completed: initialCompleted, dueDate, priority }) => {
+export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate }) => {
   const [completed, setCompleted] = useState(initialCompleted);
+  const [isModalEditTaskOpen, setIsModalEditTaskOpen] = useState(false);
+  const [isModalDeleteTaskOpen, setIsModalDeleteTaskOpen] = useState(false);
+
+  const task = {
+    id: id,
+    name: name,
+    completed: initialCompleted,
+    type: type,
+    priority: priority,
+    status: status,
+    dueDate: dueDate
+  }
+
+  console.log(task);
+
 
   const handleEditTask = () => {
-
+    setIsModalEditTaskOpen(true);
   };
 
   const handleDeleteTask = () => {
@@ -25,6 +41,10 @@ export const Task = ({ id, name, completed: initialCompleted, dueDate, priority 
 
   const toggleCheckbox = () => {
     setCompleted(!completed);
+  };
+
+  const handleCloseEditTaskModal = () => {
+    setIsModalEditTaskOpen(false);
   };
 
   return (
@@ -49,6 +69,7 @@ export const Task = ({ id, name, completed: initialCompleted, dueDate, priority 
         </Col>
         <Col span={4} className={styles.taskActions}>
           <img src={editIcon} alt="Ícone de editar" onClick={handleEditTask} />
+          {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal}/>}
           <img src={deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
         </Col>
       </Row>
