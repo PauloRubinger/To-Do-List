@@ -4,6 +4,7 @@ import { addTask } from "../../services/api";
 
 /* 
   props = {
+    taskListId: number,
     modalOpen: boolean,
     onClose(): () => void
   }
@@ -30,9 +31,17 @@ export const ModalAddTask = (props) => {
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
+
+    if (values.type === "DATA") {
+      values.dueDate = formatInputDate(values.dueDate.$d);
+    } else if (values.type === "PRAZO") {
+      const date = calculateDateByDays(parseInt(values.dueDate));
+      values.dueDate = formatInputDate(date);
+    }
+
     setConfirmLoading(true);
     setTimeout(async () => {
-      const response = await addTask(values);
+      const response = await addTask(props.taskListId, values);
       if (response) {
         setModalOpen(false);
         setConfirmLoading(false);
@@ -42,12 +51,30 @@ export const ModalAddTask = (props) => {
     }, 1000);
   };
 
+  const formatInputDate = (date) => {
+    const formattedDate = new Date(date).toISOString();
+    return formattedDate;
+  };
+
+  const calculateDateByDays = (days) => {
+    const today = new Date();
+    const targetDate = new Date(today);
+    console.log("Current Date:", today);
+    console.log("Days to Add:", days);
+    targetDate.setDate(today.getDate() + days);
+    console.log("Target Date:", targetDate);
+    return targetDate;
+  
+  };
+
   const handleCancel = () => {
     props.onClose();
   };
 
   const handleTypeChange = (value) => {
     setSelectedType(value);
+    form.setFieldsValue({ dueDate: null });
+
     if (value === "PRAZO") {
       setIsTaskTypePRAZO(true);
       setIsTaskTypeDATA(false);
@@ -115,7 +142,7 @@ export const ModalAddTask = (props) => {
           </Form.Item>
           {isTaskTypePRAZO && 
             <Form.Item
-              name="deadlineInDays"
+              name="dueDate"
               label="Dias previstos para a conclusão"
               rules={[{ required: true, message: "Por favor, informe o prazo em dias" }]}
             >
@@ -124,7 +151,7 @@ export const ModalAddTask = (props) => {
           }
           {isTaskTypeDATA && 
             <Form.Item
-              name="deadlineDate"
+              name="dueDate"
               label="Data prevista para a conclusão"
               rules={[{ required: true, message: "Por favor, informe a data prevista para conclusão" }]}
             >
