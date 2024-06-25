@@ -4,6 +4,7 @@ import styles from './Task.module.css';
 import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import { ModalEditTask } from '../ModalEditTask/ModalEditTask';
+import { ModalDeleteTask } from '../ModalDeleteTask/ModalDeleteTask';
 
 const { Text } = Typography;
 
@@ -36,7 +37,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
   };
 
   const handleDeleteTask = () => {
-    
+    setIsModalDeleteTaskOpen(true);
   };
 
   const toggleCheckbox = () => {
@@ -45,6 +46,10 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
 
   const handleCloseEditTaskModal = () => {
     setIsModalEditTaskOpen(false);
+  };
+
+  const handleCloseDeleteTaskModal = () => {
+    setIsModalDeleteTaskOpen(false);
   };
 
   return (
@@ -71,6 +76,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
           <img src={editIcon} alt="Ícone de editar" onClick={handleEditTask} />
           {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal}/>}
           <img src={deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
+          {isModalDeleteTaskOpen && <ModalDeleteTask task={task} modalOpen={isModalDeleteTaskOpen} onClose={handleCloseDeleteTaskModal}/>}
         </Col>
       </Row>
     </Card>

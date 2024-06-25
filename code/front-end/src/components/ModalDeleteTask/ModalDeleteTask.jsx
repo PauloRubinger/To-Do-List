@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Modal, notification } from 'antd';
+import { Modal } from 'antd';
 import { deleteTask } from '../../services/api';
 
 /* 
   props = {
+    task: object
     modalOpen: boolean,
     onClose(): () => void
   }
@@ -27,11 +28,12 @@ export const ModalDeleteTask = (props) => {
   const handleOk = async () => {
     setConfirmLoading(true);
     setTimeout(async () => {
-      const response = await deleteTask();
+      const response = await deleteTask(props.task.id);
       if (response) {
         setModalOpen(false);
         setConfirmLoading(false);
         props.onClose();
+        window.location.reload();
       }
     }, 1000);
   };
