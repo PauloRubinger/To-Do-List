@@ -61,14 +61,6 @@ export const ModalEditTask = (props) => {
     setModalOpen(props.modalOpen);
   };
 
-  // const [api, contextHolder] = notification.useNotification();
-  // const openNotificationWithIcon = (type) => {
-  //   api[type]({
-  //     message: 'Notification Title',
-  //     description:
-  //       'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-  //   });
-  // };
 
   const handleSubmit = async (values) => {
 
