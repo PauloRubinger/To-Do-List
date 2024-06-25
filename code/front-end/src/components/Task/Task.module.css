@@ -1,8 +1,38 @@
 .taskContainer {
-    width: 100%;
+  display: flex;
+  width: 1000px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 
-.taskDetails {
-    display: flex;
-    gap: 20px;
+.checkbox {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  border: none;
+}
+
+.checkbox.checked {
+  background-image: url('../../assets/images/circle-checked.svg');
+}
+
+.checkbox.unchecked {
+  background-image: url('../../assets/images/circle.svg');
+}
+
+.taskActions {
+  display: flex;
+}
+
+.taskActions img {
+  cursor: pointer;
+  margin-left: 10px;
 }

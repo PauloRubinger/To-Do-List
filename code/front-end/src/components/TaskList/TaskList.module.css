@@ -5,3 +5,7 @@
 .cardContainer {
     width: 80%;
 }
+
+.addTaskButton {
+    cursor: pointer;
+}
