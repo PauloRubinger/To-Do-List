@@ -49,7 +49,7 @@ export const TaskList = ({ taskListId, title, description }) => {
         )}
       />
       <AddButton label={"Nova Tarefa"} className={styles.addTaskButton} onClick={handleAddTask}/>
-      {isModalAddTaskOpen && <ModalAddTask modalOpen={true} onClose={handleCloseAddTaskModal} />}
+      {isModalAddTaskOpen && <ModalAddTask taskListId={taskListId} modalOpen={true} onClose={handleCloseAddTaskModal} />}
     </Card>
   </div>
   );
