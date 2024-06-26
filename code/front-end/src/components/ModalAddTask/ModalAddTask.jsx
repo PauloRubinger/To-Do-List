@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, DatePicker } from "antd";
+import { Modal, Form, Input, Select, DatePicker, notification } from "antd";
 import { addTask } from "../../services/api";
 
 /* 
   props = {
     taskListId: number,
     modalOpen: boolean,
-    onClose(): () => void
+    onClose(): () => void,
+    onTaskAdded(): () => object
   }
 */
 
@@ -16,7 +17,10 @@ export const ModalAddTask = (props) => {
   const [selectedType, setSelectedType] = useState(undefined);
   const [isTaskTypePRAZO, setIsTaskTypePRAZO] = useState(false);
   const [isTaskTypeDATA, setIsTaskTypeDATA] = useState(false);
-  const [selectedPiority, setSelectedPriority] = useState(undefined);
+  const [selectedPriority, setSelectedPriority] = useState(undefined);
+
+  const [api, contextHolder] = notification.useNotification();
+
 
   const showModal = (props) => {
     setModalOpen(props.modalOpen);
@@ -31,7 +35,6 @@ export const ModalAddTask = (props) => {
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
-
     if (values.type === "DATA") {
       values.dueDate = formatInputDate(values.dueDate.$d);
     } else if (values.type === "PRAZO") {
@@ -40,15 +43,24 @@ export const ModalAddTask = (props) => {
     }
 
     setConfirmLoading(true);
-    setTimeout(async () => {
+    try {
       const response = await addTask(props.taskListId, values);
       if (response) {
         setModalOpen(false);
         setConfirmLoading(false);
+        notification.success({
+          duration: 5,
+          showProgress: true,
+          pauseOnHover: true,
+          message: "Sucesso",
+          description: "Tarefa adicionada com sucesso!"
+        });
         props.onClose();
-        window.location.reload();
+        props.onTaskAdded(response);
       }
-    }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const formatInputDate = (date) => {
@@ -89,6 +101,7 @@ export const ModalAddTask = (props) => {
 
   return (
     <>
+      {contextHolder}
       <Modal
         title="Adicionar tarefa"
         open={modalOpen}
@@ -110,7 +123,7 @@ export const ModalAddTask = (props) => {
           >
             <Input placeholder="Ex.: Afazeres domésticos"></Input>
           </Form.Item>
-           <Form.Item
+          <Form.Item
             name="type"
             label="Tipo"
             tooltip="Data: Data prevista de conclusão. Prazo: Prazo previsto para conclusão em dias. Livre: Sem prazo de conclusão"
@@ -178,7 +191,6 @@ export const ModalAddTask = (props) => {
                 },
               ]}
             />
-
           </Form.Item>
         </Form>
       </Modal>
