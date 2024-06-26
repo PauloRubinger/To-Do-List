@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AddButton from "../components/AddButton/AddButton";
 import ModalAddTaskList from "../components/ModalAddTaskList/ModalAddTaskList";
-import styles from './HomePage.module.css';
+import styles from './Home.module.css';
 import { TaskList } from "../components/TaskList/TaskList";
 import { listAllTaskLists } from "../services/api";
 
@@ -9,7 +9,6 @@ const HomePage = () => {
 
   const [isAddTaskListModalOpen, setIsAddTaskListModalOpen] = useState(false);
   const [taskLists, setTaskLists] = useState([]);
-  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,4 +1,4 @@
-import HomePage from "./pages/HomePage";
+import Home from "./pages/Home";
 import { ConfigProvider } from "antd";
 import ptBR from 'antd/lib/locale/pt_BR';
 
@@ -7,8 +7,8 @@ function App() {
     <ConfigProvider
       locale={ptBR}
     >
-      <HomePage>
-      </HomePage>
+      <Home>
+      </Home>
     </ConfigProvider>
   );
 }
