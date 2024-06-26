@@ -22,7 +22,7 @@ export const TaskList = ({ taskListId, title, description }) => {
     id: taskListId,
     name: title,
     description: description
-  }
+  };
 
   useEffect(() => {
     const getAllTasksByTaskList = async (taskListId) => {
@@ -32,10 +32,14 @@ export const TaskList = ({ taskListId, title, description }) => {
       }
     };
     getAllTasksByTaskList(taskListId);
-  }, [taskListId]);
+  }, [tasks]);
 
   const handleAddTask = () => {
     setIsModalAddTaskOpen(true);
+  };
+  
+  const handleTaskAdded = (newTask) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
   const handleCloseAddTaskModal = () => {
@@ -59,7 +63,8 @@ export const TaskList = ({ taskListId, title, description }) => {
   };
 
   return (
-    <div className={styles.taskListContainer}>
+    <>
+      <div className={styles.taskListContainer}>
       <Card
         className={styles.cardContainer}
         title={
@@ -87,8 +92,9 @@ export const TaskList = ({ taskListId, title, description }) => {
           )}
         />
         <AddButton label={"Nova Tarefa"} className={styles.addTaskButton} onClick={handleAddTask} />
-        {isModalAddTaskOpen && <ModalAddTask taskListId={taskListId} modalOpen={true} onClose={handleCloseAddTaskModal} />}
+        {isModalAddTaskOpen && <ModalAddTask taskListId={taskListId} modalOpen={true} onClose={handleCloseAddTaskModal} onTaskAdded={handleTaskAdded} />}
       </Card>
     </div>
+    </>
   );
 };
