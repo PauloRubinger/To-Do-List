@@ -25,14 +25,15 @@ export const TaskList = ({ taskListId, title, description }) => {
   };
 
   useEffect(() => {
-    const getAllTasksByTaskList = async (taskListId) => {
-      const response = await listAllByTaskList(taskListId);
-      if (response) {
-        setTasks(response);
-      }
-    };
-    getAllTasksByTaskList(taskListId);
-  }, [tasks]);
+    fetchTasks(taskListId);
+  }, [taskListId]);
+
+  const fetchTasks = async (taskListId) => {
+    const response = await listAllByTaskList(taskListId);
+    if (response) {
+      setTasks(response);
+    }
+  };
 
   const handleAddTask = () => {
     setIsModalAddTaskOpen(true);
