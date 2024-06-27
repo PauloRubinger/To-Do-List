@@ -15,12 +15,6 @@ export const ModalAddTask = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(undefined);
-  const [isTaskTypePRAZO, setIsTaskTypePRAZO] = useState(false);
-  const [isTaskTypeDATA, setIsTaskTypeDATA] = useState(false);
-  const [selectedPriority, setSelectedPriority] = useState(undefined);
-
-  const [api, contextHolder] = notification.useNotification();
-
 
   const showModal = (props) => {
     setModalOpen(props.modalOpen);
@@ -82,26 +76,10 @@ export const ModalAddTask = (props) => {
   const handleTypeChange = (value) => {
     setSelectedType(value);
     form.setFieldsValue({ dueDate: null });
-
-    if (value === "PRAZO") {
-      setIsTaskTypePRAZO(true);
-      setIsTaskTypeDATA(false);
-    } else if (value === "DATA") {
-      setIsTaskTypeDATA(true);
-      setIsTaskTypePRAZO(false);
-    } else {
-      setIsTaskTypePRAZO(false);
-      setIsTaskTypeDATA(false);
-    }
-  };
-
-  const handlePriorityChange = (value) => {
-    setSelectedPriority(value);
   };
 
   return (
     <>
-      {contextHolder}
       <Modal
         title="Adicionar tarefa"
         open={modalOpen}
@@ -149,7 +127,7 @@ export const ModalAddTask = (props) => {
               ]}
             />
           </Form.Item>
-          {isTaskTypePRAZO && 
+          {selectedType === "PRAZO" && 
             <Form.Item
               name="dueDate"
               label="Dias previstos para a conclusão"
@@ -158,7 +136,7 @@ export const ModalAddTask = (props) => {
               <Input type="number"></Input>
             </Form.Item>
           }
-          {isTaskTypeDATA && 
+          {selectedType === "DATA" && 
             <Form.Item
               name="dueDate"
               label="Data prevista para a conclusão"
@@ -175,7 +153,6 @@ export const ModalAddTask = (props) => {
             <Select
               placeholder="Selecione a prioridade"
               optionFilterProp="label"
-              onChange={handlePriorityChange}
               options={[
                 {
                   value: 'ALTA',

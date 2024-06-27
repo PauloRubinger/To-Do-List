@@ -15,9 +15,6 @@ export const ModalEditTask = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(undefined);
-  const [isTaskTypePRAZO, setIsTaskTypePRAZO] = useState(false);
-  const [isTaskTypeDATA, setIsTaskTypeDATA] = useState(false);
-  const [selectedPiority, setSelectedPriority] = useState(undefined);
 
   useEffect(() => {
     if (props.modalOpen === true) {
@@ -44,17 +41,6 @@ export const ModalEditTask = (props) => {
   const handleTypeChange = (value) => {
     setSelectedType(value);
     form.setFieldsValue({ dueDate: null });
-
-    if (value === "PRAZO") {
-      setIsTaskTypePRAZO(true);
-      setIsTaskTypeDATA(false);
-    } else if (value === "DATA") {
-      setIsTaskTypeDATA(true);
-      setIsTaskTypePRAZO(false);
-    } else {
-      setIsTaskTypePRAZO(false);
-      setIsTaskTypeDATA(false);
-    }
   };
 
   const showModal = (props) => {
@@ -87,10 +73,6 @@ export const ModalEditTask = (props) => {
 
   const handleCancel = () => {
     props.onClose();
-  };
-
-  const handlePriorityChange = (value) => {
-    setSelectedPriority(value);
   };
 
   return (
@@ -148,7 +130,7 @@ export const ModalEditTask = (props) => {
               ]}
             />
           </Form.Item>
-          {isTaskTypePRAZO &&
+          {selectedType === "PRAZO" &&
             <Form.Item
               name="dueDate"
               label="Dias previstos para a conclusão"
@@ -157,7 +139,7 @@ export const ModalEditTask = (props) => {
               <Input type="number"></Input>
             </Form.Item>
           }
-          {isTaskTypeDATA &&
+          {selectedType === "DATA" &&
             <Form.Item
               name="dueDate"
               label="Data prevista para a conclusão"
@@ -174,7 +156,6 @@ export const ModalEditTask = (props) => {
             <Select
               placeholder="Selecione a prioridade"
               optionFilterProp="label"
-              onChange={handlePriorityChange}
               options={[
                 {
                   value: 'ALTA',
