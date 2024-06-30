@@ -39,7 +39,7 @@ export const ModalAddTask = (props) => {
     setConfirmLoading(true);
     try {
       const response = await addTask(props.taskListId, values);
-      if (response) {
+      if (response.status === 201) {
         setModalOpen(false);
         setConfirmLoading(false);
         notification.success({

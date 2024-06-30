@@ -30,8 +30,8 @@ export const TaskList = ({ taskListId, title, description }) => {
 
   const fetchTasks = async (taskListId) => {
     const response = await listAllByTaskList(taskListId);
-    if (response) {
-      setTasks(response);
+    if (response && response.data) {
+      setTasks(response.data);
     }
   };
 
