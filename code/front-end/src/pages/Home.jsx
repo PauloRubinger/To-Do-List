@@ -13,12 +13,11 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await listAllTaskLists();
-      if (response) {
-        setTaskLists(response);
+      if (response && response.data) {
+        setTaskLists(response.data);
       }
     };
     fetchData();
-    console.log(taskLists)
   }, []);
 
   const handleAddTaskList = () => {
