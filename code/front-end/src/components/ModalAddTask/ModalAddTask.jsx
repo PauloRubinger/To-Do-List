@@ -29,19 +29,20 @@ export const ModalAddTask = (props) => {
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
-    if (values.type === "DATA") {
-      values.dueDate = formatInputDate(values.dueDate.$d);
-    } else if (values.type === "PRAZO") {
-      const date = calculateDateByDays(parseInt(values.dueDate));
-      values.dueDate = formatInputDate(date);
-    }
-
-    setConfirmLoading(true);
     try {
+      if (values.type === "DATA") {
+        values.dueDate = formatInputDate(values.dueDate.$d);
+      } else if (values.type === "PRAZO") {
+        const date = calculateDateByDays(parseInt(values.dueDate));
+        values.dueDate = formatInputDate(date);
+      }
+
+      setConfirmLoading(true);
+
       const response = await addTask(props.taskListId, values);
+      setConfirmLoading(false);
+      
       if (response.status === 201) {
-        setModalOpen(false);
-        setConfirmLoading(false);
         notification.success({
           duration: 5,
           showProgress: true,
@@ -49,11 +50,22 @@ export const ModalAddTask = (props) => {
           message: "Sucesso",
           description: "Tarefa adicionada com sucesso!"
         });
-        props.onClose();
         props.onTaskAdded(response);
+      } else {
+        throw new Error("Erro ao adicionar a tarefa!");
       }
     } catch (error) {
-      console.log(error);
+      setConfirmLoading(false);
+      notification.error({
+        duration: 5,
+        showProgress: true,
+        pauseOnHover: true,
+        message: "Erro",
+        description: "Houve um problema ao adicionar a tarefa!"
+      });
+    } finally {
+      setModalOpen(false);
+      props.onClose();
     }
   };
 
