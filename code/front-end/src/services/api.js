@@ -15,6 +15,7 @@ export const listAllTaskLists = async () => {
         return response;
     } catch (error) {
         console.error("Erro ao obter as listas de tarefas: ", error);
+        throw error;
     }
 };
 
@@ -31,6 +32,7 @@ export const getTaskListById = async (id) => {
         return response;
     } catch (error) {
         console.error("Erro ao obter a lista de tarefas: ", error);
+        throw error;
     }
 };
 
@@ -47,6 +49,7 @@ export const addTaskList = async (taskList) => {
         return response;
     } catch (error) {
         console.error("Erro ao adicionar a lista de tarefas: ", error);
+        throw(error);
     }
 };
 
@@ -63,6 +66,7 @@ export const editTaskList = async (taskListId, taskList) => {
         return response;
     } catch (error) {
         console.error("Erro ao editar a lista de tarefas: ", error);
+        throw error;
     }
 };
 
@@ -78,6 +82,7 @@ export const deleteTaskList = async (taskListId) => {
         return response;
     } catch (error) {
         console.error("Erro ao excluir a lista de tarefas: ", error);
+        throw error;
     }
 };
 
@@ -94,6 +99,7 @@ export const listAllTasks = async () => {
         return response;
     } catch (error) {
         console.error("Erro ao obter tarefas: ", error);
+        throw error;
     }
 };
 
@@ -109,6 +115,7 @@ export const listAllByTaskList = async (taskListId) => {
         return response;
     } catch (error) {
         console.error("Erro ao obter as tarefas dessa lista de tarefas: ", error);
+        throw error;
     }
 };
 
@@ -124,6 +131,7 @@ export const getTaskById = async (taskListId) => {
         return response;
     } catch (error) {
         console.error("Erro ao obter a tarefa pelo id: ", error);
+        throw error;
     }
 };
 
@@ -140,6 +148,7 @@ export const addTask = async (taskListId, task) => {
         return response;
     } catch (error) {
         console.error("Erro ao adicionar tarefa: ", error);
+        throw error;
     }
 };
 
@@ -156,6 +165,7 @@ export const editTask = async (taskId, task) => {
         return response;
     } catch (error) {
         console.error("Erro ao editar tarefa: ", error);
+        throw error;
     }
 };
 
@@ -171,5 +181,6 @@ export const deleteTask = async (taskId) => {
         return response;
     } catch (error) {
         console.error("Erro ao excluir tarefa: ", error);
+        throw error;
     }
 };
