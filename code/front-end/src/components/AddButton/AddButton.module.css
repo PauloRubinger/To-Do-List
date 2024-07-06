@@ -9,6 +9,7 @@
   border-width: 0;
   font-family: Inter;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .addButton:hover {
