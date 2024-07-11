@@ -40,7 +40,6 @@ export const ModalAddTask = (props) => {
       setConfirmLoading(true);
 
       const response = await addTask(props.taskListId, values);
-      setConfirmLoading(false);
       
       if (response.status === 201) {
         notification.success({
@@ -64,6 +63,7 @@ export const ModalAddTask = (props) => {
         description: "Houve um problema ao adicionar a tarefa!"
       });
     } finally {
+      setConfirmLoading(false);
       setModalOpen(false);
       props.onClose();
     }
