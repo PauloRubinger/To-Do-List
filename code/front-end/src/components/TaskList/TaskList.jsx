@@ -47,6 +47,10 @@ export const TaskList = ({ taskListId, title, description }) => {
     setTasks((prevTasks) => prevTasks.map((prevTask) => prevTask.id === updatedTask.id ? updatedTask : prevTask));
   };
 
+  const handleTaskDeleted = (deletedTask) => {
+    setTasks((prevTasks) => prevTasks.filter((prevTask) => prevTask.id !== deletedTask.id));
+  };
+
   const handleCloseAddTaskModal = () => {
     setIsModalAddTaskOpen(false);
   };
@@ -92,7 +96,7 @@ export const TaskList = ({ taskListId, title, description }) => {
           dataSource={tasks}
           renderItem={task => (
             <List.Item key={task.id}>
-              <Task {...task} onTaskUpdated={handleTaskUpdated}/>
+              <Task {...task} onTaskUpdated={handleTaskUpdated} onTaskDeleted={handleTaskDeleted} />
             </List.Item>
           )}
         />

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Modal } from 'antd';
+import { Modal, notification } from 'antd';
 import { deleteTask } from '../../services/api';
 
 /* 
@@ -7,6 +7,7 @@ import { deleteTask } from '../../services/api';
     task: object
     modalOpen: boolean,
     onClose(): () => void
+    onTaskDeleted(): => object
   }
 */
 
@@ -15,29 +16,48 @@ export const ModalDeleteTask = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
-  const showModal = (props) => {
-    setModalOpen(props.modalOpen);
+  const showModal = () => {
+    setModalOpen(true);
   };
 
   useEffect(() => {
     if (props.modalOpen === true) {
-      showModal(props);
+      showModal();
     }
-  }, [props]);
+  }, [props.modalOpen]);
 
   const handleOk = async () => {
     setConfirmLoading(true);
-    setTimeout(async () => {
+    try {
       const response = await deleteTask(props.task.id);
-      if (response) {
-        setModalOpen(false);
-        setConfirmLoading(false);
-        props.onClose();
-        window.location.reload();
+      console.log(response);
+      if (response && response.status === 204) {
+        props.onTaskDeleted(props.task);
+        notification.success({
+          duration: 5,
+          showProgress: true,
+          pauseOnHover: true,
+          message: "Sucesso",
+          description: "Tarefa excluída com sucesso!"
+        });
+      } else {
+        throw new Error("Erro ao excluir a tarefa!");
       }
-    }, 1000);
+    } catch (error) {
+      notification.error({
+        duration: 5,
+        showProgress: true,
+        pauseOnHover: true,
+        message: "Erro",
+        description: "Houve um problema ao excluir a tarefa!"
+      });
+    } finally {
+      setModalOpen(false);
+      setConfirmLoading(false);
+      props.onClose();
+    }
   };
-  
+
   const handleCancel = () => {
     props.onClose();
   };
