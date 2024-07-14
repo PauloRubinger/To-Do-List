@@ -80,6 +80,7 @@ export const TaskList = ({ taskListId, title, description }) => {
               paddingTop: 0
             },
             header: {
+              paddingTop: 16,
               paddingBottom: 16
             }
           }}

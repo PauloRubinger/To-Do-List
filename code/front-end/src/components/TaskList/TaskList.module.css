@@ -11,6 +11,10 @@
   align-items: center;
 }
 
+.cardTitle {
+  margin-top: 0;
+}
+
 .cardText {
   width: 100%;
   display: flex;
