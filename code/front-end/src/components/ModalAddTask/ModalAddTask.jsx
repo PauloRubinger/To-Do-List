@@ -49,7 +49,7 @@ export const ModalAddTask = (props) => {
           message: "Sucesso",
           description: "Tarefa adicionada com sucesso!"
         });
-        props.onTaskAdded(response);
+        props.onTaskAdded(response.data);
       } else {
         throw new Error("Erro ao adicionar a tarefa!");
       }
