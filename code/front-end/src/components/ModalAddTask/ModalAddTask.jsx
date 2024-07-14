@@ -42,6 +42,7 @@ export const ModalAddTask = (props) => {
       const response = await addTask(props.taskListId, values);
       
       if (response.status === 201) {
+        props.onTaskAdded(response.data);
         notification.success({
           duration: 5,
           showProgress: true,
@@ -49,12 +50,10 @@ export const ModalAddTask = (props) => {
           message: "Sucesso",
           description: "Tarefa adicionada com sucesso!"
         });
-        props.onTaskAdded(response.data);
       } else {
         throw new Error("Erro ao adicionar a tarefa!");
       }
     } catch (error) {
-      setConfirmLoading(false);
       notification.error({
         duration: 5,
         showProgress: true,
