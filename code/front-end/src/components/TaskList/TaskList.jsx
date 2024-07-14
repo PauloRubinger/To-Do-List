@@ -38,7 +38,7 @@ export const TaskList = ({ taskListId, title, description }) => {
   const handleAddTask = () => {
     setIsModalAddTaskOpen(true);
   };
-  
+
   const handleTaskAdded = (newTask) => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
@@ -74,36 +74,44 @@ export const TaskList = ({ taskListId, title, description }) => {
   return (
     <>
       <div className={styles.taskListContainer}>
-      <Card
-        className={styles.cardContainer}
-        title={
-          <div className={styles.cardHeader}>
-            <Row align="middle" className={styles.cardText}>
-              <Col>
-                <Title level={2} className={styles.cardTitle}>{title}</Title>
-                <Text className={styles.cardDescription}>{description}</Text>
-              </Col>
-              <Col className={styles.cardActions}>
-                <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
-                {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} onTaskUpdated={handleTaskUpdated}/>}
-                <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} className={styles.deleteIcon} />
-                {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
-              </Col>
-            </Row>
-          </div>
-        }>
-        <List
-          dataSource={tasks}
-          renderItem={task => (
-            <List.Item key={task.id}>
-              <Task {...task} onTaskUpdated={handleTaskUpdated} onTaskDeleted={handleTaskDeleted} />
-            </List.Item>
-          )}
-        />
-        <AddButton label={"Nova Tarefa"} className={styles.addTaskButton} onClick={handleAddTask} />
-        {isModalAddTaskOpen && <ModalAddTask taskListId={taskListId} modalOpen={true} onClose={handleCloseAddTaskModal} onTaskAdded={handleTaskAdded} />}
-      </Card>
-    </div>
+        <Card 
+          styles={{
+            body: {
+              paddingTop: 0
+            },
+            header: {
+              paddingBottom: 16
+            }
+          }}
+          className={styles.cardContainer}
+          title={
+            <div className={styles.cardHeader}>
+              <Row align="middle" className={styles.cardText}>
+                <Col>
+                  <Title level={2} className={styles.cardTitle}>{title}</Title>
+                  <Text className={styles.cardDescription}>{description}</Text>
+                </Col>
+                <Col className={styles.cardActions}>
+                  <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
+                  {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} onTaskUpdated={handleTaskUpdated} />}
+                  <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} className={styles.deleteIcon} />
+                  {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
+                </Col>
+              </Row>
+            </div>
+          }>
+          <List
+            dataSource={tasks}
+            renderItem={task => (
+              <List.Item key={task.id}>
+                <Task {...task} onTaskUpdated={handleTaskUpdated} onTaskDeleted={handleTaskDeleted} />
+              </List.Item>
+            )}
+          />
+          <AddButton label={"Nova Tarefa"} className={styles.addTaskButton} onClick={handleAddTask} />
+          {isModalAddTaskOpen && <ModalAddTask taskListId={taskListId} modalOpen={true} onClose={handleCloseAddTaskModal} onTaskAdded={handleTaskAdded} />}
+        </Card>
+      </div>
     </>
   );
 };
