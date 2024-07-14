@@ -43,6 +43,10 @@ export const TaskList = ({ taskListId, title, description }) => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
+  const handleTaskUpdated = (updatedTask) => {
+    setTasks((prevTasks) => prevTasks.map((prevTask) => prevTask.id === updatedTask.id ? updatedTask : prevTask));
+  };
+
   const handleCloseAddTaskModal = () => {
     setIsModalAddTaskOpen(false);
   };
@@ -77,7 +81,7 @@ export const TaskList = ({ taskListId, title, description }) => {
               </Col>
               <Col className={styles.cardActions}>
                 <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
-                {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} />}
+                {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} onTaskUpdated={handleTaskUpdated}/>}
                 <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} className={styles.deleteIcon} />
                 {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
               </Col>
@@ -88,7 +92,7 @@ export const TaskList = ({ taskListId, title, description }) => {
           dataSource={tasks}
           renderItem={task => (
             <List.Item key={task.id}>
-              <Task {...task} />
+              <Task {...task} onTaskUpdated={handleTaskUpdated}/>
             </List.Item>
           )}
         />

@@ -1,28 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Modal, Form, Input, Select, DatePicker } from "antd";
-import { editTask } from '../../services/api';
+import { useState, useEffect } from "react";
+import { Modal, Form, Input, Select, DatePicker, notification } from "antd";
+import { editTask } from "../../services/api";
 
 /* 
   props = {
     task: object
     modalOpen: boolean,
-    onClose(): () => void
+    onClose(): () => void,
+    onTaskUpdated(): => object
   }
 */
 
 export const ModalEditTask = (props) => {
-
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(undefined);
 
   useEffect(() => {
     if (props.modalOpen === true) {
-      showModal(props);
+      showModal();
     }
-  }, [props]);
-
-  console.log(props);
+  }, [props.modalOpen]);
 
   const [form] = Form.useForm();
 
@@ -43,10 +41,9 @@ export const ModalEditTask = (props) => {
     form.setFieldsValue({ dueDate: null });
   };
 
-  const showModal = (props) => {
-    setModalOpen(props.modalOpen);
+  const showModal = () => {
+    setModalOpen(true);
   };
-
 
   const handleSubmit = async (values) => {
 
@@ -57,21 +54,38 @@ export const ModalEditTask = (props) => {
       values.dueDate = formatInputDate(date);
     }
 
-    console.log(values);
-
     setConfirmLoading(true);
-    setTimeout(async () => {
+
+    try {
       const response = await editTask(props.task.id, values);
-      if (response) {
+      if (response && response.status === 200) {
+        props.onTaskUpdated(response.data);
         setModalOpen(false);
-        setConfirmLoading(false);
-        props.onClose();
-        window.location.reload();
+        notification.success({
+          duration: 5,
+          showProgress: true,
+          pauseOnHover: true,
+          message: "Sucesso",
+          description: "Tarefa atualizada com sucesso!"
+        });
       }
-    }, 2000);
+    } catch (error) {
+      notification.error({
+        duration: 5,
+        showProgress: true,
+        pauseOnHover: true,
+        message: "Erro",
+        description: "Houve um problema ao editar a tarefa!",
+      });
+    } finally {
+      setConfirmLoading(false);
+      setModalOpen(false);
+      props.onClose();
+    }
   };
 
   const handleCancel = () => {
+    setModalOpen(false);
     props.onClose();
   };
 
@@ -92,7 +106,7 @@ export const ModalEditTask = (props) => {
             name: props.task.name,
             type: "LIVRE",
             dueDate: props.task.dueDate,
-            priority: props.task.priority
+            priority: props.task.priority,
           }}
           form={form}
           onFinish={handleSubmit}
@@ -100,7 +114,9 @@ export const ModalEditTask = (props) => {
           <Form.Item
             name="name"
             label="Nome da tarefa"
-            rules={[{ required: true, message: "Por favor, insira o nome da tarefa" }]}
+            rules={[
+              { required: true, message: "Por favor, insira o nome da tarefa" },
+            ]}
           >
             <Input placeholder="Ex.: Afazeres domésticos"></Input>
           </Form.Item>
@@ -108,7 +124,12 @@ export const ModalEditTask = (props) => {
             name="type"
             label="Tipo"
             tooltip="Data: Data prevista de conclusão. Prazo: Prazo previsto para conclusão em dias. Livre: Sem prazo de conclusão"
-            rules={[{ required: true, message: "Por favor, selecione um tipo para a tarefa" }]}
+            rules={[
+              {
+                required: true,
+                message: "Por favor, selecione um tipo para a tarefa",
+              },
+            ]}
           >
             <Select
               placeholder="Selecione um tipo"
@@ -116,58 +137,73 @@ export const ModalEditTask = (props) => {
               onChange={handleTypeChange}
               options={[
                 {
-                  value: 'DATA',
-                  label: 'Data',
+                  value: "DATA",
+                  label: "Data",
                 },
                 {
-                  value: 'PRAZO',
-                  label: 'Prazo',
+                  value: "PRAZO",
+                  label: "Prazo",
                 },
                 {
-                  value: 'LIVRE',
-                  label: 'Livre',
+                  value: "LIVRE",
+                  label: "Livre",
                 },
               ]}
             />
           </Form.Item>
-          {selectedType === "PRAZO" &&
+          {selectedType === "PRAZO" && (
             <Form.Item
               name="dueDate"
               label="Dias previstos para a conclusão"
-              rules={[{ required: true, message: "Por favor, informe o prazo em dias" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor, informe o prazo em dias",
+                },
+              ]}
             >
               <Input type="number"></Input>
             </Form.Item>
-          }
-          {selectedType === "DATA" &&
+          )}
+          {selectedType === "DATA" && (
             <Form.Item
               name="dueDate"
               label="Data prevista para a conclusão"
-              rules={[{ required: true, message: "Por favor, informe a data prevista para conclusão" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor, informe a data prevista para conclusão",
+                },
+              ]}
             >
               <DatePicker format={"DD/MM/YYYY"}></DatePicker>
             </Form.Item>
-          }
+          )}
           <Form.Item
             name="priority"
             label="Prioridade"
-            rules={[{ required: true, message: "Por favor, selecione a prioridade da tarefa" }]}
+            rules={[
+              {
+                required: true,
+                message: "Por favor, selecione a prioridade da tarefa",
+              },
+            ]}
           >
             <Select
               placeholder="Selecione a prioridade"
               optionFilterProp="label"
               options={[
                 {
-                  value: 'ALTA',
-                  label: 'Alta',
+                  value: "ALTA",
+                  label: "Alta",
                 },
                 {
-                  value: 'MEDIA',
-                  label: 'Média',
+                  value: "MEDIA",
+                  label: "Média",
                 },
                 {
-                  value: 'BAIXA',
-                  label: 'Baixa',
+                  value: "BAIXA",
+                  label: "Baixa",
                 },
               ]}
             />
