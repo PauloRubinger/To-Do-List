@@ -68,6 +68,8 @@ export const ModalEditTask = (props) => {
           message: "Sucesso",
           description: "Tarefa atualizada com sucesso!"
         });
+      } else {
+        throw new Error("Erro ao editar a tarefa!");
       }
     } catch (error) {
       notification.error({
