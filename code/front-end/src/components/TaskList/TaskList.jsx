@@ -26,7 +26,7 @@ export const TaskList = ({ taskListId, title, description }) => {
 
   useEffect(() => {
     fetchTasks(taskListId);
-  }, [tasks]);
+  }, [taskListId]);
 
   const fetchTasks = async (taskListId) => {
     const response = await listAllByTaskList(taskListId);
