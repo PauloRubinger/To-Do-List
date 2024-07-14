@@ -15,7 +15,7 @@ const taskPriorityMap = {
   BAIXA: "Baixa"
 };
 
-export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate }) => {
+export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate, onTaskUpdated }) => {
   const [completed, setCompleted] = useState(initialCompleted);
   const [isModalEditTaskOpen, setIsModalEditTaskOpen] = useState(false);
   const [isModalDeleteTaskOpen, setIsModalDeleteTaskOpen] = useState(false);
@@ -58,6 +58,11 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     setIsModalDeleteTaskOpen(false);
   };
 
+  const handleTaskUpdated = (updatedTask) => {
+    console.log(updatedTask);
+    onTaskUpdated(updatedTask);
+  };
+
   return (
     <Card className={styles.taskContainer}>
       <Row align="middle" className={styles.cardRow}>
@@ -82,7 +87,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
         </Col>
         <Col span={6} className={styles.taskActions}>
           <img src={editIcon} className={styles.editIcon} alt="Ícone de editar" onClick={handleEditTask} />
-          {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal}/>}
+          {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal} onTaskUpdated={handleTaskUpdated}/>}
           <img src={deleteIcon} className={styles.deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
           {isModalDeleteTaskOpen && <ModalDeleteTask task={task} modalOpen={isModalDeleteTaskOpen} onClose={handleCloseDeleteTaskModal}/>}
         </Col>
