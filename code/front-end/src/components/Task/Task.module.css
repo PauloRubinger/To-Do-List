@@ -3,10 +3,6 @@
   margin-top: 16px;
 }
 
-/* .taskContainer:first-child {
-  margin-top: -16px;
-} */
-
 .cardRow {
   display: flex;
   width: 50rem;
