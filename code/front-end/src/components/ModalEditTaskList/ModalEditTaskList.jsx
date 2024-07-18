@@ -39,10 +39,10 @@ export const ModalEditTaskList = (props) => {
           showProgress: true,
           pauseOnHover: true,
           message: "Sucesso",
-          description: "Tarefa atualizada com sucesso!"
+          description: "Lista de tarefas atualizada com sucesso!"
         });
       } else {
-        throw new Error("Erro ao atualizar a tarefa!");
+        throw new Error("Erro ao atualizar a lista de tarefas!");
       }
     } catch (error) {
       notification.error({
@@ -50,7 +50,7 @@ export const ModalEditTaskList = (props) => {
         showProgress: true,
         pauseOnHover: true,
         message: "Erro",
-        description: "Houve um problema ao atualizar a tarefa!"
+        description: "Houve um problema ao atualizar a lista de tarefas!"
       });
     } finally {
       setModalOpen(false);
