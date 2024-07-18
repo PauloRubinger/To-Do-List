@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, notification } from "antd";
 import { editTaskList } from '../../services/api';
 
 /* 
   props = {
     taskList: object
     modalOpen: boolean,
-    onClose(): () => void
+    onClose(): () => void,
+    onTaskListUpdated(): () => object
   }
 */
 
@@ -28,16 +29,34 @@ export const ModalEditTaskList = (props) => {
   }, [props.modalOpen]);
 
   const handleSubmit = async (values) => {
-    setConfirmLoading(true);
-    setTimeout(async () => {
+    try {
+      setConfirmLoading(true);
       const response = await editTaskList(props.taskList.id, values);
-      if (response) {
-        setModalOpen(false);
-        setConfirmLoading(false);
-        props.onClose();
-        window.location.reload();
+      if (response && response.status === 200) {
+        props.onTaskListUpdated(response.data);
+        notification.success({
+          duration: 5,
+          showProgress: true,
+          pauseOnHover: true,
+          message: "Sucesso",
+          description: "Tarefa atualizada com sucesso!"
+        });
+      } else {
+        throw new Error("Erro ao atualizar a tarefa!");
       }
-    }, 2000);
+    } catch (error) {
+      notification.error({
+        duration: 5,
+        showProgress: true,
+        pauseOnHover: true,
+        message: "Erro",
+        description: "Houve um problema ao atualizar a tarefa!"
+      });
+    } finally {
+      setModalOpen(false);
+      setConfirmLoading(false);
+      props.onClose();
+    }
   };
 
   const handleCancel = () => {

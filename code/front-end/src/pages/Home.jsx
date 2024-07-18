@@ -33,6 +33,10 @@ const HomePage = () => {
     setTaskLists((prevTaskLists) => [...prevTaskLists, newTaskList]);
   };
 
+  const handleTaskListUpdated = (updatedTaskList) => {
+    setTaskLists((prevTaskLists) => prevTaskLists.map((prevTaskList) => prevTaskList.id === updatedTaskList.id ? updatedTaskList : prevTaskList));
+  };
+
   return (
     <div className={styles.generalContainer}>
       <h1>Listas de tarefas</h1>
@@ -43,7 +47,7 @@ const HomePage = () => {
       {isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} onTaskListAdded={handleTaskListAdded} />}
       <div className={styles.taskListContainer}>
         {taskLists && taskLists.map(taskList => (
-          <TaskList key={taskList.id} taskListId={taskList.id} title={taskList.name} description={taskList.description} />
+          <TaskList key={taskList.id} taskListId={taskList.id} title={taskList.name} description={taskList.description} onTaskListUpdated={handleTaskListUpdated} />
         ))}
       </div>
     </div>

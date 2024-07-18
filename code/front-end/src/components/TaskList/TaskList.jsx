@@ -12,7 +12,7 @@ import { ModalDeleteTaskList } from '../ModalDeleteTaskList/ModalDeleteTaskList'
 
 const { Title, Text } = Typography;
 
-export const TaskList = ({ taskListId, title, description }) => {
+export const TaskList = ({ taskListId, title, description, onTaskListUpdated }) => {
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
@@ -71,6 +71,10 @@ export const TaskList = ({ taskListId, title, description }) => {
     setIsModalDeleteTaskListOpen(false);
   };
 
+  const handleTaskListUpdated = (updatedTaskList) => {
+    onTaskListUpdated(updatedTaskList);
+  };
+
   return (
     <>
       <div className={styles.taskListContainer}>
@@ -94,7 +98,7 @@ export const TaskList = ({ taskListId, title, description }) => {
                 </Col>
                 <Col className={styles.cardActions}>
                   <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
-                  {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} onTaskUpdated={handleTaskUpdated} />}
+                  {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} onTaskListUpdated={handleTaskListUpdated} />}
                   <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} className={styles.deleteIcon} />
                   {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
                 </Col>
