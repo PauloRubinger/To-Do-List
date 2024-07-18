@@ -11,22 +11,27 @@ const HomePage = () => {
   const [taskLists, setTaskLists] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await listAllTaskLists();
-      if (response && response.data) {
-        setTaskLists(response.data);
-      }
-    };
-    fetchData();
+    fetchTaskLists();
   }, []);
+
+  const fetchTaskLists = async () => {
+    const response = await listAllTaskLists();
+    if (response && response.data) {
+      setTaskLists(response.data);
+    }
+  };
 
   const handleAddTaskList = () => {
     setIsAddTaskListModalOpen(true);
-  }
+  };
 
   const handleCloseAddTaskListModal = () => {
     setIsAddTaskListModalOpen(false);
-  }
+  };
+
+  const handleTaskListAdded = (newTaskList) => {
+    setTaskLists((prevTaskLists) => [...prevTaskLists, newTaskList]);
+  };
 
   return (
     <div className={styles.generalContainer}>
@@ -35,7 +40,7 @@ const HomePage = () => {
       <div className={styles.AddButton}>
         <AddButton label={"Nova Lista"} onClick={handleAddTaskList} />
       </div>
-      {isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} />}
+      {isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} onTaskListAdded={handleTaskListAdded} />}
       <div className={styles.taskListContainer}>
         {taskLists && taskLists.map(taskList => (
           <TaskList key={taskList.id} taskListId={taskList.id} title={taskList.name} description={taskList.description} />
