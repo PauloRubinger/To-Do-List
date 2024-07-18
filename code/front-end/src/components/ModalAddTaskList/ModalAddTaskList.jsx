@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, notification } from "antd";
 import { addTaskList } from "../../services/api";
 
 /* 
@@ -26,16 +26,33 @@ const ModalAddTaskList = (props) => {
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
-    setConfirmLoading(true);
-    setTimeout(async () => {
+    try {
+      setConfirmLoading(true);
       const response = await addTaskList(values);
       if (response) {
-        setModalOpen(false);
-        setConfirmLoading(false);
-        props.onClose();
-        window.location.reload();
+        notification.success({
+          duration: 5,
+          showProgress: true,
+          pauseOnHover: true,
+          message: "Sucesso",
+          description: "Lista de tarefas adicionada com sucesso!",
+        });
+      } else {
+        throw new Error("Erro ao adicionar a lista de tarefas.");
       }
-    }, 1000);
+    } catch (error) {
+      notification.error({
+        duration: 5,
+        showProgress: true,
+        pauseOnHover: true,
+        message: "Erro",
+        description: "Houve um problema ao adicionar a lista de tarefas!",
+      });
+    } finally {
+      setModalOpen(false);
+      setConfirmLoading(false);
+      props.onClose();
+    }
   };
 
   const handleCancel = () => {
@@ -53,22 +70,29 @@ const ModalAddTaskList = (props) => {
         cancelText="Cancelar"
         onCancel={handleCancel}
       >
-        <Form
-          layout="vertical"
-          form={form}
-          onFinish={handleSubmit}
-        >
+        <Form layout="vertical" form={form} onFinish={handleSubmit}>
           <Form.Item
             name="name"
             label="Nome da lista de tarefas"
-            rules={[{ required: true, message: "Por favor, insira o nome da lista de tarefas" }]}
+            rules={[
+              {
+                required: true,
+                message: "Por favor, insira o nome da lista de tarefas",
+              },
+            ]}
           >
             <Input placeholder="Ex.: Afazeres domésticos"></Input>
           </Form.Item>
           <Form.Item
             name="description"
             label="Descrição"
-            rules={[{ required: true, message: "Por favor, insira uma descrição para a lista de tarefas" }]}
+            rules={[
+              {
+                required: true,
+                message:
+                  "Por favor, insira uma descrição para a lista de tarefas",
+              },
+            ]}
           >
             <Input placeholder="Ex.: Tarefas para essa semana"></Input>
           </Form.Item>
@@ -76,7 +100,6 @@ const ModalAddTaskList = (props) => {
       </Modal>
     </>
   );
-
 };
 
 export default ModalAddTaskList;
