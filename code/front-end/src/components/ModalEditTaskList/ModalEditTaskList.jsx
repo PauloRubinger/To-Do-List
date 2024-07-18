@@ -15,17 +15,17 @@ export const ModalEditTaskList = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
-  const showModal = (props) => {
-    setModalOpen(props.modalOpen);
+  const showModal = () => {
+    setModalOpen(true);
   };
 
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (props.modalOpen === true) {
-      showModal(props);
+      showModal();
     }
-  }, [props]);
+  }, [props.modalOpen]);
 
   const handleSubmit = async (values) => {
     setConfirmLoading(true);

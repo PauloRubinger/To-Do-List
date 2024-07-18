@@ -13,15 +13,15 @@ const ModalAddTaskList = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
-  const showModal = (props) => {
-    setModalOpen(props.modalOpen);
+  const showModal = () => {
+    setModalOpen(true);
   };
 
   useEffect(() => {
     if (props.modalOpen === true) {
-      showModal(props);
+      showModal();
     }
-  }, [props]);
+  }, [props.modalOpen]);
 
   const [form] = Form.useForm();
 
