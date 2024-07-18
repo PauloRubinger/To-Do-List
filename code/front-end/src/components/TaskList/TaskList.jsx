@@ -12,7 +12,7 @@ import { ModalDeleteTaskList } from '../ModalDeleteTaskList/ModalDeleteTaskList'
 
 const { Title, Text } = Typography;
 
-export const TaskList = ({ taskListId, title, description, onTaskListUpdated }) => {
+export const TaskList = ({ taskListId, title, description, onTaskListUpdated, onTaskListDeleted }) => {
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
@@ -75,6 +75,10 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated }) 
     onTaskListUpdated(updatedTaskList);
   };
 
+  const handleTaskListDeleted = (deletedTaskList) => {
+    onTaskListDeleted(deletedTaskList);
+  };
+
   return (
     <>
       <div className={styles.taskListContainer}>
@@ -100,7 +104,7 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated }) 
                   <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
                   {isModalEditTaskListOpen && <ModalEditTaskList taskList={taskList} modalOpen={true} onClose={handleCloseEditTaskListModal} onTaskListUpdated={handleTaskListUpdated} />}
                   <img src={deleteIcon} alt="Excluir lista de tarefas" onClick={handleDeleteTaskList} className={styles.deleteIcon} />
-                  {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} />}
+                  {isModalDeleteTaskListOpen && <ModalDeleteTaskList taskList={taskList} modalOpen={true} onClose={handleCloseDeleteTaskListModal} onTaskListDeleted={handleTaskListDeleted} />}
                 </Col>
               </Row>
             </div>
