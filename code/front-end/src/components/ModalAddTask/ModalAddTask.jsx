@@ -41,7 +41,7 @@ export const ModalAddTask = (props) => {
 
       const response = await addTask(props.taskListId, values);
       
-      if (response.status === 201) {
+      if (response && response.status === 201) {
         props.onTaskAdded(response.data);
         notification.success({
           duration: 5,
