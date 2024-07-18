@@ -29,7 +29,7 @@ const ModalAddTaskList = (props) => {
     try {
       setConfirmLoading(true);
       const response = await addTaskList(values);
-      if (response) {
+      if (response && response.status === 201) {
         notification.success({
           duration: 5,
           showProgress: true,
