@@ -6,6 +6,7 @@ import { addTaskList } from "../../services/api";
   props = {
     modalOpen: boolean,
     onClose(): () => void
+    onTaskListAdded(): => object
   }
 */
 
@@ -30,6 +31,7 @@ const ModalAddTaskList = (props) => {
       setConfirmLoading(true);
       const response = await addTaskList(values);
       if (response && response.status === 201) {
+        props.onTaskListAdded(response.data);
         notification.success({
           duration: 5,
           showProgress: true,
