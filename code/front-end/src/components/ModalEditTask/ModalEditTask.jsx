@@ -94,7 +94,7 @@ export const ModalEditTask = (props) => {
   return (
     <>
       <Modal
-        title="Editar lista de tarefas"
+        title="Editar tarefa"
         open={modalOpen}
         onOk={form.submit}
         okText="Salvar"
