@@ -178,7 +178,7 @@ export const ModalEditTask = (props) => {
                 },
               ]}
             >
-              <DatePicker format={"DD/MM/YYYY"}></DatePicker>
+              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"}></DatePicker>
             </Form.Item>
           )}
           <Form.Item
