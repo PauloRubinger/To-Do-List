@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, List, Typography, Row, Col, Select } from 'antd';
+import { Card, List, Typography, Row, Col, Select, ConfigProvider, Empty } from 'antd';
 import { Task } from '../Task/Task';
 import styles from './TaskList.module.css';
 import { listAllByTaskList } from '../../services/api';
@@ -100,9 +100,11 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated, on
                 <Col>
                   <Title level={2} className={styles.cardTitle}>{title}</Title>
                   <Text className={styles.cardDescription}>{description}</Text>
-                  <div className={styles.dateFilter}>
-                    <Select defaultValue={"Data da conclusão"}>Data da conclusão</Select>
-                  </div>
+                  {tasks.length !== 0 && (
+                    <div className={styles.dateFilter}>
+                      <Select defaultValue={"Data da conclusão"}>Data da conclusão</Select>
+                    </div>
+                  )}
                 </Col>
                 <Col className={styles.cardActions}>
                   <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
@@ -113,14 +115,16 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated, on
               </Row>
             </div>
           }>
-          <List
-            dataSource={tasks}
-            renderItem={task => (
-              <List.Item key={task.id}>
-                <Task {...task} onTaskUpdated={handleTaskUpdated} onTaskDeleted={handleTaskDeleted} />
-              </List.Item>
-            )}
-          />
+          <ConfigProvider renderEmpty={() => <Empty description="Esta lista ainda não possui tarefas" />}>
+            <List
+              dataSource={tasks}
+              renderItem={task => (
+                <List.Item key={task.id}>
+                  <Task {...task} onTaskUpdated={handleTaskUpdated} onTaskDeleted={handleTaskDeleted} />
+                </List.Item>
+              )}
+            />
+          </ConfigProvider>
           <AddButton label={"Nova Tarefa"} className={styles.addTaskButton} onClick={handleAddTask} />
           {isModalAddTaskOpen && <ModalAddTask taskListId={taskListId} modalOpen={true} onClose={handleCloseAddTaskModal} onTaskAdded={handleTaskAdded} />}
         </Card>
