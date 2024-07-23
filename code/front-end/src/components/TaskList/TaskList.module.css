@@ -32,6 +32,11 @@
   width: 100%;
 }
 
+.dateFilterPlaceholder {
+  display: flex;
+  gap: 7px;
+}
+
 .cardActions {
   display: flex;
   gap: 8px;

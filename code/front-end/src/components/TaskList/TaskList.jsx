@@ -102,7 +102,16 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated, on
                   <Text className={styles.cardDescription}>{description}</Text>
                   {tasks.length !== 0 && (
                     <div className={styles.dateFilter}>
-                      <Select defaultValue={"Data da conclusão"}>Data da conclusão</Select>
+                      <Select 
+                        placeholder={
+                          <div className={styles.dateFilterPlaceholder}>
+                            <FilterFilled />
+                            <span>Data da conclusão</span>
+                          </div>
+                        }  
+                      >
+                        Data da conclusão
+                      </Select>
                     </div>
                   )}
                 </Col>
