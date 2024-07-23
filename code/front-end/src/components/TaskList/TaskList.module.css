@@ -27,6 +27,11 @@
   color: #888;
 }
 
+.dateFilter {
+  margin-top: 20px;
+  width: 100%;
+}
+
 .cardActions {
   display: flex;
   gap: 8px;
