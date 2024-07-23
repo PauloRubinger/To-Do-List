@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, List, Typography, Row, Col } from 'antd';
+import { Card, List, Typography, Row, Col, Select } from 'antd';
 import { Task } from '../Task/Task';
 import styles from './TaskList.module.css';
 import { listAllByTaskList } from '../../services/api';
@@ -9,6 +9,7 @@ import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import { ModalEditTaskList } from '../ModalEditTaskList/ModalEditTaskList';
 import { ModalDeleteTaskList } from '../ModalDeleteTaskList/ModalDeleteTaskList';
+import { FilterFilled } from '@ant-design/icons'
 
 const { Title, Text } = Typography;
 
@@ -99,6 +100,9 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated, on
                 <Col>
                   <Title level={2} className={styles.cardTitle}>{title}</Title>
                   <Text className={styles.cardDescription}>{description}</Text>
+                  <div className={styles.dateFilter}>
+                    <Select defaultValue={"Data da conclusão"}>Data da conclusão</Select>
+                  </div>
                 </Col>
                 <Col className={styles.cardActions}>
                   <img src={editIcon} alt="Editar lista de tarefas" onClick={handleEditTaskList} className={styles.editIcon} />
