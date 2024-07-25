@@ -108,10 +108,18 @@ export const TaskList = ({ taskListId, title, description, onTaskListUpdated, on
                             <FilterFilled />
                             <span>Data da conclusão</span>
                           </div>
-                        }  
-                      >
-                        Data da conclusão
-                      </Select>
+                        }
+                        options={[
+                          {
+                            value: "closest",
+                            label: "Mais próxima"
+                          },
+                          { 
+                            value: "further",
+                            label: "Mais distante"
+                          }
+                        ]}
+                      /> 
                     </div>
                   )}
                 </Col>
