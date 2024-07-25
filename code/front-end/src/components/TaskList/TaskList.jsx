@@ -137,11 +137,11 @@ export const TaskList = ({
                             }
                             options={[
                               {
-                                value: "closest",
+                                value: "closerDeadlines",
                                 label: "Prazos mais próximos",
                               },
                               {
-                                value: "further",
+                                value: "moreDistantDeadlines",
                                 label: "Prazos mais distantes",
                               },
                             ]}
