@@ -10,15 +10,15 @@ import {
   Empty,
 } from "antd";
 import { Task } from "../Task/Task";
-import styles from "./TaskList.module.css";
 import { listAllByTaskList } from "../../services/api";
-import AddButton from "../AddButton/AddButton";
 import { ModalAddTask } from "../../components/ModalAddTask/ModalAddTask";
-import editIcon from "../../assets/images/editing.svg";
-import deleteIcon from "../../assets/images/delete.svg";
 import { ModalEditTaskList } from "../ModalEditTaskList/ModalEditTaskList";
 import { ModalDeleteTaskList } from "../ModalDeleteTaskList/ModalDeleteTaskList";
 import { FilterFilled } from "@ant-design/icons";
+import AddButton from "../AddButton/AddButton";
+import editIcon from "../../assets/images/editing.svg";
+import deleteIcon from "../../assets/images/delete.svg";
+import styles from "./TaskList.module.css";
 
 const { Title, Text } = Typography;
 
@@ -32,8 +32,7 @@ export const TaskList = ({
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
-  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] =
-    useState(false);
+  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] = useState(false);
 
   const taskList = {
     id: taskListId,
