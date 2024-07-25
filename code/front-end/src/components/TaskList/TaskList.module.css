@@ -32,9 +32,10 @@
   width: 100%;
 }
 
-.dateFilterPlaceholder {
+.filterPlaceholder {
   display: flex;
   gap: 7px;
+  color: #888;
 }
 
 .cardActions {
