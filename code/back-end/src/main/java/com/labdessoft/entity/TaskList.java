@@ -1,10 +1,16 @@
 package com.labdessoft.entity;
 
 import jakarta.persistence.GeneratedValue;
+
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +27,7 @@ public class TaskList {
     private String description;
 
     public TaskList() {
-        
+
     }
 
     public TaskList(String name, String description) {
@@ -53,4 +59,6 @@ public class TaskList {
         this.description = description;
     }
 
+    @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Task> tasks;
 }

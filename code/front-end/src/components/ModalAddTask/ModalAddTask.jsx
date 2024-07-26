@@ -153,7 +153,7 @@ export const ModalAddTask = (props) => {
               label="Data prevista para a conclusão"
               rules={[{ required: true, message: "Por favor, informe a data prevista para conclusão" }]}
             >
-              <DatePicker format={"DD/MM/YYYY"}></DatePicker>
+              <DatePicker style={{width: "100%"}} format={"DD/MM/YYYY"}></DatePicker>
             </Form.Item>
           }
           <Form.Item
