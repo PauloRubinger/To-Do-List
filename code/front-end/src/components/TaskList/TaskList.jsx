@@ -101,6 +101,35 @@ export const TaskList = ({
     onTaskListDeleted(deletedTaskList);
   };
 
+  const handlePriorityFilterChange = (selectedOption) => {
+    const sortedTasks = [...tasks].sort((a, b) => {
+      const priorityA = calculatePriority(a.priority);
+      const priorityB = calculatePriority(b.priority);
+      if (selectedOption === "highestPriority") {
+        return priorityA - priorityB;
+      } else if (selectedOption === "lowestPriority") {
+        return priorityB - priorityA;
+      }
+      return 0;
+    });
+    setTasks(sortedTasks);
+  };
+
+  const handleDeadlineFilterChange = (selectedOption) => {
+
+  };
+
+  const calculatePriority = (priority) => {
+    switch (priority) {
+      case "ALTA":
+        return 0;
+      case "MEDIA":
+        return 1;
+      default:
+        return 2;
+    }
+  };
+
   return (
     <>
       <div className={styles.taskListContainer}>
@@ -126,7 +155,7 @@ export const TaskList = ({
                   {tasks.length > 0 && (
                     <Row align={"bottom"} gutter={20}>
                       <Col>
-                        <div className={styles.dateFilter}>
+                        <div className={styles.deadlineFilter}>
                           <Select
                             placeholder={
                               <div className={styles.filterPlaceholder}>
@@ -144,6 +173,7 @@ export const TaskList = ({
                                 label: "Prazos mais distantes",
                               },
                             ]}
+                            onChange={handleDeadlineFilterChange}
                           />
                         </div>
                       </Col>
@@ -167,6 +197,7 @@ export const TaskList = ({
                                 label: "Menor prioridade",
                               },
                             ]}
+                            onChange={handlePriorityFilterChange}
                           ></Select>
                         </div>
                       </Col>
