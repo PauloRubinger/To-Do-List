@@ -5,6 +5,7 @@
 .cardContainer {
   border-radius: 8px;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  width: 56.25rem;
 }
 
 .cardHeader {
@@ -27,7 +28,7 @@
   color: #888;
 }
 
-.dateFilter {
+.deadlineFilter {
   margin-top: 20px;
   width: 100%;
 }
