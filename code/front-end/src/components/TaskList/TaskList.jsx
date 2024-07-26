@@ -115,8 +115,18 @@ export const TaskList = ({
     setTasks(sortedTasks);
   };
 
-  const handleDeadlineFilterChange = (selectedOption) => {
-
+  const handleDueDateFilterChange = (selectedOption) => {
+    const sortedTasks = [...tasks].sort((a, b) => {
+      const dueDateA = new Date(a.dueDate);
+      const dueDateB = new Date(b.dueDate);
+      if (selectedOption === "closerDueDate") {
+        return dueDateB.getTime() - dueDateA.getTime();
+      } else if (selectedOption === "moreDistantDueDate") {
+        return dueDateA.getTime() - dueDateB.getTime();
+      }
+      return 0;
+    });
+    setTasks(sortedTasks);
   };
 
   const calculatePriority = (priority) => {
@@ -155,7 +165,7 @@ export const TaskList = ({
                   {tasks.length > 0 && (
                     <Row align={"bottom"} gutter={20}>
                       <Col>
-                        <div className={styles.deadlineFilter}>
+                        <div className={styles.dueDateFilter}>
                           <Select
                             placeholder={
                               <div className={styles.filterPlaceholder}>
@@ -165,15 +175,15 @@ export const TaskList = ({
                             }
                             options={[
                               {
-                                value: "closerDeadlines",
+                                value: "closerDueDate",
                                 label: "Prazos mais próximos",
                               },
                               {
-                                value: "moreDistantDeadlines",
+                                value: "moreDistantDueDate",
                                 label: "Prazos mais distantes",
                               },
                             ]}
-                            onChange={handleDeadlineFilterChange}
+                            onChange={handleDueDateFilterChange}
                           />
                         </div>
                       </Col>
