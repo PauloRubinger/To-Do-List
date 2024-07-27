@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Typography, Row, Col } from 'antd';
+import { Card, Typography, Row, Col, Tag } from 'antd';
 import styles from './Task.module.css';
 import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
@@ -66,6 +66,18 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     onTaskDeleted(deletedTask);
   };
 
+  const isTaskDelayed = (dueDate) => {
+
+    const now = new Date();
+    const taskDueDate = new Date(dueDate);
+
+    if (dueDate && taskDueDate < now) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <Card className={styles.taskContainer}>
       <Row align="middle" className={styles.cardRow}>
@@ -85,6 +97,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
             <div className={styles.taskMeta}>
               {dueDate ? <Text className={styles.taskDate}>Concluir até: {new Date(dueDate).toLocaleDateString('pt-br')}</Text> : <Text className={styles.taskDate}> Sem prazo </Text>}
               <Text className={styles.taskPriority}>Prioridade: {taskPriorityMap[priority]}</Text>
+              {isTaskDelayed(dueDate) && <Tag color='error'>Atrasada</Tag>}
             </div>
           </div>
         </Col>
