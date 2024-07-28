@@ -89,6 +89,11 @@ export const ModalAddTask = (props) => {
     form.setFieldsValue({ dueDate: null });
   };
 
+  const validateDate = (date) => {
+    const now = new Date();
+    return now < date ? false : true;
+  };
+
   return (
     <>
       <Modal
@@ -153,7 +158,7 @@ export const ModalAddTask = (props) => {
               label="Data prevista para a conclusão"
               rules={[{ required: true, message: "Por favor, informe a data prevista para conclusão" }]}
             >
-              <DatePicker style={{width: "100%"}} format={"DD/MM/YYYY"}></DatePicker>
+              <DatePicker style={{width: "100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate} ></DatePicker>
             </Form.Item>
           }
           <Form.Item
