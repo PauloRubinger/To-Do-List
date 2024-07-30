@@ -91,6 +91,11 @@ export const ModalEditTask = (props) => {
     props.onClose();
   };
 
+  const validateDate = (date) => {
+    const now = new Date();
+    return now < date ? false : true;
+  };
+
   return (
     <>
       <Modal
@@ -178,7 +183,7 @@ export const ModalEditTask = (props) => {
                 },
               ]}
             >
-              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"}></DatePicker>
+              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate}></DatePicker>
             </Form.Item>
           )}
           <Form.Item
