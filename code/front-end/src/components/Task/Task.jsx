@@ -66,12 +66,12 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     onTaskDeleted(deletedTask);
   };
 
-  const isTaskDelayed = (dueDate) => {
+  const isTaskDelayed = (dueDate, completed) => {
 
     const now = new Date();
     const taskDueDate = new Date(dueDate);
 
-    if (dueDate && taskDueDate < now) {
+    if (dueDate && taskDueDate < now && !completed) {
       return true;
     }
 
@@ -97,7 +97,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
             <div className={styles.taskMeta}>
               {dueDate ? <Text className={styles.taskDate}>Concluir até: {new Date(dueDate).toLocaleDateString('pt-br')}</Text> : <Text className={styles.taskDate}> Sem prazo </Text>}
               <Text className={styles.taskPriority}>Prioridade: {taskPriorityMap[priority]}</Text>
-              {isTaskDelayed(dueDate) && <Tag style={{fontFamily: "Inter", fontWeight: "600" }} color='error'>Atrasada</Tag>}
+              {isTaskDelayed(dueDate, completed) && <Tag style={{fontFamily: "Inter", fontWeight: "600" }} color='error'>Atrasada</Tag>}
             </div>
           </div>
         </Col>
