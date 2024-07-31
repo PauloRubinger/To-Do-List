@@ -90,8 +90,9 @@ export const ModalAddTask = (props) => {
   };
 
   const validateDate = (date) => {
-    const now = new Date();
-    return now < date ? false : true;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    return date && date < today;
   };
 
   return (
