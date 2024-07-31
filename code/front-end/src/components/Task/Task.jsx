@@ -69,6 +69,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
   const isTaskDelayed = (dueDate, completed) => {
 
     const now = new Date();
+    now.setHours(0, 0, 0, 0);
     const taskDueDate = new Date(dueDate);
 
     if (dueDate && taskDueDate < now && !completed) {
