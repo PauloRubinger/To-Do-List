@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, DatePicker, notification } from "antd";
 import { editTask } from "../../services/api";
+import dayjs from "dayjs";
 
 /* 
   props = {
@@ -14,7 +15,7 @@ import { editTask } from "../../services/api";
 export const ModalEditTask = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [selectedType, setSelectedType] = useState(undefined);
+  const [selectedType, setSelectedType] = useState(props.task.type);
 
   useEffect(() => {
     if (props.modalOpen === true) {
@@ -112,8 +113,8 @@ export const ModalEditTask = (props) => {
           layout="vertical"
           initialValues={{
             name: props.task.name,
-            type: "LIVRE",
-            dueDate: props.task.dueDate,
+            type: props.task.type,
+            dueDate: undefined,
             priority: props.task.priority,
           }}
           form={form}
@@ -184,7 +185,7 @@ export const ModalEditTask = (props) => {
                 },
               ]}
             >
-              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate}></DatePicker>
+              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate} defaultValue={dayjs(props.task.dueDate)}></DatePicker>
             </Form.Item>
           )}
           <Form.Item
