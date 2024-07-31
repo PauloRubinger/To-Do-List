@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -54,8 +55,14 @@ public class TaskService {
     }
 
     private void validateTask(Task task) {
-        Date now = new Date();
-
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date now = calendar.getTime();
+    
         // For tasks of type LIVRE, set dueDate to null
         if (task.getType() == TaskType.LIVRE) {
             task.setDueDate(null);
