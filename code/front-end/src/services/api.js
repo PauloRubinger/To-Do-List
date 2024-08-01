@@ -184,3 +184,19 @@ export const deleteTask = async (taskId) => {
         throw error;
     }
 };
+
+export const updateTaskCompletion = async (taskId, completed) => {
+    try {
+        const response = await axios({
+            method: 'patch',
+            url: `${BASE_URL}/task/${taskId}?completed=${completed}`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error("Erro ao atualizar o status de conclusão da tarefa: ", error);
+        throw error;
+    }
+};
