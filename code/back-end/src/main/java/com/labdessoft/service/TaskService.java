@@ -54,6 +54,16 @@ public class TaskService {
         return taskRepository.save(existentTask);
     }
 
+    public Task updateTaskCompletion(Long id, boolean completed) {
+        Task existentTask = taskRepository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada"));
+        
+        existentTask.setCompleted(completed);
+        existentTask.setStatus(calculateStatus(existentTask));
+
+        return taskRepository.save(existentTask);
+    }
+
     private void validateTask(Task task) {
         
         Calendar calendar = Calendar.getInstance();
