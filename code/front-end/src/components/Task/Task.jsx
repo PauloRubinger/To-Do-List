@@ -42,8 +42,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     const updatedCompleted = !completed;
     setCompleted(updatedCompleted);
     try {
-      const response = await updateTaskCompletion(id, updatedCompleted);
-      console.log('Tarefa atualizada:', response);
+      await updateTaskCompletion(id, updatedCompleted);
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
     }
@@ -82,7 +81,6 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     <Card className={styles.taskContainer}>
       <Row align="middle" className={styles.cardRow}>
         <Col span={2} className={styles.checkboxCol}>
-        {console.log(task)}
           <label>
             <input
               type='checkbox'
