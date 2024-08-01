@@ -5,7 +5,7 @@ import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import { ModalEditTask } from '../ModalEditTask/ModalEditTask';
 import { ModalDeleteTask } from '../ModalDeleteTask/ModalDeleteTask';
-import { editTask } from '../../services/api';
+import { updateTaskCompletion } from '../../services/api';
 
 const { Text } = Typography;
 
@@ -41,9 +41,8 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
   const toggleCheckbox = async () => {
     const updatedCompleted = !completed;
     setCompleted(updatedCompleted);
-    const updatedTask = { ...task, completed: updatedCompleted };
     try {
-      const response = await editTask(id, updatedTask);
+      const response = await updateTaskCompletion(id, updatedCompleted);
       console.log('Tarefa atualizada:', response);
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
@@ -83,6 +82,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     <Card className={styles.taskContainer}>
       <Row align="middle" className={styles.cardRow}>
         <Col span={2} className={styles.checkboxCol}>
+        {console.log(task)}
           <label>
             <input
               type='checkbox'
