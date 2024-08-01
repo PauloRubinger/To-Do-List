@@ -114,7 +114,7 @@ export const ModalEditTask = (props) => {
           initialValues={{
             name: props.task.name,
             type: props.task.type,
-            dueDate: undefined,
+            dueDate: dayjs(props.task.dueDate),
             priority: props.task.priority,
           }}
           form={form}
@@ -185,7 +185,7 @@ export const ModalEditTask = (props) => {
                 },
               ]}
             >
-              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate} defaultValue={dayjs(props.task.dueDate)}></DatePicker>
+              <DatePicker style={{width: " 100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate}></DatePicker>
             </Form.Item>
           )}
           <Form.Item
