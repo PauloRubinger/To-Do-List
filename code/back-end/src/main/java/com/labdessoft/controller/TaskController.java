@@ -95,6 +95,17 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+    
+    @Operation(summary = "Atualiza o status de concluído da tarefa")
+    @PatchMapping("/{id}")
+    public ResponseEntity<Task> updateTaskCompletion(@PathVariable Long id, @RequestParam boolean completed) {
+        try {
+            Task updatedTask = taskService.updateTaskCompletion(id, completed);
+            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 
     @Operation(summary = "Deleta a tarefa da lista")
     @DeleteMapping("/delete/{id}")
