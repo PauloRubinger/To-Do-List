@@ -15,7 +15,7 @@ const taskPriorityMap = {
   BAIXA: "Baixa"
 };
 
-export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate, onTaskUpdated, onTaskDeleted }) => {
+export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate, onTaskUpdated, onTaskDeleted, onTaskCompletionToggled }) => {
   const [completed, setCompleted] = useState(initialCompleted);
   const [isModalEditTaskOpen, setIsModalEditTaskOpen] = useState(false);
   const [isModalDeleteTaskOpen, setIsModalDeleteTaskOpen] = useState(false);
@@ -43,6 +43,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
     setCompleted(updatedCompleted);
     try {
       await updateTaskCompletion(id, updatedCompleted);
+      onTaskCompletionToggled(id, updatedCompleted);
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
     }
