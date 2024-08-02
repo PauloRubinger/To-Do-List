@@ -10,7 +10,7 @@ import {
   Empty,
 } from "antd";
 import { Task } from "../Task/Task";
-import { listAllByTaskList } from "../../services/api";
+import { listAllByTaskList } from "../../services/task-service";
 import { ModalAddTask } from "../../components/ModalAddTask/ModalAddTask";
 import { ModalEditTaskList } from "../ModalEditTaskList/ModalEditTaskList";
 import { ModalDeleteTaskList } from "../ModalDeleteTaskList/ModalDeleteTaskList";

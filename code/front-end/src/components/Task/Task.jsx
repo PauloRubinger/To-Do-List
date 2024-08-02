@@ -5,7 +5,7 @@ import editIcon from '../../assets/images/editing.svg';
 import deleteIcon from '../../assets/images/delete.svg';
 import { ModalEditTask } from '../ModalEditTask/ModalEditTask';
 import { ModalDeleteTask } from '../ModalDeleteTask/ModalDeleteTask';
-import { updateTaskCompletion } from '../../services/api';
+import { updateTaskCompletion } from '../../services/task-service';
 
 const { Text } = Typography;
 

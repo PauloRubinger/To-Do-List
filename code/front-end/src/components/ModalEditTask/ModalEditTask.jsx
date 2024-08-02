@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, DatePicker, notification } from "antd";
-import { editTask } from "../../services/api";
+import { editTask } from "../../services/task-service";
 import dayjs from "dayjs";
 
 /* 
