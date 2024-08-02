@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, notification } from "antd";
-import { addTaskList } from "../../services/api";
+import { addTaskList } from "../../services/task-list-service";
 
 /* 
   props = {

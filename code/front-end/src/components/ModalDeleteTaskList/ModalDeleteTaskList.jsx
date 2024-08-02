@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, notification } from "antd";
-import { deleteTaskList } from "../../services/api";
+import { deleteTaskList } from "../../services/task-list-service";
 
 /* 
   props = {

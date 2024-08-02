@@ -3,7 +3,7 @@ import AddButton from "../components/AddButton/AddButton";
 import ModalAddTaskList from "../components/ModalAddTaskList/ModalAddTaskList";
 import styles from './Home.module.css';
 import { TaskList } from "../components/TaskList/TaskList";
-import { listAllTaskLists } from "../services/api";
+import { listAllTaskLists } from "../services/task-list-service";
 
 const HomePage = () => {
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Modal, notification } from 'antd';
-import { deleteTask } from '../../services/api';
+import { deleteTask } from '../../services/task-service';
 
 /* 
   props = {
