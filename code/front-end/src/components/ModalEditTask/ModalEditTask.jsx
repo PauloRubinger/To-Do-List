@@ -114,7 +114,7 @@ export const ModalEditTask = (props) => {
           initialValues={{
             name: props.task.name,
             type: props.task.type,
-            dueDate: dayjs(props.task.dueDate),
+            dueDate: props.task.type === "DATA" ? dayjs(props.task.dueDate) : undefined,
             priority: props.task.priority,
           }}
           form={form}
