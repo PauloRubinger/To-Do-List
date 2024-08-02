@@ -73,6 +73,14 @@ export const TaskList = ({
     );
   };
 
+  const handleTaskCompletionToggled = (taskId, completed) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((prevTask) =>
+        prevTask.id === taskId ? { ...prevTask, completed } : prevTask
+      )
+    );
+  };
+
   const handleCloseAddTaskModal = () => {
     setIsModalAddTaskOpen(false);
   };
@@ -262,6 +270,7 @@ export const TaskList = ({
                     {...task}
                     onTaskUpdated={handleTaskUpdated}
                     onTaskDeleted={handleTaskDeleted}
+                    onTaskCompletionToggled={handleTaskCompletionToggled}
                   />
                 </List.Item>
               )}
