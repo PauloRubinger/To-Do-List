@@ -32,8 +32,7 @@ export const TaskList = ({
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
-  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] =
-    useState(false);
+  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] = useState(false);
 
   const taskList = {
     id: taskListId,
