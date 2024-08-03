@@ -192,7 +192,7 @@ export const TaskList = ({
                           options={[
                             {
                               value: "dueDate",
-                              label: "Data de conclusão",
+                              label: "Data da conclusão",
                             },
                             {
                               value: "priority",
