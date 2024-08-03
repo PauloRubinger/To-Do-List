@@ -123,7 +123,7 @@ export const TaskList = ({
     const sortedTasks = [...tasks].sort((a, b) => {
       const dueDateA = new Date(a.dueDate);
       const dueDateB = new Date(b.dueDate);
-      return dueDateA.getTime() - dueDateB.getTime();
+      return dueDateB.getTime() - dueDateA.getTime();
     });
     setTasks(sortedTasks);
   };
