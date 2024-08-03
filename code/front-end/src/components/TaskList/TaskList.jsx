@@ -32,7 +32,8 @@ export const TaskList = ({
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
-  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] = useState(false);
+  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] =
+    useState(false);
 
   const taskList = {
     id: taskListId,
@@ -109,32 +110,30 @@ export const TaskList = ({
     onTaskListDeleted(deletedTaskList);
   };
 
-  const handlePriorityFilterChange = (selectedOption) => {
+  const filterByPriority = () => {
     const sortedTasks = [...tasks].sort((a, b) => {
       const priorityA = calculatePriority(a.priority);
       const priorityB = calculatePriority(b.priority);
-      if (selectedOption === "highestPriority") {
-        return priorityA - priorityB;
-      } else if (selectedOption === "lowestPriority") {
-        return priorityB - priorityA;
-      }
-      return 0;
+      return priorityA - priorityB;
     });
     setTasks(sortedTasks);
   };
 
-  const handleDueDateFilterChange = (selectedOption) => {
+  const filterByDueDate = () => {
     const sortedTasks = [...tasks].sort((a, b) => {
       const dueDateA = new Date(a.dueDate);
       const dueDateB = new Date(b.dueDate);
-      if (selectedOption === "closerDueDate") {
-        return dueDateB.getTime() - dueDateA.getTime();
-      } else if (selectedOption === "moreDistantDueDate") {
-        return dueDateA.getTime() - dueDateB.getTime();
-      }
-      return 0;
+      return dueDateA.getTime() - dueDateB.getTime();
     });
     setTasks(sortedTasks);
+  };
+  
+  const handleFilterChange = (selectedOption) => {
+    if (selectedOption === "dueDate") {
+      filterByDueDate();
+    } else if (selectedOption === "priority") {
+      filterByPriority();
+    }
   };
 
   const calculatePriority = (priority) => {
@@ -171,53 +170,29 @@ export const TaskList = ({
                   </Title>
                   <Text className={styles.cardDescription}>{description}</Text>
                   {tasks.length > 0 && (
-                    <Row align={"bottom"} gutter={20}>
+                    <Row align={"middle"} gutter={10} className={styles.filterContainer}>
                       <Col>
-                        <div className={styles.dueDateFilter}>
-                          <Select
-                            placeholder={
-                              <div className={styles.filterPlaceholder}>
-                                <FilterFilled />
-                                <span>Filtrar por data da conclusão</span>
-                              </div>
-                            }
-                            options={[
-                              {
-                                value: "closerDueDate",
-                                label: "Prazos mais próximos",
-                              },
-                              {
-                                value: "moreDistantDueDate",
-                                label: "Prazos mais distantes",
-                              },
-                            ]}
-                            onChange={handleDueDateFilterChange}
-                          />
+                        <div className={styles.sortBy}>
+                          <FilterFilled />
+                          <span>Ordenar por: </span>
                         </div>
                       </Col>
-
                       <Col>
-                        <div className={styles.priorityFilter}>
-                          <Select
-                            placeholder={
-                              <div className={styles.filterPlaceholder}>
-                                <FilterFilled />
-                                <span>Filtrar por prioridade</span>
-                              </div>
-                            }
-                            options={[
-                              {
-                                value: "highestPriority",
-                                label: "Maior prioridade",
-                              },
-                              {
-                                value: "lowestPriority",
-                                label: "Menor prioridade",
-                              },
-                            ]}
-                            onChange={handlePriorityFilterChange}
-                          ></Select>
-                        </div>
+                        <Select
+                          placeholder="Padrão"
+                          options={[
+                            {
+                              value: "dueDate",
+                              label: "Data de conclusão",
+                            },
+                            {
+                              value: "priority",
+                              label: "Prioridade",
+                            },
+                          ]}
+                          dropdownStyle={{width: "max-content"}}
+                          onChange={handleFilterChange}
+                        />
                       </Col>
                     </Row>
                   )}

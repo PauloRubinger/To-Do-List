@@ -28,12 +28,11 @@
   color: #888;
 }
 
-.dueDateFilter {
-  margin-top: 20px;
-  width: 100%;
+.filterContainer {
+  margin-top: 15px;
 }
 
-.filterPlaceholder {
+.sortBy {
   display: flex;
   gap: 7px;
   color: #888;
