@@ -33,6 +33,7 @@ export const TaskList = ({
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
   const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] = useState(false);
+  const [filter, setFilter] = useState(null);
 
   const taskList = {
     id: taskListId,
@@ -57,6 +58,7 @@ export const TaskList = ({
 
   const handleTaskAdded = (newTask) => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
+    clearFilter();
   };
 
   const handleTaskUpdated = (updatedTask) => {
@@ -65,6 +67,7 @@ export const TaskList = ({
         prevTask.id === updatedTask.id ? updatedTask : prevTask
       )
     );
+    clearFilter();
   };
 
   const handleTaskDeleted = (deletedTask) => {
@@ -128,6 +131,7 @@ export const TaskList = ({
   };
   
   const handleFilterChange = (selectedOption) => {
+    setFilter(selectedOption);
     if (selectedOption === "dueDate") {
       filterByDueDate();
     } else if (selectedOption === "priority") {
@@ -144,6 +148,11 @@ export const TaskList = ({
       default:
         return 2;
     }
+  };
+
+  const clearFilter = () => {
+    setFilter(null);
+    fetchTasks(taskListId);
   };
 
   return (
@@ -178,6 +187,7 @@ export const TaskList = ({
                       </Col>
                       <Col>
                         <Select
+                          value={filter}
                           placeholder="Padrão"
                           options={[
                             {
