@@ -2,6 +2,7 @@ package com.labdessoft.entity;
 
 import jakarta.persistence.GeneratedValue;
 
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -11,6 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +28,9 @@ public class TaskList {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
     public TaskList() {
 
     }
@@ -33,6 +38,11 @@ public class TaskList {
     public TaskList(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
     }
 
     public Long getId() {
@@ -61,4 +71,13 @@ public class TaskList {
 
     @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Task> tasks;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }
