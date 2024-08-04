@@ -26,8 +26,8 @@ public class TaskListService {
         return taskListRepository.findById(id).get();
     }
 
-    public TaskList addTaskList(TaskList task) {
-        return taskListRepository.save(task);
+    public TaskList addTaskList(TaskList taskList) {
+        return taskListRepository.save(taskList);
     }
 
     public TaskList updateTaskList(Long id, TaskList taskList) {
