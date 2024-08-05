@@ -65,7 +65,7 @@ export const ModalDeleteTask = (props) => {
   return (
     <>
       <Modal
-        title="Tem certeza que deseja excluir essa tarefa?"
+        title="Tem certeza que deseja excluir esta tarefa?"
         open={modalOpen}
         onOk={handleOk}
         okType='danger'
