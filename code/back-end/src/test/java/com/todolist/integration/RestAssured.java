@@ -1,4 +1,4 @@
-package com.labdessoft.integration;
+package com.todolist.integration;
 
 public class RestAssured {
 

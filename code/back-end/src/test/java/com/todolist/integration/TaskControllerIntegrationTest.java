@@ -1,11 +1,11 @@
-package com.labdessoft.integration;
+package com.todolist.integration;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.labdessoft.TodoListApplication;
+import com.todolist.TodoListApplication;
 
 import org.aspectj.lang.annotation.Before;
 

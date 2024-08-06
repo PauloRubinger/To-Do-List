@@ -1,8 +1,4 @@
-package com.labdessoft.unit.service;
-
-import com.labdessoft.entity.TaskList;
-import com.labdessoft.repository.TaskListRepository;
-import com.labdessoft.service.TaskListService;
+package com.todolist.unit.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.todolist.entity.TaskList;
+import com.todolist.repository.TaskListRepository;
+import com.todolist.service.TaskListService;
 
 import java.util.Arrays;
 import java.util.List;
