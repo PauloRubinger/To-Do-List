@@ -1,4 +1,4 @@
-package com.labdessoft.entity;
+package com.todolist.entity;
 
 import jakarta.persistence.GeneratedValue;
 

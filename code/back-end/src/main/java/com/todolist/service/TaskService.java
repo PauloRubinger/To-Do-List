@@ -1,11 +1,13 @@
-package com.labdessoft.service;
+package com.todolist.service;
 
-import com.labdessoft.entity.Task;
-import com.labdessoft.enums.TaskStatus;
-import com.labdessoft.enums.TaskType;
-import com.labdessoft.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.todolist.entity.Task;
+import com.todolist.enums.TaskStatus;
+import com.todolist.enums.TaskType;
+import com.todolist.repository.TaskRepository;
+
 import org.springframework.http.HttpStatus;
 
 import java.util.Calendar;

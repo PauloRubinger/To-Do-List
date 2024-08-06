@@ -1,14 +1,14 @@
-package com.labdessoft.service;
+package com.todolist.service;
 
-import com.labdessoft.repository.TaskListRepository;
 import org.springframework.stereotype.Service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import com.todolist.entity.*;
+import com.todolist.repository.TaskListRepository;
 
-import com.labdessoft.entity.*;;
+import java.util.List;;
 
 @Service
 public class TaskListService {

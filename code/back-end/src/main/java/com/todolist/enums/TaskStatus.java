@@ -1,4 +1,4 @@
-package com.labdessoft.enums;
+package com.todolist.enums;
 
 public enum TaskStatus {
     PREVISTA,

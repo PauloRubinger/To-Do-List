@@ -1,10 +1,5 @@
-package com.labdessoft.controller;
+package com.todolist.controller;
 
-import com.labdessoft.entity.Task;
-import com.labdessoft.entity.TaskList;
-import com.labdessoft.repository.TaskRepository;
-import com.labdessoft.service.TaskListService;
-import com.labdessoft.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.todolist.entity.Task;
+import com.todolist.entity.TaskList;
+import com.todolist.repository.TaskRepository;
+import com.todolist.service.TaskListService;
+import com.todolist.service.TaskService;
 
 import java.util.List;
 
