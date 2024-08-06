@@ -1,4 +1,4 @@
-package com.labdessoft.entity;
+package com.todolist.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,9 +15,9 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.labdessoft.enums.TaskType;
-import com.labdessoft.enums.TaskPriority;
-import com.labdessoft.enums.TaskStatus;
+import com.todolist.enums.TaskPriority;
+import com.todolist.enums.TaskStatus;
+import com.todolist.enums.TaskType;
 
 @Entity
 @Table(name = "task")

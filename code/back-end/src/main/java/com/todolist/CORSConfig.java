@@ -1,4 +1,4 @@
-package com.labdessoft;
+package com.todolist;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
