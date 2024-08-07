@@ -8,10 +8,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.todolist.entity.Task;
+import com.todolist.enums.TaskPriority;
+import com.todolist.enums.TaskType;
 import com.todolist.repository.TaskRepository;
 import com.todolist.service.TaskService;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +36,8 @@ public class TaskServiceTest {
 
     @Test
     public void testListAllTasks() {
-        Task task1 = new Task("Test Task 1", false);
-        Task task2 = new Task("Test Task 2", false);
+        Task task1 = new Task("Test Task 1", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
+        Task task2 = new Task("Test Task 2", TaskType.PRAZO, TaskPriority.ALTA, new Date());
         when(taskRepository.findAll()).thenReturn(Arrays.asList(task1, task2));
 
         List<Task> tasks = taskService.listAllTasks();
@@ -45,7 +48,7 @@ public class TaskServiceTest {
 
     @Test
     public void testAddTask() {
-        Task task = new Task("Test Task", false);
+        Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.ALTA, new Date());
         when(taskRepository.save(task)).thenReturn(task);
 
         Task newTask = taskService.addTask(task);
@@ -56,8 +59,8 @@ public class TaskServiceTest {
 
     @Test
     public void testUpdateTask() {
-        Task task = new Task("Test Task", false);
-        Task updatedTask = new Task("Updated Task", true);
+        Task task = new Task("Test Task", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task updatedTask = new Task("Updated Task", TaskType.LIVRE, TaskPriority.ALTA, null);
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
         when(taskRepository.save(task)).thenReturn(updatedTask);
 
@@ -71,7 +74,7 @@ public class TaskServiceTest {
     @Test
     public void testUpdateTaskNotFound() {
         Long taskId = 1L;
-        Task updatedTask = new Task("Updated Task", true);
+        Task updatedTask = new Task("Updated Task", TaskType.PRAZO, TaskPriority.BAIXA, new Date());
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> taskService.updateTask(taskId, updatedTask))
@@ -81,7 +84,7 @@ public class TaskServiceTest {
 
     @Test
     public void testDeleteTask() {
-        Task task = new Task("Test Task", false);
+        Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
 
         taskService.deleteTask(task.getId());
