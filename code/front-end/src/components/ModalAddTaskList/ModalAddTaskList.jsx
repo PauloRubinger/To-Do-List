@@ -96,7 +96,7 @@ const ModalAddTaskList = (props) => {
               },
             ]}
           >
-            <Input placeholder="Ex.: Tarefas para essa semana"></Input>
+            <Input placeholder="Ex.: Tarefas para esta semana"></Input>
           </Form.Item>
         </Form>
       </Modal>
