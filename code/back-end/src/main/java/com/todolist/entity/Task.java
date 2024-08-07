@@ -56,9 +56,11 @@ public class Task {
 
     }
 
-    public Task(String name, boolean completed) {
+    public Task(String name, TaskType type, TaskPriority priority, Date dueDate) {
         this.name = name;
-        this.completed = completed;
+        this.type = type;
+        this.priority = priority;
+        this.dueDate = dueDate;
     }
 
     public Long getId() {
