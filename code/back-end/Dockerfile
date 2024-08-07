@@ -8,7 +8,7 @@ ENV PORT=5432
 ENV POSTGRES_DB=todolist_0zd3
 ENV POSTGRES_USER=admin
 ENV POSTGRES_PASSWORD=THzNIchDx4yNh8up5iUeWyubsZOjEPuc
-RUN ./mvnw clean install -e
+RUN mvn clean install
 FROM openjdk:21-jdk-slim
 EXPOSE 8080
 COPY --from=build target/*.jar app.jar
