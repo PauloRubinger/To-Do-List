@@ -59,5 +59,27 @@ public class TaskListControllerTest {
                 .andExpect(jsonPath("$.name").value(taskList.getName()));
     }
 
-    // TODO More tests for update and delete
+    @Test
+    public void updateTaskList_ReturnsUpdatedTaskList() throws Exception {
+        TaskList updatedTaskList = new TaskList("Lista 3", "Updated Test Task List");
+        updatedTaskList.setId(1L);
+
+        Mockito.when(taskListService.updateTaskList(Mockito.eq(1L), Mockito.any(TaskList.class))).thenReturn(updatedTaskList);
+
+        mockMvc.perform(put("/taskList/edit/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\": \"Updated Test Task List\", \"description\": \"Updated description\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(updatedTaskList.getId()))
+                .andExpect(jsonPath("$.name").value(updatedTaskList.getName()));
+    }
+
+    @Test
+    public void deleteTaskList_ReturnsNoContent() throws Exception {
+        Mockito.doNothing().when(taskListService).deleteTaskList(1L);
+
+        mockMvc.perform(delete("/taskList/delete/1"))
+                .andExpect(status().isNoContent());
+    }
+
 }
