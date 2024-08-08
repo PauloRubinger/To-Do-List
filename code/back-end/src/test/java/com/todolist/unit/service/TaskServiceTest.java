@@ -9,11 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.todolist.entity.Task;
 import com.todolist.enums.TaskPriority;
+import com.todolist.enums.TaskStatus;
 import com.todolist.enums.TaskType;
 import com.todolist.repository.TaskRepository;
 import com.todolist.service.TaskService;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +62,7 @@ public class TaskServiceTest {
     @Test
     public void testUpdateTask() {
         Task task = new Task("Test Task", TaskType.DATA, TaskPriority.ALTA, new Date());
+        task.setId(1L);
         Task updatedTask = new Task("Updated Task", TaskType.LIVRE, TaskPriority.ALTA, null);
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
         when(taskRepository.save(task)).thenReturn(updatedTask);
@@ -85,6 +88,7 @@ public class TaskServiceTest {
     @Test
     public void testDeleteTask() {
         Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
+        task.setId(1L);
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
 
         taskService.deleteTask(task.getId());
@@ -101,5 +105,37 @@ public class TaskServiceTest {
         assertThatThrownBy(() -> taskService.deleteTask(taskId))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("404 NOT_FOUND");
+    }
+
+    @Test
+    public void testValidateTask_ThrowsExceptionForInvalidDueDate() {
+        Task task = new Task("Test Task", TaskType.DATA, TaskPriority.ALTA, new Date());
+        task.setDueDate(getPastDate());
+
+        assertThatThrownBy(() -> taskService.addTask(task))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("A data prevista deve ser igual ou superior à data atual");
+    }
+
+    @Test
+    public void testUpdateTaskCompletion() {
+        Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
+        task.setId(1L);
+        task.setCompleted(false);
+        when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
+        when(taskRepository.save(task)).thenReturn(task);
+
+        Task updatedTask = taskService.updateTaskCompletion(task.getId(), true);
+
+        assertThat(updatedTask.getCompleted()).isTrue();
+        assertThat(updatedTask.getStatus()).isEqualTo(TaskStatus.CONCLUIDA);
+        verify(taskRepository, times(1)).findById(task.getId());
+        verify(taskRepository, times(1)).save(task);
+    }
+
+    private Date getPastDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        return calendar.getTime();
     }
 }

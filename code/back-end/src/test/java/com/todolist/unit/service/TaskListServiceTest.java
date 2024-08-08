@@ -57,6 +57,7 @@ public class TaskListServiceTest {
     @Test
     public void testUpdateTaskList() {
         TaskList taskList = new TaskList("Test TaskList", "Description");
+        taskList.setId(1L);
         TaskList updatedTaskList = new TaskList("Updated TaskList", "Updated Description");
         when(taskListRepository.findById(taskList.getId())).thenReturn(Optional.of(taskList));
         when(taskListRepository.save(taskList)).thenReturn(updatedTaskList);
@@ -82,6 +83,7 @@ public class TaskListServiceTest {
     @Test
     public void testDeleteTaskList() {
         TaskList taskList = new TaskList("Test TaskList", "Description");
+        taskList.setId(1L);
         when(taskListRepository.findById(taskList.getId())).thenReturn(Optional.of(taskList));
 
         taskListService.deleteTaskList(taskList.getId());
