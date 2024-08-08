@@ -84,5 +84,108 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$.name").value(task.getName()));
     }
 
-    // TODO More tests for update and delete
+    @Test
+    public void getAllTasksByTaskListId_ReturnsTasks() throws Exception {
+        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Mockito.when(taskService.getAllTasksByTaskListId(1L)).thenReturn(Arrays.asList(task));
+
+        mockMvc.perform(get("/task/listAllByTaskList")
+                .param("taskListId", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value(task.getName()));
+    }
+
+    @Test
+    public void getAllTasksByTaskListId_ReturnsNoContent() throws Exception {
+        Mockito.when(taskService.getAllTasksByTaskListId(1L)).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/task/listAllByTaskList")
+                .param("taskListId", "1"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void get_ReturnsTask() throws Exception {
+        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Mockito.when(taskService.get(1L)).thenReturn(task);
+
+        mockMvc.perform(get("/task/get/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(task.getName()));
+    }
+
+    @Test
+    public void get_ReturnsBadRequest() throws Exception {
+        Mockito.when(taskService.get(1L)).thenThrow(new RuntimeException("Task not found"));
+
+        mockMvc.perform(get("/task/get/1"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateTask_ReturnsUpdatedTask() throws Exception {
+        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Mockito.when(taskService.updateTask(Mockito.eq(1L), Mockito.any(Task.class))).thenReturn(task);
+
+        String taskJson = objectMapper.writeValueAsString(task);
+
+        mockMvc.perform(put("/task/edit/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(taskJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(task.getName()));
+    }
+
+    @Test
+    public void updateTask_ReturnsBadRequest() throws Exception {
+        Mockito.when(taskService.updateTask(Mockito.eq(1L), Mockito.any(Task.class)))
+                .thenThrow(new RuntimeException("Task update failed"));
+
+        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        String taskJson = objectMapper.writeValueAsString(task);
+
+        mockMvc.perform(put("/task/edit/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(taskJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateTaskCompletion_ReturnsUpdatedTask() throws Exception {
+        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        task.setCompleted(true);
+        Mockito.when(taskService.updateTaskCompletion(1L, true)).thenReturn(task);
+
+        mockMvc.perform(patch("/task/1")
+                .param("completed", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.completed").value(true));
+    }
+
+    @Test
+    public void updateTaskCompletion_ReturnsBadRequest() throws Exception {
+        Mockito.when(taskService.updateTaskCompletion(1L, true))
+                .thenThrow(new RuntimeException("Task completion update failed"));
+
+        mockMvc.perform(patch("/task/1")
+                .param("completed", "true"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteTask_ReturnsNoContent() throws Exception {
+        Mockito.doNothing().when(taskService).deleteTask(1L);
+
+        mockMvc.perform(delete("/task/delete/1"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteTask_ReturnsBadRequest() throws Exception {
+        Mockito.doThrow(new RuntimeException("Task deletion failed")).when(taskService).deleteTask(1L);
+
+        mockMvc.perform(delete("/task/delete/1"))
+                .andExpect(status().isBadRequest());
+    }
+
 }
