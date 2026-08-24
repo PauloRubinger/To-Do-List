@@ -13,8 +13,11 @@ This is a To-Do List application built with React.js for the front-end and Java 
 
 ## Prerequisites
 Make sure you have the following installed:
-- Node.js
-- Java Development Kit (JDK)
+- Node.js 18+
+- Java 21 JDK
+- A PostgreSQL-compatible database, such as local PostgreSQL or Aurora DSQL
+
+> Never commit real database credentials to Git. Keep secrets in environment variables or a secrets manager.
 
 ## Running the Application
 1. Clone the repository:
@@ -25,24 +28,41 @@ git clone https://github.com/PauloRubinger/To-Do-List.git
 ```
 cd code/back-end
 ```
-3. Build the Spring Boot project:
+3. Create the local runtime config file from the example:
 ```
-mvn clean install
+cp src/main/resources/application.properties.example src/main/resources/application.properties
 ```
-4. Run the Spring Boot application
+4. Set your database credentials as environment variables (do not write them in the repo):
 ```
-mvn spring-boot:run
+export SPRING_DATASOURCE_URL="jdbc:postgresql://<host>:5432/<database>?sslmode=require"
+export SPRING_DATASOURCE_USERNAME="<username>"
+export SPRING_DATASOURCE_PASSWORD="<password>"
 ```
-5. Open a new terminal and navigate to the front-end directory:
+For Aurora DSQL, use the cluster endpoint provided by AWS in the `SPRING_DATASOURCE_URL` value.
+
+5. Build the Spring Boot project:
 ```
-cd code/front-end
+./mvnw clean install
 ```
-6. Install dependencies
+6. Run the Spring Boot application:
+```
+./mvnw spring-boot:run
+```
+7. Open a new terminal and navigate to the front-end directory:
+```
+cd ../front-end
+```
+8. Install dependencies:
 ```
 npm install
 ```
-7. Start the React application:
+9. Start the React application:
 ```
 npm start
 ```
 The front-end application will start on http://localhost:3000.
+
+## Database Configuration Notes
+- The project uses PostgreSQL via Spring Data JPA.
+- The real connection values should come from environment variables, not committed files.
+- The committed example file is safe because it uses placeholders and environment references only.
