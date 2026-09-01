@@ -11,10 +11,15 @@ const HomePage = () => {
   const [taskLists, setTaskLists] = useState([]);
 
   const fetchTaskLists = useCallback(async () => {
-    const response = await listAllTaskLists();
-    if (response && response.data) {
-      const sortedTaskLists = sortTaskLists(response.data);
-      setTaskLists(sortedTaskLists);
+    try {
+      const response = await listAllTaskLists();
+      if (response && response.data) {
+        const sortedTaskLists = sortTaskLists(response.data);
+        setTaskLists(sortedTaskLists);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar listas de tarefas:", error);
+      setTaskLists([]);
     }
   }, []);
 
