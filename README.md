@@ -15,6 +15,7 @@ This is a To-Do List application built with React.js for the front-end and Java 
 Make sure you have the following installed:
 - Node.js 18+
 - Java 21 JDK
+- AWS CLI configured with access to the Aurora DSQL cluster (when applicable)
 - A PostgreSQL-compatible database, such as local PostgreSQL or Aurora DSQL
 
 > Never commit real database credentials to Git. Keep secrets in environment variables or a secrets manager.
@@ -32,13 +33,24 @@ cd code/back-end
 ```
 cp src/main/resources/application.properties.example src/main/resources/application.properties
 ```
-4. Set your database credentials as environment variables (do not write them in the repo):
+4. For Aurora DSQL, use the script below to load the temporary credentials automatically without storing the token in the repository. The cluster endpoint and region are already configured in the script:
+```
+source ./set-dsql-env.sh
+```
+The script uses the AWS CLI session to generate a fresh token. Run `source ./set-dsql-env.sh` again when it expires.
+
+If you need to override the default cluster endpoint, you can set it before calling the script:
+```
+export DSQL_CLUSTER_ENDPOINT="<cluster-endpoint>"
+source ./set-dsql-env.sh
+```
+
+For a standard PostgreSQL instance, set the variables manually:
 ```
 export SPRING_DATASOURCE_URL="jdbc:postgresql://<host>:5432/<database>?sslmode=require"
 export SPRING_DATASOURCE_USERNAME="<username>"
 export SPRING_DATASOURCE_PASSWORD="<password>"
 ```
-For Aurora DSQL, use the cluster endpoint provided by AWS in the `SPRING_DATASOURCE_URL` value.
 
 5. Build the Spring Boot project:
 ```
