@@ -1,12 +1,18 @@
 spring.application.name=TodoList
 server.servlet.context-path=/api
-spring.jpa.hibernate.ddl-auto=update
+
 # Use environment variables in production:
 # SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD
 spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/todolist}
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME:username}
 spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:password}
 spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Use the schema script to create identity-based primary keys compatible with Aurora DSQL.
+spring.jpa.hibernate.ddl-auto=none
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.show-sql=true
+spring.sql.init.mode=always
+spring.sql.init.continue-on-error=false
+spring.sql.init.schema-locations=classpath:schema.sql
 server.error.include-message=always
