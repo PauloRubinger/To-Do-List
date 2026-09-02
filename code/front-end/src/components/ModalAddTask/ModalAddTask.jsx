@@ -148,9 +148,26 @@ export const ModalAddTask = (props) => {
             <Form.Item
               name="dueDate"
               label="Dias previstos para a conclusão"
-              rules={[{ required: true, message: "Por favor, informe o prazo em dias" }]}
+              rules={[
+                { required: true, message: "Por favor, informe o prazo em dias" },
+                {
+                  validator: (_, value) => {
+                    if (value === undefined || value === null || value === "") {
+                      return Promise.resolve();
+                    }
+
+                    const parsedValue = Number(value);
+
+                    if (!Number.isInteger(parsedValue) || parsedValue < 0) {
+                      return Promise.reject(new Error("Informe um número inteiro maior ou igual a 0"));
+                    }
+
+                    return Promise.resolve();
+                  }
+                }
+              ]}
             >
-              <Input type="number"></Input>
+              <Input type="number" min={0} step={1} />
             </Form.Item>
           }
           {selectedType === "DATA" && 
