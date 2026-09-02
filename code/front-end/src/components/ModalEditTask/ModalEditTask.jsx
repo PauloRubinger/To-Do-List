@@ -125,6 +125,7 @@ export const ModalEditTask = (props) => {
             label="Nome da tarefa"
             rules={[
               { required: true, message: "Por favor, insira o nome da tarefa" },
+              { max: 255, message: "O nome da tarefa deve ter no máximo 255 caracteres" }
             ]}
           >
             <Input placeholder="Ex.: Afazeres domésticos"></Input>
