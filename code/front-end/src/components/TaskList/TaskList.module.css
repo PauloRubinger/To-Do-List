@@ -22,6 +22,11 @@
   margin-bottom: 6px;
   color: var(--text-strong);
   font-weight: 800;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  font-size: 1.8rem !important;
+  line-height: 1.2 !important;
 }
 
 .cardText {
@@ -80,6 +85,40 @@
   justify-content: center;
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .taskListContainer {
+    width: 100%;
+  }
+
+  .cardContainer {
+    width: min(100%, calc(100vw - 20px));
+  }
+
+  .cardTitle {
+    font-size: 1.5rem !important;
+    max-width: 85%;
+  }
+
+  .cardText {
+    gap: 12px;
+  }
+
+  .sortBy {
+    font-size: 0.9rem;
+  }
+
+  .editIcon,
+  .deleteIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .addTaskButton > button {
+    max-width: 240px;
+  }
+}
+
 @media (max-width: 768px) {
   .taskListContainer {
     width: 100%;
@@ -92,6 +131,8 @@
 
   .cardTitle {
     display: flex;
+    max-width: 90%;
+    font-size: 1.4rem !important;
   }
 
   .cardText {
@@ -140,5 +181,75 @@
   .addTaskButton > button {
     width: 100%;
     max-width: 220px;
+  }
+}
+
+@media (max-width: 425px) {
+  .cardContainer {
+    width: min(100%, calc(100vw - 16px));
+  }
+
+  .cardText {
+    display: flex;
+    gap: 8px;
+  }
+
+  .cardTitle {
+    max-width: 85%;
+    font-size: 1.2rem !important;
+  }
+
+  .editIcon, .deleteIcon {
+    width: 1.8rem;
+    height: 1.8rem;
+    padding: 2px;
+  }
+
+  .filterContainer {
+    gap: 6px;
+  }
+
+  .sortBy {
+    font-size: 0.76rem;
+  }
+
+  .cardDescription {
+    font-size: 13px;
+  }
+
+  .emptyState {
+    padding: 16px 12px 10px;
+    margin: 10px 8px 6px;
+  }
+
+  .addTaskButton > button {
+    max-width: 200px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .cardContainer {
+    width: min(100%, calc(100vw - 12px));
+  }
+
+  .cardTitle {
+    font-size: 1rem !important;
+    max-width: 80%;
+  }
+
+  .editIcon,
+  .deleteIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 2px;
+  }
+
+  .cardActions {
+    padding-left: 4px;
+  }
+
+  .sortBy {
+    font-size: 0.7rem;
   }
 }
