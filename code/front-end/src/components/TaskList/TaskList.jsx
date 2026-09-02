@@ -56,18 +56,49 @@ export const TaskList = ({
     setIsModalAddTaskOpen(true);
   };
 
+  const applyCurrentFilter = (items) => {
+    if (!filter) {
+      return items;
+    }
+
+    const sortedItems = [...items];
+
+    if (filter === "dueDate") {
+      return sortedItems.sort((a, b) => {
+        const hasDueDateA = !!a.dueDate;
+        const hasDueDateB = !!b.dueDate;
+
+        if (!hasDueDateA && !hasDueDateB) return 0;
+        if (!hasDueDateA) return 1;
+        if (!hasDueDateB) return -1;
+
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+      });
+    }
+
+    if (filter === "priority") {
+      return sortedItems.sort((a, b) => {
+        const priorityA = calculatePriority(a.priority);
+        const priorityB = calculatePriority(b.priority);
+        return priorityA - priorityB;
+      });
+    }
+
+    return sortedItems;
+  };
+
   const handleTaskAdded = (newTask) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-    clearFilter();
+    setTasks((prevTasks) => applyCurrentFilter([...prevTasks, newTask]));
   };
 
   const handleTaskUpdated = (updatedTask) => {
     setTasks((prevTasks) =>
-      prevTasks.map((prevTask) =>
-        prevTask.id === updatedTask.id ? updatedTask : prevTask
+      applyCurrentFilter(
+        prevTasks.map((prevTask) =>
+          prevTask.id === updatedTask.id ? updatedTask : prevTask
+        )
       )
     );
-    clearFilter();
   };
 
   const handleTaskDeleted = (deletedTask) => {
@@ -123,9 +154,14 @@ export const TaskList = ({
 
   const filterByDueDate = () => {
     const sortedTasks = [...tasks].sort((a, b) => {
-      const dueDateA = new Date(a.dueDate);
-      const dueDateB = new Date(b.dueDate);
-      return dueDateB.getTime() - dueDateA.getTime();
+      const hasDueDateA = !!a.dueDate;
+      const hasDueDateB = !!b.dueDate;
+
+      if (!hasDueDateA && !hasDueDateB) return 0;
+      if (!hasDueDateA) return 1;
+      if (!hasDueDateB) return -1;
+
+      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     });
     setTasks(sortedTasks);
   };
@@ -148,11 +184,6 @@ export const TaskList = ({
       default:
         return 2;
     }
-  };
-
-  const clearFilter = () => {
-    setFilter(null);
-    fetchTasks(taskListId);
   };
 
   return (
