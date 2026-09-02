@@ -1,13 +1,13 @@
-import addIcon from '../../assets/images/add-button.svg';
 import styles from './AddButton.module.css';
 
-const AddButton = ({ label, onClick }) => {
+const AddButton = ({ label, onClick, className }) => {
   return (
-    <button className={styles.addButton} onClick={onClick}>
-      <img className={styles.addIcon} src={addIcon} alt="Botão de adicionar" />
-      <div>
-        {label}
-      </div>
+    <button
+      type="button"
+      className={[styles.addButton, className].filter(Boolean).join(' ')}
+      onClick={onClick}
+    >
+      <span className={styles.label}>{label}</span>
     </button>
   );
 };
