@@ -87,10 +87,10 @@ export const ModalEditTaskList = (props) => {
             label="Nome da lista de tarefas"
             rules={[
               { required: true, message: "Por favor, insira o nome da lista de tarefas" },
-              { max: 30, message: "O nome da lista não pode ultrapassar 30 caracteres" },
+              { max: 50, message: "O nome da lista deve ter no máximo 50 caracteres" },
             ]}
           >
-            <Input placeholder="Ex.: Afazeres domésticos" maxLength={30}></Input>
+            <Input placeholder="Ex.: Afazeres domésticos"></Input>
           </Form.Item>
         </Form>
       </Modal>
