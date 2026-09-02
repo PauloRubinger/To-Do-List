@@ -79,23 +79,18 @@ export const ModalEditTaskList = (props) => {
           form={form}
           onFinish={handleSubmit}
           initialValues={{
-            name: props.taskList.name,
-            description: props.taskList.description
+            name: props.taskList.name
           }}
         >
           <Form.Item
             name="name"
             label="Nome da lista de tarefas"
-            rules={[{ required: true, message: "Por favor, insira o nome da lista de tarefas" }]}
+            rules={[
+              { required: true, message: "Por favor, insira o nome da lista de tarefas" },
+              { max: 30, message: "O nome da lista não pode ultrapassar 30 caracteres" },
+            ]}
           >
-            <Input placeholder="Ex.: Afazeres domésticos"></Input>
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="Descrição"
-            rules={[{ required: true, message: "Por favor, insira uma descrição para a lista de tarefas" }]}
-          >
-            <Input placeholder="Ex.: Tarefas para essa semana"></Input>
+            <Input placeholder="Ex.: Afazeres domésticos" maxLength={30}></Input>
           </Form.Item>
         </Form>
       </Modal>

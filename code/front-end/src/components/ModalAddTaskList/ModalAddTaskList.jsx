@@ -81,22 +81,13 @@ const ModalAddTaskList = (props) => {
                 required: true,
                 message: "Por favor, insira o nome da lista de tarefas",
               },
-            ]}
-          >
-            <Input placeholder="Ex.: Afazeres domésticos"></Input>
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="Descrição"
-            rules={[
               {
-                required: true,
-                message:
-                  "Por favor, insira uma descrição para a lista de tarefas",
+                max: 30,
+                message: "O nome da lista não pode ultrapassar 30 caracteres",
               },
             ]}
           >
-            <Input placeholder="Ex.: Tarefas para esta semana"></Input>
+            <Input placeholder="Ex.: Afazeres domésticos" maxLength={30}></Input>
           </Form.Item>
         </Form>
       </Modal>
