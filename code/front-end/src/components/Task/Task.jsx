@@ -91,7 +91,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
             />
           </label>
         </Col>
-        <Col span={16}>
+        <Col span={18}>
           <div className={styles.taskDetails}>
             <Text className={styles.taskName} strong>{name}</Text>
             <div className={styles.taskMeta}>
@@ -101,7 +101,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
             </div>
           </div>
         </Col>
-        <Col span={6} className={styles.taskActions}>
+        <Col span={4} className={styles.taskActions}>
           <img src={editIcon} className={styles.editIcon} alt="Ícone de editar" onClick={handleEditTask} />
           {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal} onTaskUpdated={handleTaskUpdated} />}
           <img src={deleteIcon} className={styles.deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
