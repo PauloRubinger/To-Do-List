@@ -1,56 +1,144 @@
 .taskListContainer {
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 .cardContainer {
-  border-radius: 8px;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-  width: 56.25rem;
+  width: min(100%, 56.25rem);
+  background: var(--surface-strong);
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
 }
 
 .cardHeader {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .cardTitle {
   margin-top: 0;
+  margin-bottom: 6px;
+  color: var(--text-strong);
+  font-weight: 800;
 }
 
 .cardText {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .cardDescription {
+  display: block;
   font-size: 14px;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .filterContainer {
   margin-top: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .sortBy {
   display: flex;
+  align-items: center;
   gap: 7px;
-  color: #888;
+  color: var(--text-muted);
+  font-size: 0.92rem;
 }
 
 .cardActions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  padding-left: 8px;
 }
 
-.editIcon, .deleteIcon {
+.editIcon,
+.deleteIcon {
   cursor: pointer;
-  width: 25px;
-  height: 25px;
+  width: 46px;
+  height: 46px;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.editIcon:hover,
+.deleteIcon:hover {
+  background: #f1f5f1;
+  transform: translateY(-1px);
 }
 
 .addTaskButton {
   margin-top: 16px;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .taskListContainer {
+    width: 100%;
+  }
+
+  .cardContainer {
+    width: min(100%, calc(100vw - 20px));
+    border-radius: 14px;
+  }
+
+  .cardTitle {
+    display: flex;
+  }
+
+  .cardText {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+  }
+
+  .filterContainer {
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sortBy {
+    font-size: 0.82rem;
+  }
+
+  .cardActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: auto;
+    flex: 0 0 auto;
+    padding-left: 0;
+    margin-left: auto;
+    align-self: flex-start;
+  }
+
+  .addTaskButton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .addTaskButton > button {
+    width: 100%;
+    max-width: 220px;
+  }
 }

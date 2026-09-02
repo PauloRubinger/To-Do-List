@@ -53,6 +53,12 @@
   height: 25px;
 }
 
+.editIcon:hover,
+.deleteIcon:hover {
+  background: #f1f5f1;
+  transform: translateY(-1px);
+}
+
 .checkbox {
   appearance: none;
   width: 40px;
@@ -70,4 +76,73 @@
 
 .checkbox.unchecked {
   background-image: url('../../assets/images/circle.svg');
+}
+
+@media (max-width: 768px) {
+  .taskContainer {
+    margin: 12px 0;
+    width: 100%;
+  }
+
+  .cardRow {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    width: 100%;
+    gap: 12px;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .checkboxCol {
+    padding-top: 2px;
+    display: flex;
+    justify-content: start;
+  }
+
+  .taskDetails {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-bottom: 8px;
+  }
+
+  .taskMeta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+  }
+
+  .taskDate,
+  .taskPriority {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .taskActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    min-width: 76px;
+    margin-left: auto;
+    align-self: end;
+    padding-bottom: 4px;
+    padding-right: 2px;
+  }
+
+  .editIcon,
+  .deleteIcon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .checkbox {
+    width: 28px;
+    height: 28px;
+    margin-right: 0;
+  }
 }
