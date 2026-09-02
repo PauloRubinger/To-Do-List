@@ -20,12 +20,11 @@ import editIcon from "../../assets/images/editing.svg";
 import deleteIcon from "../../assets/images/delete.svg";
 import styles from "./TaskList.module.css";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export const TaskList = ({
   taskListId,
   title,
-  description,
   onTaskListUpdated,
   onTaskListDeleted,
 }) => {
@@ -38,7 +37,6 @@ export const TaskList = ({
   const taskList = {
     id: taskListId,
     name: title,
-    description: description,
   };
 
   useEffect(() => {
@@ -207,7 +205,6 @@ export const TaskList = ({
                   <Title level={2} className={styles.cardTitle}>
                     {title}
                   </Title>
-                  <Text className={styles.cardDescription}>{description}</Text>
                   {tasks.length > 0 && (
                     <Row align={"middle"} gutter={10} className={styles.filterContainer}>
                       <Col>

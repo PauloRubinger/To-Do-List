@@ -34,7 +34,6 @@ public class TaskListService {
         TaskList existentTaskList = taskListRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de tarefas não encontrada"));
         existentTaskList.setName(taskList.getName());
-        existentTaskList.setDescription(taskList.getDescription());
 
         return taskListRepository.save(existentTaskList);
     }

@@ -25,9 +25,6 @@ public class TaskList {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
@@ -35,9 +32,8 @@ public class TaskList {
 
     }
 
-    public TaskList(String name, String description) {
+    public TaskList(String name) {
         this.name = name;
-        this.description = description;
     }
 
     @PrePersist
@@ -59,14 +55,6 @@ public class TaskList {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

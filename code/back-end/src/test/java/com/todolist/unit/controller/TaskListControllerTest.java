@@ -29,7 +29,7 @@ public class TaskListControllerTest {
 
     @Test
     public void listAllTaskLists_ReturnsTaskLists() throws Exception {
-        TaskList taskList = new TaskList("Lista 1", "Test Task List");
+        TaskList taskList = new TaskList("Lista 1");
         Mockito.when(taskListService.listAllTaskLists()).thenReturn(Arrays.asList(taskList));
 
         mockMvc.perform(get("/taskList/listAll"))
@@ -48,7 +48,7 @@ public class TaskListControllerTest {
 
     @Test
     public void addTaskList_ReturnsCreatedTaskList() throws Exception {
-        TaskList taskList = new TaskList("Lista 2", "Test Task List");
+        TaskList taskList = new TaskList("Lista 2");
         Mockito.when(taskListService.addTaskList(Mockito.any(TaskList.class))).thenReturn(taskList);
 
         mockMvc.perform(post("/taskList/add")
@@ -61,14 +61,14 @@ public class TaskListControllerTest {
 
     @Test
     public void updateTaskList_ReturnsUpdatedTaskList() throws Exception {
-        TaskList updatedTaskList = new TaskList("Lista 3", "Updated Test Task List");
+        TaskList updatedTaskList = new TaskList("Lista 3");
         updatedTaskList.setId(1L);
 
         Mockito.when(taskListService.updateTaskList(Mockito.eq(1L), Mockito.any(TaskList.class))).thenReturn(updatedTaskList);
 
         mockMvc.perform(put("/taskList/edit/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"Updated Test Task List\", \"description\": \"Updated description\"}"))
+                .content("{\"name\": \"Updated Test Task List\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(updatedTaskList.getId()))
                 .andExpect(jsonPath("$.name").value(updatedTaskList.getName()));
