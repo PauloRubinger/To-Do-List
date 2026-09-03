@@ -73,6 +73,12 @@
   background-repeat: no-repeat;
   cursor: pointer;
   border: none;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.checkbox:hover {
+  transform: scale(1.1);
+  filter: brightness(0.85);
 }
 
 .checkbox.checked {
