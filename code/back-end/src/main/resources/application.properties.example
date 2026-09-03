@@ -16,3 +16,4 @@ spring.sql.init.mode=always
 spring.sql.init.continue-on-error=false
 spring.sql.init.schema-locations=classpath:schema.sql
 server.error.include-message=always
+demo.read-only=${DEMO_READ_ONLY:false}

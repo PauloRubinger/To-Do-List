@@ -28,6 +28,7 @@ export const TaskList = ({
   onTaskListUpdated,
   onTaskListDeleted,
 }) => {
+  const isReadOnly = process.env.REACT_APP_READ_ONLY === "true";
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
@@ -239,8 +240,8 @@ export const TaskList = ({
                   <img
                     src={editIcon}
                     alt="Editar lista de tarefas"
-                    onClick={handleEditTaskList}
-                    className={styles.editIcon}
+                    onClick={isReadOnly ? undefined : handleEditTaskList}
+                    className={`${styles.editIcon} ${isReadOnly ? styles.readOnlyAction : ""}`}
                   />
                   {isModalEditTaskListOpen && (
                     <ModalEditTaskList
@@ -253,8 +254,8 @@ export const TaskList = ({
                   <img
                     src={deleteIcon}
                     alt="Excluir lista de tarefas"
-                    onClick={handleDeleteTaskList}
-                    className={styles.deleteIcon}
+                    onClick={isReadOnly ? undefined : handleDeleteTaskList}
+                    className={`${styles.deleteIcon} ${isReadOnly ? styles.readOnlyAction : ""}`}
                   />
                   {isModalDeleteTaskListOpen && (
                     <ModalDeleteTaskList
@@ -291,9 +292,10 @@ export const TaskList = ({
           <AddButton
             label={"Adicionar tarefa"}
             className={styles.addTaskButton}
-            onClick={handleAddTask}
+            onClick={isReadOnly ? undefined : handleAddTask}
+            disabled={isReadOnly}
           />
-          {isModalAddTaskOpen && (
+          {!isReadOnly && isModalAddTaskOpen && (
             <ModalAddTask
               taskListId={taskListId}
               modalOpen={true}

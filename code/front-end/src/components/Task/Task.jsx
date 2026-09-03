@@ -16,6 +16,7 @@ const taskPriorityMap = {
 };
 
 export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate, onTaskUpdated, onTaskDeleted, onTaskCompletionToggled }) => {
+  const isReadOnly = process.env.REACT_APP_READ_ONLY === "true";
   const [completed, setCompleted] = useState(initialCompleted);
   const [isModalEditTaskOpen, setIsModalEditTaskOpen] = useState(false);
   const [isModalDeleteTaskOpen, setIsModalDeleteTaskOpen] = useState(false);
@@ -88,6 +89,7 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
               className={`${styles.checkbox} ${completed ? styles.checked : styles.unchecked}`}
               checked={completed}
               onChange={toggleCheckbox}
+              disabled={isReadOnly}
             />
           </label>
         </Col>
@@ -102,9 +104,9 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
           </div>
         </Col>
         <Col span={4} className={styles.taskActions}>
-          <img src={editIcon} className={styles.editIcon} alt="Ícone de editar" onClick={handleEditTask} />
+          <img src={editIcon} className={`${styles.editIcon} ${isReadOnly ? styles.readOnlyAction : ""}`} alt="Ícone de editar" onClick={isReadOnly ? undefined : handleEditTask} />
           {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal} onTaskUpdated={handleTaskUpdated} />}
-          <img src={deleteIcon} className={styles.deleteIcon} alt="Ícone de excluir" onClick={handleDeleteTask} />
+          <img src={deleteIcon} className={`${styles.deleteIcon} ${isReadOnly ? styles.readOnlyAction : ""}`} alt="Ícone de excluir" onClick={isReadOnly ? undefined : handleDeleteTask} />
           {isModalDeleteTaskOpen && <ModalDeleteTask task={task} modalOpen={isModalDeleteTaskOpen} onClose={handleCloseDeleteTaskModal} onTaskDeleted={handleTaskDeleted} />}
         </Col>
       </Row>

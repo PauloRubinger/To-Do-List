@@ -6,6 +6,7 @@ import { TaskList } from "../components/TaskList/TaskList";
 import { listAllTaskLists } from "../services/task-list-service";
 
 const HomePage = () => {
+  const isReadOnly = process.env.REACT_APP_READ_ONLY === "true";
 
   const [isAddTaskListModalOpen, setIsAddTaskListModalOpen] = useState(false);
   const [taskLists, setTaskLists] = useState([]);
@@ -63,11 +64,20 @@ const HomePage = () => {
   return (
     <div className={styles.generalContainer}>
       <h1>Listas de tarefas</h1>
+      {isReadOnly && (
+        <p className={styles.readOnlyNotice} role="status">
+          Modo demonstração: visualização somente leitura
+        </p>
+      )}
       {taskLists.length === 0 && <h2>Você ainda não possui nenhuma lista de tarefas</h2>}
       <div className={styles.AddButton}>
-        <AddButton label={"Criar lista"} onClick={handleAddTaskList} />
+        <AddButton
+          label={"Criar lista"}
+          onClick={isReadOnly ? undefined : handleAddTaskList}
+          disabled={isReadOnly}
+        />
       </div>
-      {isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} onTaskListAdded={handleTaskListAdded} />}
+      {!isReadOnly && isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} onTaskListAdded={handleTaskListAdded} />}
       <div className={styles.taskListContainer}>
         {taskLists && taskLists.map(taskList => (
           <TaskList key={taskList.id} taskListId={taskList.id} title={taskList.name} description={taskList.description} onTaskListUpdated={handleTaskListUpdated} onTaskListDeleted={handleTaskListDeleted} />

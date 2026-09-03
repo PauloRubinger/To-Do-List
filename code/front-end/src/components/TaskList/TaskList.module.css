@@ -79,6 +79,11 @@
   transform: translateY(-1px);
 }
 
+.readOnlyAction {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .addTaskButton {
   margin-top: 16px;
   display: flex;
