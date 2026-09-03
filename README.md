@@ -5,11 +5,19 @@ This is a To-Do List application built with React.js for the front-end and Java 
 ## Table of Contents
 1. [Features](#features)
 2. [Prerequisites](#prerequisites)
-3. [Ruuning the Application](#running-the-application)
+3. [Running the Application](#running-the-application)
+4. [Running with Docker](#running-with-docker)
 
 ## Features
 - Create, read, update, and delete task lists
 - Create, read, update, and delete tasks within a task list
+
+## Live Demo
+The application is available at:
+
+https://lds-8op7.onrender.com
+
+The public deployment is already configured with its backend and Aurora DSQL database, so no local AWS or database setup is required to view the project. The public demo is read-only to protect the shared database. The Render free tier may take a few seconds to wake up after inactivity.
 
 ## Prerequisites
 Make sure you have the following installed:
@@ -73,6 +81,32 @@ npm install
 npm start
 ```
 The front-end application will start on http://localhost:3000.
+
+## Running with Docker
+The Docker image builds the frontend and backend and uses Nginx to serve the frontend and proxy `/api` requests to Spring Boot.
+
+The Docker image is intended for local execution and does not include database credentials. To run it, configure your own PostgreSQL or Aurora DSQL database and provide the required environment variables. The image enables read-only mode by default, matching the public demo. Do not use or request the credentials from the public demo deployment.
+
+Build the image from the repository root:
+```
+docker build -t todolist-local .
+```
+
+Run the container using the AWS credentials available in the current terminal:
+```
+docker run --rm \
+	-p 80:80 \
+	-e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+	-e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+	-e AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
+	-e AWS_REGION=sa-east-1 \
+	-e DSQL_CLUSTER_ENDPOINT="$DSQL_CLUSTER_ENDPOINT" \
+	todolist-local
+```
+
+Open http://localhost. The container generates a temporary Aurora DSQL authentication token when it starts. The AWS credentials must have permission to generate the DSQL connection token, and temporary credentials must still be valid when the container starts. The DSQL token expires after approximately 15 minutes; restart the container to generate a new token.
+
+For permanent AWS credentials, omit `AWS_SESSION_TOKEN` from the command. Never place credentials in the Dockerfile, README, or repository.
 
 ## Database Configuration Notes
 - The project uses PostgreSQL via Spring Data JPA.
