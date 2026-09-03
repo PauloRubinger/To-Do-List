@@ -4,6 +4,8 @@ FROM node:20-alpine AS build-frontend
 WORKDIR /src/front-end
 ARG REACT_APP_API_URL=/api
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ARG REACT_APP_READ_ONLY=true
+ENV REACT_APP_READ_ONLY=$REACT_APP_READ_ONLY
 COPY code/front-end/package*.json ./
 RUN npm ci --legacy-peer-deps
 COPY code/front-end/ ./
@@ -36,6 +38,7 @@ RUN apt-get update \
 # Copy backend JAR and the DSQL env helper script
 COPY --from=build-backend /src/back-end/target/*.jar /app/app.jar
 COPY code/back-end/set-dsql-env.sh /app/set-dsql-env.sh
+ENV DEMO_READ_ONLY=true
 
 # Copy frontend build into nginx www folder
 COPY --from=build-frontend /src/front-end/build/ /var/www/html/
