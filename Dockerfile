@@ -1,47 +1,84 @@
-# Etapa 1: Construção do front-end
-FROM node:20 AS build-front-end
-WORKDIR /code/front-end
-
-# Copie os arquivos de configuração do front-end
+# Multi-stage build
+# Stage 1: build front-end
+FROM node:20-alpine AS build-frontend
+WORKDIR /src/front-end
+ARG REACT_APP_API_URL=/api
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 COPY code/front-end/package*.json ./
-
-# Instale as dependências do front-end
-RUN npm install
-
-# Copie o restante dos arquivos de código do front-end
+RUN npm ci --legacy-peer-deps
 COPY code/front-end/ ./
-
-# Execute o build do front-end
 RUN npm run build
 
-# Etapa 2: Construção do back-end
-FROM ubuntu:latest AS build
-WORKDIR /code/back-end
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install openjdk-21-jdk -y
-RUN apt-get install -y maven
-
-# Copiar o código do back-end para o contêiner
+# Stage 2: build back-end
+FROM maven:3.9.5-eclipse-temurin-21 AS build-backend
+WORKDIR /src/back-end
 COPY code/back-end/ .
+RUN mvn -B -DskipTests clean package
 
-# Construir o projeto do back-end
-RUN mvn clean install  
-
-# Etapa 3: Imagem final
-FROM openjdk:21-jdk-slim
+# Stage 3: runtime image
+FROM eclipse-temurin:21-jdk-jammy
+ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /app
+ARG TARGETARCH
 
-# Exponha as portas do front-end e do back-end
-EXPOSE 3000 8080
+# Install runtime dependencies: nginx, AWS CLI, and curl for healthcheck
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends nginx ca-certificates curl unzip \
+  && AWS_CLI_ARCH="${TARGETARCH:-amd64}" \
+  && if [ "$AWS_CLI_ARCH" = "arm64" ]; then AWS_CLI_ARCH="aarch64"; fi \
+  && curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_CLI_ARCH}.zip" -o "awscliv2.zip" \
+  && unzip -q awscliv2.zip \
+  && ./aws/install \
+  && rm -rf aws awscliv2.zip \
+  && rm -rf /var/lib/apt/lists/*
 
-# Copie o JAR gerado para a imagem final
-COPY --from=build /code/back-end/target/*.jar app.jar
+# Copy backend JAR and the DSQL env helper script
+COPY --from=build-backend /src/back-end/target/*.jar /app/app.jar
+COPY code/back-end/set-dsql-env.sh /app/set-dsql-env.sh
 
-# Copie os arquivos do front-end para a imagem final
-COPY --from=build-front-end /code/front-end/build/ /var/www/frontend/
+# Copy frontend build into nginx www folder
+COPY --from=build-frontend /src/front-end/build/ /var/www/html/
 
-# Instale um servidor para servir o front-end (por exemplo, serve)
-RUN apt-get update && apt-get install -y npm && npm install -g serve
+# Remove default nginx server config and add a simple one (serve static files)
+RUN rm /etc/nginx/sites-enabled/default || true
+RUN printf '%s\n' \
+  'server {' \
+  '  listen 80;' \
+  '  server_name _;' \
+  '  root /var/www/html;' \
+  '  location / {' \
+  '    try_files $uri $uri/ /index.html;' \
+  '  }' \
+  '  location /api/ {' \
+  '    proxy_pass http://127.0.0.1:8080;' \
+  '    proxy_set_header Host $host;' \
+  '    proxy_set_header X-Real-IP $remote_addr;' \
+  '    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' \
+  '  }' \
+  '}' > /etc/nginx/conf.d/todolist.conf
 
-# Comando para rodar o back-end e servir o front-end
-CMD bash -c "java -jar app.jar & serve -s /var/www/frontend -l 3000"
+# Expose ports: 80 for frontend, 8080 for backend
+EXPOSE 80 8080
+
+# Use a small entrypoint script to start nginx and the Spring Boot app.
+# If a DSQL cluster endpoint is provided, generate the temporary token before launch.
+COPY <<'EOF' /app/entrypoint.sh
+#!/bin/sh
+set -e
+
+# start nginx in background
+nginx -g 'daemon on;'
+
+if [ -z "${SPRING_DATASOURCE_URL:-}" ]; then
+  . /app/set-dsql-env.sh
+fi
+
+# run the Spring Boot app
+exec java -jar /app/app.jar
+EOF
+
+RUN chmod +x /app/entrypoint.sh
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s CMD curl -fsS http://127.0.0.1:8080/api/taskList/listAll >/dev/null || exit 1
+
+CMD ["/app/entrypoint.sh"]
