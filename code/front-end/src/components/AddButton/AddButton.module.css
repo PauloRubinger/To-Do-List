@@ -28,6 +28,17 @@
   transform: translateY(0);
 }
 
+.addButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.addButton:disabled:hover {
+  transform: none;
+  filter: none;
+}
+
 .addIcon {
   width: 18px;
   height: 18px;
