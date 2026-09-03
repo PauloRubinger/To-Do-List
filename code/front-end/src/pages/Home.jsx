@@ -65,7 +65,7 @@ const HomePage = () => {
       <h1>Listas de tarefas</h1>
       {taskLists.length === 0 && <h2>Você ainda não possui nenhuma lista de tarefas</h2>}
       <div className={styles.AddButton}>
-        <AddButton label={"Nova Lista"} onClick={handleAddTaskList} />
+        <AddButton label={"Criar lista"} onClick={handleAddTaskList} />
       </div>
       {isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} onTaskListAdded={handleTaskListAdded} />}
       <div className={styles.taskListContainer}>

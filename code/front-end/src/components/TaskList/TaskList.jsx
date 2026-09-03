@@ -289,7 +289,7 @@ export const TaskList = ({
             />
           </ConfigProvider>
           <AddButton
-            label={"Nova Tarefa"}
+            label={"Adicionar tarefa"}
             className={styles.addTaskButton}
             onClick={handleAddTask}
           />
