@@ -25,8 +25,9 @@ ARG TARGETARCH
 RUN apt-get update \
   && apt-get install -y --no-install-recommends nginx ca-certificates curl unzip \
   && AWS_CLI_ARCH="${TARGETARCH:-amd64}" \
+  && if [ "$AWS_CLI_ARCH" = "amd64" ]; then AWS_CLI_ARCH="x86_64"; fi \
   && if [ "$AWS_CLI_ARCH" = "arm64" ]; then AWS_CLI_ARCH="aarch64"; fi \
-  && curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_CLI_ARCH}.zip" -o "awscliv2.zip" \
+  && curl -fL "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_CLI_ARCH}.zip" -o "awscliv2.zip" \
   && unzip -q awscliv2.zip \
   && ./aws/install \
   && rm -rf aws awscliv2.zip \
