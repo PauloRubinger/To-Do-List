@@ -124,30 +124,55 @@
     width: 100%;
   }
 
+  .cardContainer :global(.ant-card-head-title) {
+    min-width: 0;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    text-align: left;
+  }
+
   .cardContainer {
     width: min(100%, calc(100vw - 20px));
     border-radius: 14px;
   }
 
   .cardTitle {
-    display: flex;
-    max-width: 90%;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: normal;
+    text-align: left;
     font-size: 1.4rem !important;
   }
 
   .cardText {
     display: flex;
     width: 100%;
-    flex-direction: row;
+    min-width: 0;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     gap: 10px;
+  }
+
+  .cardText > :global(.ant-col:first-child) {
+    min-width: 0;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .cardText > :global(.ant-col) {
+    min-width: 0;
   }
 
   .cardHeader {
     display: flex;
     align-items: flex-start;
     width: 100%;
+    min-width: 0;
     position: relative;
   }
 
