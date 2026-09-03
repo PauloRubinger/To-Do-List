@@ -74,8 +74,8 @@ if [ -z "${SPRING_DATASOURCE_URL:-}" ]; then
   . /app/set-dsql-env.sh
 fi
 
-# run the Spring Boot app
-exec java -jar /app/app.jar
+# run the Spring Boot app with the API path expected by Nginx and the frontend
+exec java -jar /app/app.jar --server.servlet.context-path=/api
 EOF
 
 RUN chmod +x /app/entrypoint.sh
