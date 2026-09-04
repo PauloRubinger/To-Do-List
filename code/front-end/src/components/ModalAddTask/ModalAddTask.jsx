@@ -113,13 +113,13 @@ export const ModalAddTask = (props) => {
         >
           <Form.Item
             name="name"
-            label="Task Name"
+            label="Task name"
             rules={[
               { required: true, message: "Please enter the task name" },
               { max: 255, message: "Task name must have a maximum of 255 characters" }
             ]}
           >
-            <Input placeholder="Ex.: Household chores"></Input>
+            <Input placeholder="Ex.: Paint the living room walls"></Input>
           </Form.Item>
           <Form.Item
             name="type"
