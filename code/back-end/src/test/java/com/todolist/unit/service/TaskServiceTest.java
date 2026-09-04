@@ -38,8 +38,8 @@ public class TaskServiceTest {
 
     @Test
     public void testListAllTasks() {
-        Task task1 = new Task("Test Task 1", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
-        Task task2 = new Task("Test Task 2", TaskType.PRAZO, TaskPriority.ALTA, new Date());
+        Task task1 = new Task("Test Task 1", TaskType.FREE, TaskPriority.MEDIUM, new Date());
+        Task task2 = new Task("Test Task 2", TaskType.DEADLINE, TaskPriority.HIGH, new Date());
         when(taskRepository.findAll()).thenReturn(Arrays.asList(task1, task2));
 
         List<Task> tasks = taskService.listAllTasks();
@@ -50,7 +50,7 @@ public class TaskServiceTest {
 
     @Test
     public void testAddTask() {
-        Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.ALTA, new Date());
+        Task task = new Task("Test Task", TaskType.FREE, TaskPriority.HIGH, new Date());
         when(taskRepository.save(task)).thenReturn(task);
 
         Task newTask = taskService.addTask(task);
@@ -61,9 +61,9 @@ public class TaskServiceTest {
 
     @Test
     public void testUpdateTask() {
-        Task task = new Task("Test Task", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("Test Task", TaskType.DATE, TaskPriority.HIGH, new Date());
         task.setId(1L);
-        Task updatedTask = new Task("Updated Task", TaskType.LIVRE, TaskPriority.ALTA, null);
+        Task updatedTask = new Task("Updated Task", TaskType.FREE, TaskPriority.HIGH, null);
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
         when(taskRepository.save(task)).thenReturn(updatedTask);
 
@@ -77,7 +77,7 @@ public class TaskServiceTest {
     @Test
     public void testUpdateTaskNotFound() {
         Long taskId = 1L;
-        Task updatedTask = new Task("Updated Task", TaskType.PRAZO, TaskPriority.BAIXA, new Date());
+        Task updatedTask = new Task("Updated Task", TaskType.DEADLINE, TaskPriority.LOW, new Date());
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> taskService.updateTask(taskId, updatedTask))
@@ -87,7 +87,7 @@ public class TaskServiceTest {
 
     @Test
     public void testDeleteTask() {
-        Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
+        Task task = new Task("Test Task", TaskType.FREE, TaskPriority.MEDIUM, new Date());
         task.setId(1L);
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
 
@@ -109,17 +109,17 @@ public class TaskServiceTest {
 
     @Test
     public void testValidateTask_ThrowsExceptionForInvalidDueDate() {
-        Task task = new Task("Test Task", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("Test Task", TaskType.DATE, TaskPriority.HIGH, new Date());
         task.setDueDate(getPastDate());
 
         assertThatThrownBy(() -> taskService.addTask(task))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("A data prevista deve ser igual ou superior à data atual");
+                .hasMessageContaining("The due date must be equal to or after today");
     }
 
     @Test
     public void testUpdateTaskCompletion() {
-        Task task = new Task("Test Task", TaskType.LIVRE, TaskPriority.MEDIA, new Date());
+        Task task = new Task("Test Task", TaskType.FREE, TaskPriority.MEDIUM, new Date());
         task.setId(1L);
         task.setCompleted(false);
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
@@ -128,7 +128,7 @@ public class TaskServiceTest {
         Task updatedTask = taskService.updateTaskCompletion(task.getId(), true);
 
         assertThat(updatedTask.getCompleted()).isTrue();
-        assertThat(updatedTask.getStatus()).isEqualTo(TaskStatus.CONCLUIDA);
+        assertThat(updatedTask.getStatus()).isEqualTo(TaskStatus.COMPLETED);
         verify(taskRepository, times(1)).findById(task.getId());
         verify(taskRepository, times(1)).save(task);
     }
