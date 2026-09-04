@@ -13,7 +13,7 @@ export const listAllTasks = async () => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao obter tarefas: ", error);
+        console.error("Error getting tasks: ", error);
         throw error;
     }
 };
@@ -29,7 +29,7 @@ export const listAllByTaskList = async (taskListId) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao obter as tarefas dessa lista de tarefas: ", error);
+        console.error("Error getting tasks from this task list: ", error);
         throw error;
     }
 };
@@ -45,7 +45,7 @@ export const getTaskById = async (taskListId) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao obter a tarefa pelo id: ", error);
+        console.error("Error getting task by id: ", error);
         throw error;
     }
 };
@@ -62,7 +62,7 @@ export const addTask = async (taskListId, task) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao adicionar tarefa: ", error);
+        console.error("Error adding task: ", error);
         throw error;
     }
 };
@@ -79,7 +79,7 @@ export const editTask = async (taskId, task) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao editar tarefa: ", error);
+        console.error("Error editing task: ", error);
         throw error;
     }
 };
@@ -95,7 +95,7 @@ export const deleteTask = async (taskId) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao excluir tarefa: ", error);
+        console.error("Error deleting task: ", error);
         throw error;
     }
 };
@@ -111,7 +111,7 @@ export const updateTaskCompletion = async (taskId, completed) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao atualizar o status de conclusão da tarefa: ", error);
+        console.error("Error updating task completion status: ", error);
         throw error;
     }
 };

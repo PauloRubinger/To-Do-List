@@ -13,7 +13,7 @@ export const listAllTaskLists = async () => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao obter as listas de tarefas: ", error);
+        console.error("Error getting task lists: ", error);
         throw error;
     }
 };
@@ -29,7 +29,7 @@ export const getTaskListById = async (id) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao obter a lista de tarefas: ", error);
+        console.error("Error getting task list: ", error);
         throw error;
     }
 };
@@ -46,7 +46,7 @@ export const addTaskList = async (taskList) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao adicionar a lista de tarefas: ", error);
+        console.error("Error adding task list: ", error);
         throw(error);
     }
 };
@@ -63,7 +63,7 @@ export const editTaskList = async (taskListId, taskList) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao editar a lista de tarefas: ", error);
+        console.error("Error editing task list: ", error);
         throw error;
     }
 };
@@ -79,7 +79,7 @@ export const deleteTaskList = async (taskListId) => {
         });
         return response;
     } catch (error) {
-        console.error("Erro ao excluir a lista de tarefas: ", error);
+        console.error("Error deleting task list: ", error);
         throw error;
     }
 };
