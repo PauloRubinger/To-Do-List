@@ -46,6 +46,7 @@ COPY --from=build-frontend /src/front-end/build/ /var/www/html/
 # Remove default nginx server config and add a simple one (serve static files)
 RUN rm /etc/nginx/sites-enabled/default || true
 RUN printf '%s\n' \
+  'limit_req_zone $binary_remote_addr zone=api_limit:10m rate=2r/s;' \
   'server {' \
   '  listen 80;' \
   '  server_name _;' \
@@ -54,6 +55,7 @@ RUN printf '%s\n' \
   '    try_files $uri $uri/ /index.html;' \
   '  }' \
   '  location /api/ {' \
+  '    limit_req zone=api_limit burst=10 nodelay;' \
   '    proxy_pass http://127.0.0.1:8080;' \
   '    proxy_set_header Host $host;' \
   '    proxy_set_header X-Real-IP $remote_addr;' \
@@ -61,8 +63,8 @@ RUN printf '%s\n' \
   '  }' \
   '}' > /etc/nginx/conf.d/todolist.conf
 
-# Expose ports: 80 for frontend, 8080 for backend
-EXPOSE 80 8080
+# Only expose 80 publicly; the backend on 8080 is reached internally via the Nginx proxy
+EXPOSE 80
 
 # Use a small entrypoint script to start nginx and the Spring Boot app.
 # If a DSQL cluster endpoint is provided, generate the temporary token before launch.
