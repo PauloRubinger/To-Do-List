@@ -11,6 +11,7 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 # Use the schema script to create identity-based primary keys compatible with Aurora DSQL.
 spring.jpa.hibernate.ddl-auto=none
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
 spring.jpa.show-sql=true
 spring.sql.init.mode=always
 spring.sql.init.continue-on-error=false
