@@ -176,9 +176,9 @@ export const TaskList = ({
 
   const calculatePriority = (priority) => {
     switch (priority) {
-      case "ALTA":
+      case "HIGH":
         return 0;
-      case "MEDIA":
+      case "MEDIUM":
         return 1;
       default:
         return 2;
