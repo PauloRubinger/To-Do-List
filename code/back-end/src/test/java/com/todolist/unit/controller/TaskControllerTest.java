@@ -47,7 +47,7 @@ public class TaskControllerTest {
 
     @Test
     public void listAllTasks_ReturnsTasks() throws Exception {
-        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("task 2", TaskType.DATE, TaskPriority.HIGH, new Date());
         Mockito.when(taskService.listAllTasks()).thenReturn(Arrays.asList(task));
 
         mockMvc.perform(get("/task/listAll"))
@@ -68,7 +68,7 @@ public class TaskControllerTest {
         TaskList taskList = new TaskList();
         taskList.setId(1L);
 
-        Task task = new Task("TestTask", TaskType.LIVRE, TaskPriority.ALTA, null);
+        Task task = new Task("TestTask", TaskType.FREE, TaskPriority.HIGH, null);
         task.setTaskList(taskList);
 
         Mockito.when(taskListService.get(1L)).thenReturn(taskList);
@@ -86,7 +86,7 @@ public class TaskControllerTest {
 
     @Test
     public void getAllTasksByTaskListId_ReturnsTasks() throws Exception {
-        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("task 2", TaskType.DATE, TaskPriority.HIGH, new Date());
         Mockito.when(taskService.getAllTasksByTaskListId(1L)).thenReturn(Arrays.asList(task));
 
         mockMvc.perform(get("/task/listAllByTaskList")
@@ -106,7 +106,7 @@ public class TaskControllerTest {
 
     @Test
     public void get_ReturnsTask() throws Exception {
-        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("task 2", TaskType.DATE, TaskPriority.HIGH, new Date());
         Mockito.when(taskService.get(1L)).thenReturn(task);
 
         mockMvc.perform(get("/task/get/1"))
@@ -124,7 +124,7 @@ public class TaskControllerTest {
 
     @Test
     public void updateTask_ReturnsUpdatedTask() throws Exception {
-        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("task 2", TaskType.DATE, TaskPriority.HIGH, new Date());
         Mockito.when(taskService.updateTask(Mockito.eq(1L), Mockito.any(Task.class))).thenReturn(task);
 
         String taskJson = objectMapper.writeValueAsString(task);
@@ -141,7 +141,7 @@ public class TaskControllerTest {
         Mockito.when(taskService.updateTask(Mockito.eq(1L), Mockito.any(Task.class)))
                 .thenThrow(new RuntimeException("Task update failed"));
 
-        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("tarefa 2", TaskType.DATE, TaskPriority.HIGH, new Date());
         String taskJson = objectMapper.writeValueAsString(task);
 
         mockMvc.perform(put("/task/edit/1")
@@ -152,7 +152,7 @@ public class TaskControllerTest {
 
     @Test
     public void updateTaskCompletion_ReturnsUpdatedTask() throws Exception {
-        Task task = new Task("tarefa 2", TaskType.DATA, TaskPriority.ALTA, new Date());
+        Task task = new Task("tarefa 2", TaskType.DATE, TaskPriority.HIGH, new Date());
         task.setCompleted(true);
         Mockito.when(taskService.updateTaskCompletion(1L, true)).thenReturn(task);
 
