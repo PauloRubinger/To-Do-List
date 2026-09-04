@@ -128,7 +128,7 @@ export const ModalEditTask = (props) => {
               { max: 255, message: "The task name must have a maximum of 255 characters" }
             ]}
           >
-            <Input placeholder="Ex.: Household chores"></Input>
+            <Input placeholder="Ex.: Paint the living room walls"></Input>
           </Form.Item>
           <Form.Item
             name="type"
