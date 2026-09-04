@@ -31,7 +31,7 @@ public class TaskController {
         this.taskListService = taskListService;
     }
 
-    @Operation(summary = "Lista todas as tarefas da lista")
+    @Operation(summary = "List all tasks from the list")
     @GetMapping("/listAll")
     public ResponseEntity<List<Task>> listAllTasks() {
         try {
@@ -45,7 +45,7 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Retorna todas as tarefas por lista de tarefas")
+    @Operation(summary = "Returns all tasks for a task list")
     @GetMapping("/listAllByTaskList")
     public ResponseEntity<List<Task>> getAllTasksByTaskListId(@RequestParam Long taskListId) {
         try {
@@ -59,7 +59,7 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Obtém a tarefa pelo id")
+    @Operation(summary = "Gets the task by id")
     @GetMapping("/get/{id}")
     public ResponseEntity<Task> get(@PathVariable Long id) {
         try {
@@ -70,7 +70,7 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Adiciona a tarefa na lista")
+    @Operation(summary = "Adds the task to the list")
     @PostMapping("/add")
     public ResponseEntity<Task> addTask(@RequestParam Long taskListId, @RequestBody Task task) {
         try {
@@ -86,7 +86,7 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Atualiza a tarefa na lista")
+    @Operation(summary = "Updates the task in the list")
     @PutMapping("/edit/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         try {
@@ -97,7 +97,7 @@ public class TaskController {
         }
     }
     
-    @Operation(summary = "Atualiza o status de concluído da tarefa")
+    @Operation(summary = "Updates the task completion status")
     @PatchMapping("/{id}")
     public ResponseEntity<Task> updateTaskCompletion(@PathVariable Long id, @RequestParam boolean completed) {
         try {
@@ -108,7 +108,7 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Deleta a tarefa da lista")
+    @Operation(summary = "Deletes the task from the list")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
         try {

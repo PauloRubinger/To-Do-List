@@ -30,7 +30,7 @@ public class ReadOnlyDemoFilter extends OncePerRequestFilter {
         String method = request.getMethod();
 
         if (readOnly && !method.equals("GET") && !method.equals("HEAD") && !method.equals("OPTIONS")) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "A demonstração está disponível somente para leitura");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "The demo is available in read-only mode");
             return;
         }
 
