@@ -19,7 +19,7 @@ const HomePage = () => {
         setTaskLists(sortedTaskLists);
       }
     } catch (error) {
-      console.error("Erro ao buscar listas de tarefas:", error);
+      console.error("Error fetching task lists:", error);
       setTaskLists([]);
     }
   }, []);
@@ -63,16 +63,16 @@ const HomePage = () => {
 
   return (
     <div className={styles.generalContainer}>
-      <h1>Listas de tarefas</h1>
+      <h1>Task Lists</h1>
       {isReadOnly && (
         <p className={styles.readOnlyNotice} role="status">
-          Modo demonstração: visualização somente leitura
+          Demo mode: read-only view
         </p>
       )}
-      {taskLists.length === 0 && <h2>Você ainda não possui nenhuma lista de tarefas</h2>}
+      {taskLists.length === 0 && <h2>You don't have any task lists yet</h2>}
       <div className={styles.AddButton}>
         <AddButton
-          label={"Criar lista"}
+          label={"Create list"}
           onClick={isReadOnly ? undefined : handleAddTaskList}
           disabled={isReadOnly}
         />

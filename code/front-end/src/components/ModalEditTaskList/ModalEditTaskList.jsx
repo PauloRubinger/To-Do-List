@@ -38,8 +38,8 @@ export const ModalEditTaskList = (props) => {
           duration: 5,
           showProgress: true,
           pauseOnHover: true,
-          message: "Sucesso",
-          description: "Lista de tarefas atualizada com sucesso!"
+          message: "Success",
+          description: "Task list updated successfully!"
         });
       } else {
         throw new Error("Erro ao atualizar a lista de tarefas!");
@@ -49,8 +49,8 @@ export const ModalEditTaskList = (props) => {
         duration: 5,
         showProgress: true,
         pauseOnHover: true,
-        message: "Erro",
-        description: "Houve um problema ao atualizar a lista de tarefas!"
+        message: "Error",
+        description: "There was a problem updating the task list!"
       });
     } finally {
       setModalOpen(false);
@@ -66,12 +66,12 @@ export const ModalEditTaskList = (props) => {
   return (
     <>
      <Modal
-        title="Editar lista de tarefas"
+        title="Edit Task List"
         open={modalOpen}
         onOk={form.submit}
-        okText="Salvar"
+        okText="Save"
         confirmLoading={confirmLoading}
-        cancelText="Cancelar"
+        cancelText="Cancel"
         onCancel={handleCancel}
       >
         <Form
@@ -84,13 +84,13 @@ export const ModalEditTaskList = (props) => {
         >
           <Form.Item
             name="name"
-            label="Nome da lista de tarefas"
+            label="Task list name"
             rules={[
-              { required: true, message: "Por favor, insira o nome da lista de tarefas" },
-              { max: 50, message: "O nome da lista deve ter no máximo 50 caracteres" },
+              { required: true, message: "Please enter the task list name" },
+              { max: 50, message: "Task list name must have a maximum of 50 characters" },
             ]}
           >
-            <Input placeholder="Ex.: Afazeres domésticos"></Input>
+            <Input placeholder="Ex.: Household chores"></Input>
           </Form.Item>
         </Form>
       </Modal>

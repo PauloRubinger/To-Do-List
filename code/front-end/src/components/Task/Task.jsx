@@ -10,9 +10,9 @@ import { updateTaskCompletion } from '../../services/task-service';
 const { Text } = Typography;
 
 const taskPriorityMap = {
-  ALTA: "Alta",
-  MEDIA: "Média",
-  BAIXA: "Baixa"
+  HIGH: "High",
+  MEDIUM: "Medium",
+  LOW: "Low"
 };
 
 export const Task = ({ id, name, completed: initialCompleted, type, priority, status, dueDate, onTaskUpdated, onTaskDeleted, onTaskCompletionToggled }) => {
@@ -97,16 +97,16 @@ export const Task = ({ id, name, completed: initialCompleted, type, priority, st
           <div className={styles.taskDetails}>
             <Text className={styles.taskName} strong>{name}</Text>
             <div className={styles.taskMeta}>
-              {dueDate ? <Text className={styles.taskDate}>Concluir até: {new Date(dueDate).toLocaleDateString('pt-br')}</Text> : <Text className={styles.taskDate}> Sem prazo </Text>}
-              <Text className={styles.taskPriority}>Prioridade: {taskPriorityMap[priority]}</Text>
-              {isTaskDelayed(dueDate, completed) && <Tag style={{fontFamily: "Inter", fontWeight: "600" }} color='error'>Atrasada</Tag>}
+              {dueDate ? <Text className={styles.taskDate}>Due by: {new Date(dueDate).toLocaleDateString('en-US')}</Text> : <Text className={styles.taskDate}> No deadline </Text>}
+              <Text className={styles.taskPriority}>Priority: {taskPriorityMap[priority]}</Text>
+              {isTaskDelayed(dueDate, completed) && <Tag style={{fontFamily: "Inter", fontWeight: "600" }} color='error'>Overdue</Tag>}
             </div>
           </div>
         </Col>
         <Col span={4} className={styles.taskActions}>
-          <img src={editIcon} className={`${styles.editIcon} ${isReadOnly ? styles.readOnlyAction : ""}`} alt="Ícone de editar" onClick={isReadOnly ? undefined : handleEditTask} />
+          <img src={editIcon} className={`${styles.editIcon} ${isReadOnly ? styles.readOnlyAction : ""}`} alt="Edit icon" onClick={isReadOnly ? undefined : handleEditTask} />
           {isModalEditTaskOpen && <ModalEditTask task={task} modalOpen={isModalEditTaskOpen} onClose={handleCloseEditTaskModal} onTaskUpdated={handleTaskUpdated} />}
-          <img src={deleteIcon} className={`${styles.deleteIcon} ${isReadOnly ? styles.readOnlyAction : ""}`} alt="Ícone de excluir" onClick={isReadOnly ? undefined : handleDeleteTask} />
+          <img src={deleteIcon} className={`${styles.deleteIcon} ${isReadOnly ? styles.readOnlyAction : ""}`} alt="Delete icon" onClick={isReadOnly ? undefined : handleDeleteTask} />
           {isModalDeleteTaskOpen && <ModalDeleteTask task={task} modalOpen={isModalDeleteTaskOpen} onClose={handleCloseDeleteTaskModal} onTaskDeleted={handleTaskDeleted} />}
         </Col>
       </Row>
