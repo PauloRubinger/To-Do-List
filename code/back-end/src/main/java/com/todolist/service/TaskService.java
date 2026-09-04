@@ -43,7 +43,7 @@ public class TaskService {
 
     public Task updateTask(Long id, Task task) {
         Task existentTask = taskRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
         existentTask.setName(task.getName());
         existentTask.setCompleted(task.getCompleted());
         existentTask.setType(task.getType());
@@ -58,7 +58,7 @@ public class TaskService {
 
     public Task updateTaskCompletion(Long id, boolean completed) {
         Task existentTask = taskRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
         
         existentTask.setCompleted(completed);
         existentTask.setStatus(calculateStatus(existentTask));
@@ -75,38 +75,38 @@ public class TaskService {
         calendar.set(Calendar.MILLISECOND, 0);
         Date now = calendar.getTime();
     
-        // For tasks of type LIVRE, set dueDate to null
-        if (task.getType() == TaskType.LIVRE) {
+        // For tasks of type FREE, set dueDate to null
+        if (task.getType() == TaskType.FREE) {
             task.setDueDate(null);
         }
-        // For tasks of type DATA or PRAZO, ensure dueDate is not before today
-        else if (task.getType() == TaskType.DATA || task.getType() == TaskType.PRAZO) {
+        // For tasks of type DATE or DEADLINE, ensure dueDate is not before today
+        else if (task.getType() == TaskType.DATE || task.getType() == TaskType.DEADLINE) {
             if (task.getDueDate() == null || task.getDueDate().before(now)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A data prevista deve ser igual ou superior à data atual");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The due date must be equal to or after today");
             }
         }
     }
 
     private TaskStatus calculateStatus(Task task) {
         if (task.getCompleted()) {
-            return TaskStatus.CONCLUIDA;
+            return TaskStatus.COMPLETED;
         }
 
         Date now = new Date();
-        if (task.getType() == TaskType.DATA || task.getType() == TaskType.PRAZO) {
+        if (task.getType() == TaskType.DATE || task.getType() == TaskType.DEADLINE) {
             if (task.getDueDate().before(now)) {
-                return TaskStatus.ATRASADA;
+                return TaskStatus.OVERDUE;
             } else {
-                return TaskStatus.PREVISTA;
+                return TaskStatus.SCHEDULED;
             }
         } else {
-            return TaskStatus.PREVISTA;
+            return TaskStatus.SCHEDULED;
         }
     }
 
     public void deleteTask(Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
 
         taskRepository.delete(task);
     }

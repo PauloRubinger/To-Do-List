@@ -21,7 +21,7 @@ public class TaskListController {
         this.taskListService = taskListService;
     }
 
-    @Operation(summary = "Lista todas as listas de tarefas")
+    @Operation(summary = "List all task lists")
     @GetMapping("/listAll")
     public ResponseEntity<List<TaskList>> listAllTaskLists() {
         try {
@@ -35,7 +35,7 @@ public class TaskListController {
         }
     }
 
-    @Operation(summary = "Obtém a lista de tarefas pelo id")
+    @Operation(summary = "Gets the task list by id")
     @GetMapping("/get/{id}")
     public ResponseEntity<TaskList> get(@PathVariable Long id) {
         try {
@@ -46,7 +46,7 @@ public class TaskListController {
         }
     }
 
-    @Operation(summary = "Adiciona a lista de tarefas")
+    @Operation(summary = "Adds the task list")
     @PostMapping("/add")
     public ResponseEntity<TaskList> addTaskList(@RequestBody TaskList taskList) {
         try {
@@ -57,7 +57,7 @@ public class TaskListController {
         }
     }
 
-    @Operation(summary = "Atualiza a lista de tarefas")
+    @Operation(summary = "Updates the task list")
     @PutMapping("/edit/{id}")
     public ResponseEntity<TaskList> updateTaskList(@PathVariable Long id, @RequestBody TaskList taskList) {
         try {
@@ -68,7 +68,7 @@ public class TaskListController {
         }
     }
 
-    @Operation(summary = "Deleta a lista de tarefas")
+    @Operation(summary = "Deletes the task list")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteTaskList(@PathVariable Long id) {
         try {

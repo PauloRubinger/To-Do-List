@@ -32,7 +32,7 @@ public class TaskListService {
 
     public TaskList updateTaskList(Long id, TaskList taskList) {
         TaskList existentTaskList = taskListRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de tarefas não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task list not found"));
         existentTaskList.setName(taskList.getName());
 
         return taskListRepository.save(existentTaskList);
@@ -40,7 +40,7 @@ public class TaskListService {
 
     public void deleteTaskList(Long id) {
         TaskList taskList = taskListRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de tarefas não encontrada"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task list not found"));
 
         taskListRepository.delete(taskList);
     }
