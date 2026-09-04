@@ -36,8 +36,8 @@ const ModalAddTaskList = (props) => {
           duration: 5,
           showProgress: true,
           pauseOnHover: true,
-          message: "Sucesso",
-          description: "Lista de tarefas adicionada com sucesso!",
+          message: "Success",
+          description: "Task list added successfully!",
         });
       } else {
         throw new Error("Erro ao adicionar a lista de tarefas.");
@@ -47,8 +47,8 @@ const ModalAddTaskList = (props) => {
         duration: 5,
         showProgress: true,
         pauseOnHover: true,
-        message: "Erro",
-        description: "Houve um problema ao adicionar a lista de tarefas!",
+        message: "Error",
+        description: "There was a problem adding the task list!",
       });
     } finally {
       setModalOpen(false);
@@ -64,30 +64,30 @@ const ModalAddTaskList = (props) => {
   return (
     <>
       <Modal
-        title="Adicionar lista de tarefas"
+        title="Add Task List"
         open={modalOpen}
         onOk={form.submit}
-        okText="Adicionar"
+        okText="Add"
         confirmLoading={confirmLoading}
-        cancelText="Cancelar"
+        cancelText="Cancel"
         onCancel={handleCancel}
       >
         <Form layout="vertical" form={form} onFinish={handleSubmit}>
           <Form.Item
             name="name"
-            label="Nome da lista de tarefas"
+            label="Task list name"
             rules={[
               {
                 required: true,
-                message: "Por favor, insira o nome da lista de tarefas",
+                message: "Please enter the task list name",
               },
               {
                 max: 50,
-                message: "O nome da lista deve ter no máximo 50 caracteres",
+                message: "Task list name must have a maximum of 50 characters",
               },
             ]}
           >
-            <Input placeholder="Ex.: Afazeres domésticos"></Input>
+            <Input placeholder="Ex.: Household chores"></Input>
           </Form.Item>
         </Form>
       </Modal>

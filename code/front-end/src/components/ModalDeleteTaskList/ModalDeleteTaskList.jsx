@@ -35,8 +35,8 @@ export const ModalDeleteTaskList = (props) => {
           duration: 5,
           showProgress: true,
           pauseOnHover: true,
-          message: "Sucesso",
-          description: "Lista de tarefas excluída com sucesso!"
+          message: "Success",
+          description: "Task list deleted successfully!"
         });
       } else {
         throw new Error("Erro ao excluir a lista de tarefas!");
@@ -46,8 +46,8 @@ export const ModalDeleteTaskList = (props) => {
         duration: 5,
         showProgress: true,
         pauseOnHover: true,
-        message: "Erro",
-        description: "Houve um problema ao excluir a lista de tarefas!"
+        message: "Error",
+        description: "There was a problem deleting the task list!"
       });
     } finally {
       setModalOpen(false);
@@ -63,11 +63,11 @@ export const ModalDeleteTaskList = (props) => {
   return (
     <>
       <Modal
-        title="Tem certeza que deseja excluir esta lista de tarefas?"
+        title="Are you sure you want to delete this task list?"
         open={modalOpen}
         onOk={handleOk}
         okType="danger"
-        okText="Sim, excluir"
+        okText="Yes, delete"
         onCancel={handleCancel}
         confirmLoading={confirmLoading}
       ></Modal>

@@ -30,9 +30,9 @@ export const ModalAddTask = (props) => {
 
   const handleSubmit = async (values) => {
     try {
-      if (values.type === "DATA") {
+      if (values.type === "DATE") {
         values.dueDate = formatInputDate(values.dueDate.$d);
-      } else if (values.type === "PRAZO") {
+      } else if (values.type === "DEADLINE") {
         const date = calculateDateByDays(parseInt(values.dueDate));
         values.dueDate = formatInputDate(date);
       }
@@ -47,8 +47,8 @@ export const ModalAddTask = (props) => {
           duration: 5,
           showProgress: true,
           pauseOnHover: true,
-          message: "Sucesso",
-          description: "Tarefa adicionada com sucesso!"
+          message: "Success",
+          description: "Task added successfully!"
         });
       } else {
         throw new Error("Erro ao adicionar a tarefa!");
@@ -58,8 +58,8 @@ export const ModalAddTask = (props) => {
         duration: 5,
         showProgress: true,
         pauseOnHover: true,
-        message: "Erro",
-        description: "Houve um problema ao adicionar a tarefa!"
+        message: "Error",
+        description: "There was a problem adding the task!"
       });
     } finally {
       setConfirmLoading(false);
@@ -98,12 +98,12 @@ export const ModalAddTask = (props) => {
   return (
     <>
       <Modal
-        title="Adicionar tarefa"
+        title="Add Task"
         open={modalOpen}
         onOk={form.submit}
-        okText="Adicionar"
+        okText="Add"
         confirmLoading={confirmLoading}
-        cancelText="Cancelar"
+        cancelText="Cancel"
         onCancel={handleCancel}
       >
         <Form
@@ -113,46 +113,46 @@ export const ModalAddTask = (props) => {
         >
           <Form.Item
             name="name"
-            label="Nome da tarefa"
+            label="Task Name"
             rules={[
-              { required: true, message: "Por favor, insira o nome da tarefa" },
-              { max: 255, message: "O nome da tarefa deve ter no máximo 255 caracteres" }
+              { required: true, message: "Please enter the task name" },
+              { max: 255, message: "Task name must have a maximum of 255 characters" }
             ]}
           >
-            <Input placeholder="Ex.: Afazeres domésticos"></Input>
+            <Input placeholder="Ex.: Household chores"></Input>
           </Form.Item>
           <Form.Item
             name="type"
-            label="Tipo"
-            tooltip="Data: Data prevista de conclusão. Prazo: Prazo previsto para conclusão em dias. Livre: Sem prazo de conclusão"
-            rules={[{ required: true, message: "Por favor, selecione um tipo para a tarefa" }]}
+            label="Type"
+            tooltip="Date: Expected completion date. Deadline: Expected completion deadline in days. Free: No completion deadline"
+            rules={[{ required: true, message: "Please select a type for the task" }]}
           >
             <Select
-              placeholder="Selecione um tipo"
+              placeholder="Select a type"
               optionFilterProp="label"
               onChange={handleTypeChange}
               options={[
                 {
-                  value: 'DATA',
-                  label: 'Data',
+                  value: 'DATE',
+                  label: 'Date',
                 },
                 {
-                  value: 'PRAZO',
-                  label: 'Prazo',
+                  value: 'DEADLINE',
+                  label: 'Deadline',
                 },
                 {
-                  value: 'LIVRE',
-                  label: 'Livre',
+                  value: 'FREE',
+                  label: 'Free',
                 },
               ]}
             />
           </Form.Item>
-          {selectedType === "PRAZO" && 
+          {selectedType === "DEADLINE" && 
             <Form.Item
               name="dueDate"
-              label="Dias previstos para a conclusão"
+              label="Expected days to completion"
               rules={[
-                { required: true, message: "Por favor, informe o prazo em dias" },
+                { required: true, message: "Please enter the deadline in days" },
                 {
                   validator: (_, value) => {
                     if (value === undefined || value === null || value === "") {
@@ -162,7 +162,7 @@ export const ModalAddTask = (props) => {
                     const parsedValue = Number(value);
 
                     if (!Number.isInteger(parsedValue) || parsedValue < 0) {
-                      return Promise.reject(new Error("Informe um número inteiro maior ou igual a 0"));
+                      return Promise.reject(new Error("Enter an integer number greater than or equal to 0"));
                     }
 
                     return Promise.resolve();
@@ -173,35 +173,35 @@ export const ModalAddTask = (props) => {
               <Input type="number" min={0} step={1} />
             </Form.Item>
           }
-          {selectedType === "DATA" && 
+          {selectedType === "DATE" && (
             <Form.Item
               name="dueDate"
-              label="Data prevista para a conclusão"
-              rules={[{ required: true, message: "Por favor, informe a data prevista para conclusão" }]}
+              label="Expected completion date"
+              rules={[{ required: true, message: "Please enter the expected completion date" }]}
             >
               <DatePicker style={{width: "100%"}} format={"DD/MM/YYYY"} disabledDate={validateDate} ></DatePicker>
             </Form.Item>
-          }
+          )}
           <Form.Item
             name="priority"
-            label="Prioridade"
-            rules={[{ required: true, message: "Por favor, selecione a prioridade da tarefa" }]}
+            label="Priority"
+            rules={[{ required: true, message: "Please select a priority" }]}
           >
             <Select
-              placeholder="Selecione a prioridade"
+              placeholder="Select a priority"
               optionFilterProp="label"
               options={[
                 {
-                  value: 'ALTA',
-                  label: 'Alta',
+                  value: 'HIGH',
+                  label: 'High',
                 },
                 {
-                  value: 'MEDIA',
-                  label: 'Média',
+                  value: 'MEDIUM',
+                  label: 'Medium',
                 },
                 {
-                  value: 'BAIXA',
-                  label: 'Baixa',
+                  value: 'LOW',
+                  label: 'Low',
                 },
               ]}
             />

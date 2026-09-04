@@ -211,21 +211,21 @@ export const TaskList = ({
                       <Col>
                         <div className={styles.sortBy}>
                           <FilterFilled />
-                          <span>Ordenar por: </span>
+                          <span>Order by: </span>
                         </div>
                       </Col>
                       <Col>
                         <Select
                           value={filter}
-                          placeholder="Padrão"
+                          placeholder="Default"
                           options={[
                             {
                               value: "dueDate",
-                              label: "Data da conclusão",
+                              label: "Due date",
                             },
                             {
                               value: "priority",
-                              label: "Prioridade",
+                              label: "Priority",
                             },
                           ]}
                           dropdownStyle={{width: "max-content"}}
@@ -239,7 +239,7 @@ export const TaskList = ({
                 <Col className={styles.cardActions}>
                   <img
                     src={editIcon}
-                    alt="Editar lista de tarefas"
+                    alt="Edit icon"
                     onClick={isReadOnly ? undefined : handleEditTaskList}
                     className={`${styles.editIcon} ${isReadOnly ? styles.readOnlyAction : ""}`}
                   />
@@ -253,7 +253,7 @@ export const TaskList = ({
                   )}
                   <img
                     src={deleteIcon}
-                    alt="Excluir lista de tarefas"
+                    alt="Delete icon"
                     onClick={isReadOnly ? undefined : handleDeleteTaskList}
                     className={`${styles.deleteIcon} ${isReadOnly ? styles.readOnlyAction : ""}`}
                   />
@@ -272,7 +272,7 @@ export const TaskList = ({
         >
           <ConfigProvider
             renderEmpty={() => (
-              <Empty description="Esta lista ainda não possui tarefas" />
+              <Empty description="This list does not have any tasks yet" />
             )}
           >
             <List
@@ -290,7 +290,7 @@ export const TaskList = ({
             />
           </ConfigProvider>
           <AddButton
-            label={"Adicionar tarefa"}
+            label={"Add task"}
             className={styles.addTaskButton}
             onClick={isReadOnly ? undefined : handleAddTask}
             disabled={isReadOnly}

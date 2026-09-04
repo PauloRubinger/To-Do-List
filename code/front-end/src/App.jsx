@@ -1,11 +1,11 @@
 import Home from "./pages/Home";
 import { ConfigProvider } from "antd";
-import ptBR from 'antd/lib/locale/pt_BR';
+import enUS from 'antd/lib/locale/en_US';
 
 function App() {
   return (
     <ConfigProvider
-      locale={ptBR}
+      locale={enUS}
     >
       <Home>
       </Home>

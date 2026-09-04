@@ -48,9 +48,9 @@ export const ModalEditTask = (props) => {
 
   const handleSubmit = async (values) => {
 
-    if (values.type === "DATA") {
-      values.dueDate = formatInputDate(values.dueDate.$d);
-    } else if (values.type === "PRAZO") {
+    if (values.type === "DATE") {
+        values.dueDate = formatInputDate(values.dueDate.$d);
+      } else if (values.type === "DEADLINE") {
       const date = calculateDateByDays(parseInt(values.dueDate));
       values.dueDate = formatInputDate(date);
     }
@@ -66,8 +66,8 @@ export const ModalEditTask = (props) => {
           duration: 5,
           showProgress: true,
           pauseOnHover: true,
-          message: "Sucesso",
-          description: "Tarefa atualizada com sucesso!"
+          message: "Success",
+          description: "Task updated successfully!"
         });
       } else {
         throw new Error("Erro ao editar a tarefa!");
@@ -77,8 +77,8 @@ export const ModalEditTask = (props) => {
         duration: 5,
         showProgress: true,
         pauseOnHover: true,
-        message: "Erro",
-        description: "Houve um problema ao editar a tarefa!",
+        message: "Error",
+        description: "There was a problem editing the task!",
       });
     } finally {
       setConfirmLoading(false);
@@ -101,12 +101,12 @@ export const ModalEditTask = (props) => {
   return (
     <>
       <Modal
-        title="Editar tarefa"
+        title="Edit Task"
         open={modalOpen}
         onOk={form.submit}
-        okText="Salvar"
+        okText="Save"
         confirmLoading={confirmLoading}
-        cancelText="Cancelar"
+        cancelText="Cancel"
         onCancel={handleCancel}
       >
         <Form
@@ -114,7 +114,7 @@ export const ModalEditTask = (props) => {
           initialValues={{
             name: props.task.name,
             type: props.task.type,
-            dueDate: props.task.type === "DATA" ? dayjs(props.task.dueDate) : undefined,
+            dueDate: props.task.type === "DATE" ? dayjs(props.task.dueDate) : undefined,
             priority: props.task.priority,
           }}
           form={form}
@@ -122,67 +122,67 @@ export const ModalEditTask = (props) => {
         >
           <Form.Item
             name="name"
-            label="Nome da tarefa"
+            label="Task name"
             rules={[
-              { required: true, message: "Por favor, insira o nome da tarefa" },
-              { max: 255, message: "O nome da tarefa deve ter no máximo 255 caracteres" }
+              { required: true, message: "Please enter the task name" },
+              { max: 255, message: "The task name must have a maximum of 255 characters" }
             ]}
           >
-            <Input placeholder="Ex.: Afazeres domésticos"></Input>
+            <Input placeholder="Ex.: Household chores"></Input>
           </Form.Item>
           <Form.Item
             name="type"
-            label="Tipo"
-            tooltip="Data: Data prevista de conclusão. Prazo: Prazo previsto para conclusão em dias. Livre: Sem prazo de conclusão"
+            label="Type"
+            tooltip="Date: Expected completion date. Deadline: Expected completion deadline in days. Free: No completion deadline"
             rules={[
               {
                 required: true,
-                message: "Por favor, selecione um tipo para a tarefa",
+                message: "Please select a type for the task",
               },
             ]}
           >
             <Select
-              placeholder="Selecione um tipo"
+              placeholder="Select a type"
               optionFilterProp="label"
               onChange={handleTypeChange}
               options={[
                 {
-                  value: "DATA",
-                  label: "Data",
+                  value: "DATE",
+                  label: "Date",
                 },
                 {
-                  value: "PRAZO",
-                  label: "Prazo",
+                  value: "DEADLINE",
+                  label: "Deadline",
                 },
                 {
-                  value: "LIVRE",
-                  label: "Livre",
+                  value: "FREE",
+                  label: "Free",
                 },
               ]}
             />
           </Form.Item>
-          {selectedType === "PRAZO" && (
+          {selectedType === "DEADLINE" && (
             <Form.Item
               name="dueDate"
-              label="Dias previstos para a conclusão"
+              label="Expected days to completion"
               rules={[
                 {
                   required: true,
-                  message: "Por favor, informe o prazo em dias",
+                  message: "Please enter the deadline in days",
                 },
               ]}
             >
               <Input type="number"></Input>
             </Form.Item>
           )}
-          {selectedType === "DATA" && (
+          {selectedType === "DATE" && (
             <Form.Item
               name="dueDate"
-              label="Data prevista para a conclusão"
+              label="Expected completion date"
               rules={[
                 {
                   required: true,
-                  message: "Por favor, informe a data prevista para conclusão",
+                  message: "Please enter the expected completion date",
                 },
               ]}
             >
@@ -191,29 +191,29 @@ export const ModalEditTask = (props) => {
           )}
           <Form.Item
             name="priority"
-            label="Prioridade"
+            label="Priority"
             rules={[
               {
                 required: true,
-                message: "Por favor, selecione a prioridade da tarefa",
+                message: "Please select a priority",
               },
             ]}
           >
             <Select
-              placeholder="Selecione a prioridade"
+              placeholder="Select a priority"
               optionFilterProp="label"
               options={[
                 {
-                  value: "ALTA",
-                  label: "Alta",
+                  value: "HIGH",
+                  label: "High",
                 },
                 {
-                  value: "MEDIA",
-                  label: "Média",
+                  value: "MEDIUM",
+                  label: "Medium",
                 },
                 {
-                  value: "BAIXA",
-                  label: "Baixa",
+                  value: "LOW",
+                  label: "Low",
                 },
               ]}
             />
