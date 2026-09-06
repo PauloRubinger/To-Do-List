@@ -116,6 +116,7 @@ export const ModalEditTask = (props) => {
             type: props.task.type,
             dueDate: props.task.type === "DATE" ? dayjs(props.task.dueDate) : undefined,
             priority: props.task.priority,
+            completed: props.task.completed,
           }}
           form={form}
           onFinish={handleSubmit}
@@ -217,6 +218,12 @@ export const ModalEditTask = (props) => {
                 },
               ]}
             />
+          </Form.Item>
+          <Form.Item
+            name="completed"
+            noStyle
+          >
+            <input type="hidden" />
           </Form.Item>
         </Form>
       </Modal>
