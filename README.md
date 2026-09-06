@@ -77,10 +77,22 @@ export SPRING_DATASOURCE_PASSWORD="<password>"
 ```
 ./mvnw clean install
 ```
-6. Run the Spring Boot application:
-```
-./mvnw spring-boot:run
-```
+6. Run the Spring Boot application with local profile support:
+
+   **Option A: Use the provided script (Recommended)**
+   ```
+   ./run-local.sh
+   ```
+   This script automatically loads DSQL credentials and enables the local profile with CORS support.
+
+   **Option B: Manual command**
+   ```
+   source ./set-dsql-env.sh
+   ./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local"
+   ```
+
+   The `local` profile loads `application-local.properties` which configures CORS for local network access (localhost and your machine's IP).
+
 7. Open a new terminal and navigate to the front-end directory:
 ```
 cd ../front-end
@@ -104,6 +116,20 @@ npm install
 npm start
 ```
 The front-end application will start on http://localhost:3000.
+
+## Accessing the Application Locally
+The application is configured to support access from different devices on your local network:
+
+**From your machine (Desktop):**
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8080/api
+
+**From mobile or other local machines (same network):**
+- Identify your machine's local IP: `ipconfig getifaddr en0` (macOS) or `hostname -I` (Linux)
+- Frontend: http://<YOUR_IP>:3000
+- Backend: http://<YOUR_IP>:8080/api
+
+**Important:** The backend must be running with the `local` profile to enable CORS for your IP address. Use `./run-local.sh` or the manual command shown in Step 6 above.
 
 ## Running with Docker
 The Docker image builds the frontend and backend and uses Nginx to serve the frontend and proxy `/api` requests to Spring Boot.
