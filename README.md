@@ -28,6 +28,19 @@ Make sure you have the following installed:
 
 > Never commit real database credentials to Git. Keep secrets in environment variables or a secrets manager.
 
+## Local Configuration Files
+Both back-end and front-end use example configuration files to guide developers:
+
+**Front-end:** Copy `.env.example` to `.env.local` and customize for your environment
+- `.env.example` - Template with example values (tracked in git)
+- `.env.local` - Your local configuration (not tracked, git-ignored)
+- Contains: `REACT_APP_API_URL`, `REACT_APP_READ_ONLY`, etc.
+
+**Back-end:** Uses `application.properties.example` as a reference
+- `application.properties` - Base configuration with environment variable placeholders (tracked in git)
+- `application-local.properties` - Optional local overrides (not tracked, git-ignored)
+- Default values come from environment variables or application.properties
+
 ## Running the Application
 1. Clone the repository:
 ```
@@ -72,11 +85,21 @@ export SPRING_DATASOURCE_PASSWORD="<password>"
 ```
 cd ../front-end
 ```
-8. Install dependencies:
+8. Create the front-end local config file from the example:
+```
+cp .env.example .env.local
+```
+   Update the `.env.local` file with your backend API URL:
+```
+REACT_APP_API_URL=http://localhost:8080/api
+```
+   This file is not tracked by git (.gitignore) and can be safely modified for your local environment.
+
+9. Install dependencies:
 ```
 npm install
 ```
-9. Start the React application:
+10. Start the React application:
 ```
 npm start
 ```
