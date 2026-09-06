@@ -1,4 +1,7 @@
 .taskListContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
   margin-bottom: 12px;
 }
 
@@ -91,11 +94,6 @@
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-
-  .taskListContainer {
-    width: 100%;
-  }
-
   .cardContainer {
     width: min(100%, calc(100vw - 20px));
   }
@@ -125,10 +123,6 @@
 }
 
 @media (max-width: 768px) {
-  .taskListContainer {
-    width: 100%;
-  }
-
   .cardContainer :global(.ant-card-head-title) {
     min-width: 0;
     overflow: visible;
