@@ -68,17 +68,32 @@
 
 .checkbox {
   appearance: none;
+  -webkit-appearance: none;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
   width: 40px;
   height: 40px;
-  background-size: contain;
-  background-repeat: no-repeat;
+  background: transparent;
+  border: 1.5px solid black;
+  border-radius: 50%;
   cursor: pointer;
-  border: none;
   transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.checkbox.checked {
+  background: #49c78f;
+  border-color: black;
+  position: relative;
+}
+
+.checkbox.checked::after {
+  content: "✓";
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1;
 }
 
 .checkbox:hover {
@@ -86,13 +101,6 @@
   filter: brightness(0.85);
 }
 
-.checkbox.checked {
-  background-image: url('../../assets/images/circle-checked.svg');
-}
-
-.checkbox.unchecked {
-  background-image: url('../../assets/images/circle.svg');
-}
 
 @media (min-width: 769px) and (max-width: 1024px) {
 
@@ -242,7 +250,10 @@
   .checkbox {
     width: 28px;
     height: 28px;
-    margin-right: 0;
+  }
+
+  .checkbox.checked::after {
+    font-size: 17px;
   }
 }
 
@@ -291,6 +302,10 @@
     width: 24px;
     height: 24px;
   }
+
+  .checkbox.checked::after {
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 375px) {
@@ -323,5 +338,9 @@
   .checkbox {
     width: 20px;
     height: 20px;
+  }
+
+  .checkbox.checked::after {
+    font-size: 13px;
   }
 }
