@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import AddButton from "../components/AddButton/AddButton";
@@ -14,6 +14,7 @@ const HomePage = () => {
   const [taskLists, setTaskLists] = useState([]);
   const [allTaskLists, setAllTaskLists] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const searchTimeoutRef = useRef(null);
 
   const fetchTaskLists = useCallback(async () => {
     try {
@@ -45,6 +46,43 @@ const HomePage = () => {
     fetchTaskLists();
   }, [fetchTaskLists]);
 
+  // Debounce search: wait 300ms after user stops typing before making API call
+  useEffect(() => {
+    // Clear previous timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    // If search is empty, show all lists immediately
+    if (searchTerm.trim() === "") {
+      setTaskLists(allTaskLists);
+      return;
+    }
+
+    // Set new timeout for debounced search
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const response = await searchTaskListsByName(searchTerm);
+        if (response.status === 204 || !response.data) {
+          setTaskLists([]);
+        } else if (response.data) {
+          const sortedTaskLists = sortTaskLists(response.data);
+          setTaskLists(sortedTaskLists);
+        }
+      } catch (error) {
+        console.error("Error searching task lists:", error);
+        setTaskLists([]);
+      }
+    }, 300);
+
+    // Cleanup on unmount
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchTerm, allTaskLists]);
+
   const handleAddTaskList = () => {
     setIsAddTaskListModalOpen(true);
   };
@@ -69,25 +107,8 @@ const HomePage = () => {
     setAllTaskLists((prevTaskLists) => prevTaskLists.filter((prevTaskList) => prevTaskList.id !== deletedTaskList.id));
   };
 
-  const handleSearch = async (value) => {
+  const handleSearch = (value) => {
     setSearchTerm(value);
-    if (value.trim() === "") {
-      setTaskLists(allTaskLists);
-      return;
-    }
-    try {
-      const response = await searchTaskListsByName(value);
-      // Handle both 200 OK with data and 204 NO_CONTENT (empty)
-      if (response.status === 204 || !response.data) {
-        setTaskLists([]);
-      } else if (response.data) {
-        const sortedTaskLists = sortTaskLists(response.data);
-        setTaskLists(sortedTaskLists);
-      }
-    } catch (error) {
-      console.error("Error searching task lists:", error);
-      setTaskLists([]);
-    }
   };
 
   return (

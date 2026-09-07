@@ -46,7 +46,7 @@ COPY --from=build-frontend /src/front-end/build/ /var/www/html/
 # Remove default nginx server config and add a simple one (serve static files)
 RUN rm /etc/nginx/sites-enabled/default || true
 RUN printf '%s\n' \
-  'limit_req_zone $binary_remote_addr zone=api_limit:10m rate=2r/s;' \
+  'limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/s;' \
   'server {' \
   '  listen 80;' \
   '  server_name _;' \
@@ -55,7 +55,7 @@ RUN printf '%s\n' \
   '    try_files $uri $uri/ /index.html;' \
   '  }' \
   '  location /api/ {' \
-  '    limit_req zone=api_limit burst=10 nodelay;' \
+  '    limit_req zone=api_limit burst=20 nodelay;' \
   '    proxy_pass http://127.0.0.1:8080;' \
   '    proxy_set_header Host $host;' \
   '    proxy_set_header X-Real-IP $remote_addr;' \
