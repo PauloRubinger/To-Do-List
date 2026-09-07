@@ -99,7 +99,16 @@ const HomePage = () => {
   };
 
   const handleTaskListUpdated = (updatedTaskList) => {
-    setTaskLists((prevTaskLists) => prevTaskLists.map((prevTaskList) => prevTaskList.id === updatedTaskList.id ? updatedTaskList : prevTaskList));
+    setTaskLists((prevTaskLists) =>
+      prevTaskLists.map((prevTaskList) =>
+        prevTaskList.id === updatedTaskList.id ? updatedTaskList : prevTaskList
+      )
+    );
+    setAllTaskLists((prevTaskLists) =>
+      prevTaskLists.map((prevTaskList) =>
+        prevTaskList.id === updatedTaskList.id ? updatedTaskList : prevTaskList
+      )
+    );
   };
 
   const handleTaskListDeleted = (deletedTaskList) => {
