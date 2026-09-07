@@ -10,7 +10,7 @@
 
 .pageTitle {
   margin: 0 0 28px;
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-size: 3rem;
   text-box: trim-both cap alphabetic;
   letter-spacing: -0.06em;
   font-weight: 800;
