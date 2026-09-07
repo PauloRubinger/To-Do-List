@@ -70,6 +70,41 @@ export const TaskList = ({
     setIsModalAddTaskOpen(true);
   };
 
+  const compareDueDates = (dueDateA, dueDateB) => {
+    const hasDueDateA = !!dueDateA;
+    const hasDueDateB = !!dueDateB;
+
+    if (!hasDueDateA && !hasDueDateB) {
+      return 0;
+    }
+
+    if (!hasDueDateA) {
+      return 1;
+    }
+
+    if (!hasDueDateB) {
+      return -1;
+    }
+
+    const dateA = new Date(dueDateA);
+    const dateB = new Date(dueDateB);
+
+    // Compare only the calendar date, ignoring the time
+    const normalizedDateA = new Date(
+      dateA.getFullYear(),
+      dateA.getMonth(),
+      dateA.getDate(),
+    );
+
+    const normalizedDateB = new Date(
+      dateB.getFullYear(),
+      dateB.getMonth(),
+      dateB.getDate(),
+    );
+
+    return normalizedDateA.getTime() - normalizedDateB.getTime();
+  };
+
   const applyCurrentFilter = (
     items,
     showCompletedOverride = showCompleted,
@@ -77,56 +112,50 @@ export const TaskList = ({
   ) => {
     let filtered = [...items];
 
-    // Filter completed tasks if showCompleted is false
+    // Hide completed tasks when Show completed is unchecked
     if (!showCompletedOverride) {
       filtered = filtered.filter((task) => !task.completed);
     }
 
-    // Sort: incomplete tasks first, then completed tasks at the end
-    filtered.sort((a, b) => {
+    // Apply sorting based on filter type
+    return filtered.sort((a, b) => {
+      // Keep completed tasks at the end
       if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1; // Completed tasks go to the end
+        return a.completed ? 1 : -1;
       }
-      return 0; // Keep original order for tasks with same completion status
+
+      // If no filter, maintain basic ordering (incomplete first, completed last)
+      if (!filterOverride) {
+        return 0;
+      }
+
+      if (filterOverride === "priority") {
+        // 1. Higher priority first
+        const priorityComparison =
+          calculatePriority(a.priority) - calculatePriority(b.priority);
+
+        if (priorityComparison !== 0) {
+          return priorityComparison;
+        }
+
+        // 2. Same priority: more urgent due date first
+        return compareDueDates(a.dueDate, b.dueDate);
+      }
+
+      if (filterOverride === "dueDate") {
+        // 1. More urgent due date first
+        const dueDateComparison = compareDueDates(a.dueDate, b.dueDate);
+
+        if (dueDateComparison !== 0) {
+          return dueDateComparison;
+        }
+
+        // 2. Same due date: higher priority first
+        return calculatePriority(a.priority) - calculatePriority(b.priority);
+      }
+
+      return 0;
     });
-
-    // Apply additional filter/sort options
-    if (!filterOverride) {
-      return filtered;
-    }
-
-    if (filterOverride === "dueDate") {
-      return filtered.sort((a, b) => {
-        // If one is completed, keep completed at the end
-        if (a.completed !== b.completed) {
-          return a.completed ? 1 : -1;
-        }
-
-        const hasDueDateA = !!a.dueDate;
-        const hasDueDateB = !!b.dueDate;
-
-        if (!hasDueDateA && !hasDueDateB) return 0;
-        if (!hasDueDateA) return 1;
-        if (!hasDueDateB) return -1;
-
-        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-      });
-    }
-
-    if (filterOverride === "priority") {
-      return filtered.sort((a, b) => {
-        // If one is completed, keep completed at the end
-        if (a.completed !== b.completed) {
-          return a.completed ? 1 : -1;
-        }
-
-        const priorityA = calculatePriority(a.priority);
-        const priorityB = calculatePriority(b.priority);
-        return priorityA - priorityB;
-      });
-    }
-
-    return filtered;
   };
 
   const handleTaskAdded = (newTask) => {
