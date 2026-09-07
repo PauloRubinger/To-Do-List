@@ -18,6 +18,23 @@ export const listAllTaskLists = async () => {
     }
 };
 
+export const searchTaskListsByName = async (name) => {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `${BASE_URL}/taskList/search`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: { name }
+        });
+        return response;
+    } catch (error) {
+        console.error("Error searching task lists: ", error);
+        throw error;
+    }
+};
+
 export const getTaskListById = async (id) => {
     try {
         const response = await axios({

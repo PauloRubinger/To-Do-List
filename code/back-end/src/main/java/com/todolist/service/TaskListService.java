@@ -22,6 +22,10 @@ public class TaskListService {
         return taskListRepository.findAll();
     }
 
+    public List<TaskList> searchTaskListsByName(String name) {
+        return taskListRepository.findByNameIgnoreCaseContaining(name);
+    }
+
     public TaskList get(Long id) {
         return taskListRepository.findById(id).get();
     }

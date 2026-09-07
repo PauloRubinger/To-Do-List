@@ -35,6 +35,20 @@ public class TaskListController {
         }
     }
 
+    @Operation(summary = "Search task lists by name")
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskList>> searchTaskListsByName(@RequestParam String name) {
+        try {
+            List<TaskList> taskLists = taskListService.searchTaskListsByName(name);
+            if (taskLists.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(taskLists, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @Operation(summary = "Gets the task list by id")
     @GetMapping("/get/{id}")
     public ResponseEntity<TaskList> get(@PathVariable Long id) {
