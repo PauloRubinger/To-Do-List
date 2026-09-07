@@ -6,6 +6,7 @@ function App() {
   return (
     <ConfigProvider
       locale={enUS}
+      theme={{ token: { colorPrimary: "#49c78f" } }}
     >
       <Home>
       </Home>
