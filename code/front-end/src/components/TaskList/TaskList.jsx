@@ -8,6 +8,7 @@ import {
   Select,
   ConfigProvider,
   Empty,
+  Checkbox,
 } from "antd";
 import { Task } from "../Task/Task";
 import { listAllByTaskList } from "../../services/task-service";
@@ -29,11 +30,14 @@ export const TaskList = ({
   onTaskListDeleted,
 }) => {
   const isReadOnly = process.env.REACT_APP_READ_ONLY === "true";
+  const [allTasks, setAllTasks] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
   const [isModalEditTaskListOpen, setIsModalEditTaskListOpen] = useState(false);
-  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] = useState(false);
+  const [isModalDeleteTaskListOpen, setIsModalDeleteTaskListOpen] =
+    useState(false);
   const [filter, setFilter] = useState(null);
+  const [showCompleted, setShowCompleted] = useState(true);
 
   const taskList = {
     id: taskListId,
@@ -41,29 +45,63 @@ export const TaskList = ({
   };
 
   useEffect(() => {
+    const fetchTasks = async (taskListId) => {
+      const response = await listAllByTaskList(taskListId);
+      if (response && response.data) {
+        setAllTasks(response.data); // Store all tasks unfiltered
+        setShowCompleted(true);
+        setFilter(null); // Reset sort filter when changing task lists
+        // Apply filter inline to avoid dependency cycle
+        let filtered = [...response.data];
+        filtered.sort((a, b) => {
+          if (a.completed !== b.completed) {
+            return a.completed ? 1 : -1;
+          }
+          return 0;
+        });
+        setTasks(filtered);
+      }
+    };
+
     fetchTasks(taskListId);
   }, [taskListId]);
-
-  const fetchTasks = async (taskListId) => {
-    const response = await listAllByTaskList(taskListId);
-    if (response && response.data) {
-      setTasks(response.data);
-    }
-  };
 
   const handleAddTask = () => {
     setIsModalAddTaskOpen(true);
   };
 
-  const applyCurrentFilter = (items) => {
-    if (!filter) {
-      return items;
+  const applyCurrentFilter = (
+    items,
+    showCompletedOverride = showCompleted,
+    filterOverride = filter,
+  ) => {
+    let filtered = [...items];
+
+    // Filter completed tasks if showCompleted is false
+    if (!showCompletedOverride) {
+      filtered = filtered.filter((task) => !task.completed);
     }
 
-    const sortedItems = [...items];
+    // Sort: incomplete tasks first, then completed tasks at the end
+    filtered.sort((a, b) => {
+      if (a.completed !== b.completed) {
+        return a.completed ? 1 : -1; // Completed tasks go to the end
+      }
+      return 0; // Keep original order for tasks with same completion status
+    });
 
-    if (filter === "dueDate") {
-      return sortedItems.sort((a, b) => {
+    // Apply additional filter/sort options
+    if (!filterOverride) {
+      return filtered;
+    }
+
+    if (filterOverride === "dueDate") {
+      return filtered.sort((a, b) => {
+        // If one is completed, keep completed at the end
+        if (a.completed !== b.completed) {
+          return a.completed ? 1 : -1;
+        }
+
         const hasDueDateA = !!a.dueDate;
         const hasDueDateB = !!b.dueDate;
 
@@ -75,43 +113,51 @@ export const TaskList = ({
       });
     }
 
-    if (filter === "priority") {
-      return sortedItems.sort((a, b) => {
+    if (filterOverride === "priority") {
+      return filtered.sort((a, b) => {
+        // If one is completed, keep completed at the end
+        if (a.completed !== b.completed) {
+          return a.completed ? 1 : -1;
+        }
+
         const priorityA = calculatePriority(a.priority);
         const priorityB = calculatePriority(b.priority);
         return priorityA - priorityB;
       });
     }
 
-    return sortedItems;
+    return filtered;
   };
 
   const handleTaskAdded = (newTask) => {
+    setAllTasks((prevAllTasks) => [...prevAllTasks, newTask]);
     setTasks((prevTasks) => applyCurrentFilter([...prevTasks, newTask]));
   };
 
   const handleTaskUpdated = (updatedTask) => {
-    setTasks((prevTasks) =>
-      applyCurrentFilter(
-        prevTasks.map((prevTask) =>
-          prevTask.id === updatedTask.id ? updatedTask : prevTask
-        )
-      )
+    const updatedAllTasks = allTasks.map((prevTask) =>
+      prevTask.id === updatedTask.id ? updatedTask : prevTask,
     );
+    setAllTasks(updatedAllTasks);
+    setTasks(applyCurrentFilter(updatedAllTasks));
   };
 
   const handleTaskDeleted = (deletedTask) => {
+    const updatedAllTasks = allTasks.filter(
+      (prevTask) => prevTask.id !== deletedTask.id,
+    );
+    setAllTasks(updatedAllTasks);
     setTasks((prevTasks) =>
-      prevTasks.filter((prevTask) => prevTask.id !== deletedTask.id)
+      prevTasks.filter((prevTask) => prevTask.id !== deletedTask.id),
     );
   };
 
   const handleTaskCompletionToggled = (taskId, completed) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((prevTask) =>
-        prevTask.id === taskId ? { ...prevTask, completed } : prevTask
-      )
+    const updatedAllTasks = allTasks.map((prevTask) =>
+      prevTask.id === taskId ? { ...prevTask, completed } : prevTask,
     );
+    setAllTasks(updatedAllTasks);
+    setTasks(applyCurrentFilter(updatedAllTasks));
   };
 
   const handleCloseAddTaskModal = () => {
@@ -142,36 +188,10 @@ export const TaskList = ({
     onTaskListDeleted(deletedTaskList);
   };
 
-  const filterByPriority = () => {
-    const sortedTasks = [...tasks].sort((a, b) => {
-      const priorityA = calculatePriority(a.priority);
-      const priorityB = calculatePriority(b.priority);
-      return priorityA - priorityB;
-    });
-    setTasks(sortedTasks);
-  };
-
-  const filterByDueDate = () => {
-    const sortedTasks = [...tasks].sort((a, b) => {
-      const hasDueDateA = !!a.dueDate;
-      const hasDueDateB = !!b.dueDate;
-
-      if (!hasDueDateA && !hasDueDateB) return 0;
-      if (!hasDueDateA) return 1;
-      if (!hasDueDateB) return -1;
-
-      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-    });
-    setTasks(sortedTasks);
-  };
-  
   const handleFilterChange = (selectedOption) => {
     setFilter(selectedOption);
-    if (selectedOption === "dueDate") {
-      filterByDueDate();
-    } else if (selectedOption === "priority") {
-      filterByPriority();
-    }
+    // Reapply filters from allTasks with new filter option
+    setTasks(applyCurrentFilter(allTasks, showCompleted, selectedOption));
   };
 
   const calculatePriority = (priority) => {
@@ -207,14 +227,14 @@ export const TaskList = ({
                     {title}
                   </Title>
                   {tasks.length > 0 && (
-                    <Row align={"middle"} gutter={10} className={styles.filterContainer}>
-                      <Col>
-                        <div className={styles.sortBy}>
-                          <FilterFilled />
-                          <span>Order by: </span>
-                        </div>
-                      </Col>
-                      <Col>
+                    <Row
+                      align={"middle"}
+                      gutter={10}
+                      className={styles.filterContainer}
+                    >
+                      <Col className={styles.sortBy}>
+                        <FilterFilled className={styles.filterIcon} />
+                        <span>Order by: </span>
                         <Select
                           value={filter}
                           placeholder="Default"
@@ -228,9 +248,29 @@ export const TaskList = ({
                               label: "Priority",
                             },
                           ]}
-                          dropdownStyle={{width: "max-content"}}
+                          dropdownStyle={{ width: "max-content" }}
                           onChange={handleFilterChange}
                         />
+                      </Col>
+                      <Col>
+                        <Checkbox
+                          className={styles.showCompleted}
+                          checked={showCompleted}
+                          onChange={(e) => {
+                            const newShowCompleted = e.target.checked;
+                            setShowCompleted(newShowCompleted);
+                            // Reapply filters from allTasks with new showCompleted value
+                            setTasks(
+                              applyCurrentFilter(
+                                allTasks,
+                                newShowCompleted,
+                                filter,
+                              ),
+                            );
+                          }}
+                        >
+                          Show completed
+                        </Checkbox>
                       </Col>
                     </Row>
                   )}
