@@ -226,7 +226,7 @@ export const TaskList = ({
                   <Title level={2} className={styles.cardTitle}>
                     {title}
                   </Title>
-                  {tasks.length > 0 && (
+                  {allTasks.length > 0 && (
                     <Row
                       align={"middle"}
                       gutter={10}
