@@ -7,9 +7,10 @@ This is a To-Do List application built with React.js for the front-end and Java 
 2. [Prerequisites](#prerequisites)
 3. [Cloning & Initial Setup](#cloning--initial-setup)
 4. [Backend Configuration](#backend-configuration)
-5. [Running the Application](#running-the-application)
-6. [Accessing the Application Locally](#accessing-the-application-locally)
-7. [Running with Docker](#running-with-docker)
+5. [Frontend Configuration](#frontend-configuration)
+6. [Running the Application](#running-the-application)
+7. [Accessing the Application Locally](#accessing-the-application-locally)
+8. [Running with Docker](#running-with-docker)
 
 ## Features
 - Create, read, update, and delete task lists
@@ -40,10 +41,6 @@ cd To-Do-List
 ```
 
 ## Backend Configuration
-
-Before running the backend, you need to configure your local environment:
-
-### 1. Create Backend Local Configuration
 
 Navigate to the backend directory:
 ```bash
@@ -77,7 +74,7 @@ EOF
 
 > This file is git-ignored and safe for storing credentials. Each developer should have their own local copy.
 
-### 2. Create Frontend Local Configuration
+## Frontend Configuration
 
 In another terminal, navigate to the frontend directory:
 ```bash
