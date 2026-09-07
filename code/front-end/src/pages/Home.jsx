@@ -113,7 +113,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.generalContainer}>
-      <h1>Task Lists</h1>
+      <h1 className={styles.pageTitle}>Task Lists</h1>
       {isReadOnly && (
         <p className={styles.readOnlyNotice} role="status">
           Demo mode: read-only view
@@ -139,8 +139,8 @@ const HomePage = () => {
           />
         </div>
       )}
-      {taskLists.length === 0 && allTaskLists.length === 0 && <h2>You don't have any task lists yet</h2>}
-      {taskLists.length === 0 && allTaskLists.length > 0 && <h2>No task lists found</h2>}
+      {taskLists.length === 0 && allTaskLists.length === 0 && <h2 className={styles.emptyMessage} >You don't have any task lists yet</h2>}
+      {taskLists.length === 0 && allTaskLists.length > 0 && <h2 className={styles.emptyMessage}>No task lists found</h2>}
       {!isReadOnly && isAddTaskListModalOpen && <ModalAddTaskList modalOpen={true} onClose={handleCloseAddTaskListModal} onTaskListAdded={handleTaskListAdded} />}
       <div className={styles.taskListContainer}>
         {taskLists && taskLists.map(taskList => (

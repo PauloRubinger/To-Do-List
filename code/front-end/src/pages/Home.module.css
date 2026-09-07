@@ -5,20 +5,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 40px 20px 64px;
+  padding: 40px 20px;
 }
 
-h1 {
-  margin: 0 0 24px;
+.pageTitle {
+  margin: 0 0 28px;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
-  line-height: 1.1;
+  text-box: trim-both cap alphabetic;
   letter-spacing: -0.06em;
   font-weight: 800;
   color: var(--text-strong);
 }
 
 .readOnlyNotice {
-  margin: -8px 0 20px;
+  margin-top: 0;
+  margin-bottom: 28px;
+  text-box: trim-both cap alphabetic;
   color: var(--text-muted);
   font-size: 1.9rem;
   font-weight: 700;
@@ -26,15 +28,16 @@ h1 {
 }
 
 .searchContainer {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
-h2 {
-  margin: 0 0 20px;
+.emptyMessage {
+  margin: 0 0 28px;
   font-size: 1.1rem;
+  text-box: trim-both cap alphabetic;
   color: var(--text-muted);
   font-weight: 500;
 }
@@ -61,17 +64,17 @@ h2 {
     max-width: 100%;
   }
 
-  h1 {
+  .pageTitle {
     margin-bottom: 18px;
     font-size: 2.1rem;
   }
 
   .readOnlyNotice {
-    margin: -4px 0 16px;
+    margin-bottom: 18px;
     font-size: 1.1rem;
   }
 
-  h2 {
+  .emptyMessage {
     font-size: 1rem;
     text-align: center;
   }
@@ -90,5 +93,9 @@ h2 {
     width: 100%;
     max-width: 100%;
     gap: 18px;
+  }
+
+  .searchContainer{
+    margin-bottom: 18px;
   }
 }
