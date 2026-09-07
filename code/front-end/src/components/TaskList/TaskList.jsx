@@ -159,8 +159,10 @@ export const TaskList = ({
   };
 
   const handleTaskAdded = (newTask) => {
-    setAllTasks((prevAllTasks) => [...prevAllTasks, newTask]);
-    setTasks((prevTasks) => applyCurrentFilter([...prevTasks, newTask]));
+    const updatedAllTasks = [...allTasks, newTask];
+
+    setAllTasks(updatedAllTasks);
+    setTasks(applyCurrentFilter(updatedAllTasks));
   };
 
   const handleTaskUpdated = (updatedTask) => {
