@@ -5,8 +5,11 @@ This is a To-Do List application built with React.js for the front-end and Java 
 ## Table of Contents
 1. [Features](#features)
 2. [Prerequisites](#prerequisites)
-3. [Running the Application](#running-the-application)
-4. [Running with Docker](#running-with-docker)
+3. [Cloning & Initial Setup](#cloning--initial-setup)
+4. [Backend Configuration](#backend-configuration)
+5. [Running the Application](#running-the-application)
+6. [Accessing the Application Locally](#accessing-the-application-locally)
+7. [Running with Docker](#running-with-docker)
 
 ## Features
 - Create, read, update, and delete task lists
@@ -28,94 +31,101 @@ Make sure you have the following installed:
 
 > Never commit real database credentials to Git. Keep secrets in environment variables or a secrets manager.
 
-## Local Configuration Files
-Both back-end and front-end use example configuration files to guide developers:
+## Cloning & Initial Setup
 
-**Front-end:** Copy `.env.example` to `.env.local` and customize for your environment
-- `.env.example` - Template with example values (tracked in git)
-- `.env.local` - Your local configuration (not tracked, git-ignored)
-- Contains: `REACT_APP_API_URL`, `REACT_APP_READ_ONLY`, etc.
-
-**Back-end:** Uses `application.properties.example` as a reference
-- `application.properties` - Base configuration with environment variable placeholders (tracked in git)
-- `application-local.properties` - Optional local overrides (not tracked, git-ignored)
-- Default values come from environment variables or application.properties
-
-## Running the Application
-1. Clone the repository:
-```
+Clone the repository:
+```bash
 git clone https://github.com/PauloRubinger/To-Do-List.git
+cd To-Do-List
 ```
-2. Navigate to the back-end directory:
-```
+
+## Backend Configuration
+
+Before running the backend, you need to configure your local environment:
+
+### 1. Create Backend Local Configuration
+
+Navigate to the backend directory:
+```bash
 cd code/back-end
 ```
-3. Create the local runtime config file from the example:
-```
-cp src/main/resources/application.properties.example src/main/resources/application.properties
-```
-4. For Aurora DSQL, use the script below to load the temporary credentials automatically without storing the token in the repository. The cluster endpoint and region are already configured in the script:
-```
-source ./set-dsql-env.sh
-```
-The script uses the AWS CLI session to generate a fresh token. Run `source ./set-dsql-env.sh` again when it expires.
 
-If you need to override the default cluster endpoint, you can set it before calling the script:
-```
-export DSQL_CLUSTER_ENDPOINT="<cluster-endpoint>"
-source ./set-dsql-env.sh
-```
+Create `application-local.properties` with your database configuration. The script `set-dsql-env.sh` will read this file to extract the endpoint and region.
 
-For a standard PostgreSQL instance, set the variables manually:
-```
-export SPRING_DATASOURCE_URL="jdbc:postgresql://<host>:5432/<database>?sslmode=require"
-export SPRING_DATASOURCE_USERNAME="<username>"
-export SPRING_DATASOURCE_PASSWORD="<password>"
+**For Aurora DSQL:**
+```bash
+cat > src/main/resources/application-local.properties << 'EOF'
+# Aurora DSQL Configuration
+spring.datasource.url=jdbc:postgresql://<your-dsql-endpoint>:5432/postgres?sslmode=require
+aws.region=your-region
+
+# CORS for local network access
+cors.allowed-origins=http://localhost:3000,http://<your-local-ip>:3000
+EOF
 ```
 
-5. Build the Spring Boot project:
-```
-./mvnw clean install
-```
-6. Run the Spring Boot application with local profile support:
+**For Local PostgreSQL:**
+```bash
+cat > src/main/resources/application-local.properties << 'EOF'
+spring.datasource.url=jdbc:postgresql://localhost:5432/todolist?sslmode=require
+spring.datasource.username=<your-username>
+spring.datasource.password=<your-password>
 
-   **Option A: Use the provided script (Recommended)**
-   ```
-   ./run-local.sh
-   ```
-   This script automatically loads DSQL credentials and enables the local profile with CORS support.
-
-   **Option B: Manual command**
-   ```
-   source ./set-dsql-env.sh
-   ./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local"
-   ```
-
-   The `local` profile loads `application-local.properties` which configures CORS for local network access (localhost and your machine's IP).
-
-7. Open a new terminal and navigate to the front-end directory:
+cors.allowed-origins=http://localhost:3000
+EOF
 ```
-cd ../front-end
-```
-8. Create the front-end local config file from the example:
-```
+
+> This file is git-ignored and safe for storing credentials. Each developer should have their own local copy.
+
+### 2. Create Frontend Local Configuration
+
+In another terminal, navigate to the frontend directory:
+```bash
+cd code/front-end
 cp .env.example .env.local
 ```
-   Update the `.env.local` file with your backend API URL:
+
+Update `.env.local` with your backend API URL:
 ```
 REACT_APP_API_URL=http://localhost:8080/api
 ```
-   This file is not tracked by git (.gitignore) and can be safely modified for your local environment.
 
-9. Install dependencies:
+> This file is git-ignored and can be safely modified for your local environment.
+
+## Running the Application
+
+### Starting the Backend
+
+1. From `code/back-end` directory, build the project:
+```bash
+./mvnw clean install
 ```
+
+2. Run the application with local profile (recommended):
+```bash
+./run-local.sh
+```
+
+This script automatically:
+- Reads your `application-local.properties` for endpoint and region
+- Generates Aurora DSQL temporary credentials (if using DSQL)
+- Enables the `local` profile with CORS support
+
+**Alternative: Manual execution**
+```bash
+source ./set-dsql-env.sh
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=local"
+```
+
+### Starting the Frontend
+
+In another terminal, from `code/front-end` directory:
+```bash
 npm install
-```
-10. Start the React application:
-```
 npm start
 ```
-The front-end application will start on http://localhost:3000.
+
+The frontend will start on http://localhost:3000.
 
 ## Accessing the Application Locally
 The application is configured to support access from different devices on your local network:
