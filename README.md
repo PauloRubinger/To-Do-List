@@ -36,8 +36,8 @@ Make sure you have the following installed:
 
 Clone the repository:
 ```bash
-git clone https://github.com/PauloRubinger/To-Do-List.git
-cd To-Do-List
+git clone https://github.com/PauloRubinger/to-do-list.git
+cd to-do-list
 ```
 
 ## Backend Configuration
