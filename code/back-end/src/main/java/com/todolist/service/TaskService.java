@@ -36,7 +36,7 @@ public class TaskService {
     }
 
     public Task addTask(Task task) {
-        validateTask(task);
+        validateTaskForCreation(task);
         task.setStatus(calculateStatus(task));
         return taskRepository.save(task);
     }
@@ -50,7 +50,7 @@ public class TaskService {
         existentTask.setPriority(task.getPriority());
         existentTask.setDueDate(task.getDueDate());
 
-        validateTask(existentTask);
+        validateTaskForUpdate(existentTask);
         existentTask.setStatus(calculateStatus(existentTask));
 
         return taskRepository.save(existentTask);
@@ -66,7 +66,7 @@ public class TaskService {
         return taskRepository.save(existentTask);
     }
 
-    private void validateTask(Task task) {
+    private void validateTaskForCreation(Task task) {
         
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -84,6 +84,21 @@ public class TaskService {
             if (task.getDueDate() == null || task.getDueDate().before(now)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The due date must be equal to or after today");
             }
+        }
+    }
+
+    private void validateTaskForUpdate(Task task) {
+    
+        // For tasks of type FREE, set dueDate to null
+        if (task.getType() == TaskType.FREE) {
+            task.setDueDate(null);
+        }
+        // For tasks of type DATE or DEADLINE, allow keeping past dates (task remains overdue)
+        else if (task.getType() == TaskType.DATE || task.getType() == TaskType.DEADLINE) {
+            if (task.getDueDate() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The due date cannot be null");
+            }
+            // Allow any valid date, including past dates, when updating
         }
     }
 
